@@ -51,10 +51,10 @@ class _AssignemntFormState extends State<AssignemntForm> {
   List _myPractices;
   List _review;
   List<Settings_Stu> _subjects = <Settings_Stu>[];
-  List<Settings_Stu> _subjectid = <Settings_Stu>[];
+  //List<Settings_Stu> _subjectid = <Settings_Stu>[];
   Settings_Stu _dropdownValue;
   List<Help_Stu> _helpers = <Help_Stu>[];
-  List<Help_Stu> _helperid = <Help_Stu>[];
+  //List<Help_Stu> _helperid = <Help_Stu>[];
   Help_Stu _dropHelpValue;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool sub= true,hel= true,learn= true,prep= true,prac= true,dod= true,due= true,est= true,act= true,review = true,complete = false;
@@ -62,7 +62,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
   Future courselist() async {
     _subjects = await DBProvider.db.getAllSettings();
     _helpers = await DBProvider.db.getAllHelp();
-/*    _subjectid = await DBProvider.db.getID(widget.Course_name);
+/*  _subjectid = await DBProvider.db.getID(widget.Course_name);
     _helperid = await DBProvider.db.getHelpID(widget.Helpers_name);*/
     setState(() {
       if(widget.id == null){
@@ -82,10 +82,14 @@ class _AssignemntFormState extends State<AssignemntForm> {
       }
       else{
         int j = 0;
+        print(_subjects.length);
+        print(widget.id);
         if(_subjects != null){
           for(int i = 0;i<_subjects.length;i++){
             if(_subjects[i].Course_name == widget.Course_name){
-              j = i;
+              setState(() {
+                j = i;
+              });
               break;
             }
           }
@@ -95,9 +99,11 @@ class _AssignemntFormState extends State<AssignemntForm> {
         }
         if(_helpers != null){
           int k = 0;
-          for(int i = 0;i<_subjects.length;i++){
-            if(_subjects[i].Course_name == widget.Course_name){
-              k = i;
+          for(int i = 0;i<_helpers.length;i++){
+            if(_helpers[i].Helper_name == widget.Helpers_name){
+              setState(() {
+                k = i;
+              });
               break;
             }
           }
@@ -244,7 +250,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                     children: [
                       Text("Helpers",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                       Container(
-                        height: MediaQuery.of(context).size.height/15,
                         width: MediaQuery.of(context).size.width/2.4,
                         child: FormField(
                           builder: (FormFieldState state) {
@@ -966,8 +971,14 @@ class _AssignemntFormState extends State<AssignemntForm> {
                               && (actminController.text != "") && (subjectController.text != "")
                               && (helpController.text != "") && (due_val > 0)
                               && (do_val > 0) && (_myPreparation.isNotEmpty)
-                              && (_myPractices.isNotEmpty) && (_review.isNotEmpty) && (compController.text != "")
+                              && (_myPractices.isNotEmpty) && (_review.isNotEmpty)
                           ){
+                            print(compController.text);
+                            if(compController.text == ""){
+                              setState(() {
+                                compController.text = 0.toString();
+                              });
+                            }
                             form_model m = new form_model();
                             m.learn_to = learnController.text;
                             m.notes_to = notesController.text;
@@ -1026,6 +1037,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                   content: Text('Updated!'),
                                 );
                                 _scaffoldKey.currentState.showSnackBar(snackBar);
+                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender()));
                               }
                               else{
                                 final snackBar = SnackBar(
@@ -1048,7 +1060,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           _myPractices.clear();
                           _review.clear();
                         });
-
                       },
                       color: Color.fromRGBO(68, 114, 196, 1.0),
                       shape: RoundedRectangleBorder(
@@ -1073,16 +1084,17 @@ class _AssignemntFormState extends State<AssignemntForm> {
                     padding: EdgeInsets.all(10.0),
                     child: RaisedButton(
                       onPressed: () {
-                        /*if(nameController.text == ""){
-                          setState(() {
-                            check = true;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            check = false;
-                          });
-                      }*/
+                        setState(() {
+                          dateController.text = "";
+                          learnController.text = "";
+                          doController.text = "";
+                          estminController.text = "";
+                          actminController.text = "";
+                          notesController.text = "";
+                          _myPreparation.clear();
+                          _myPractices.clear();
+                          _review.clear();
+                        });
                       },
                       color: Color.fromRGBO(68, 114, 196, 1.0),
                       shape: RoundedRectangleBorder(

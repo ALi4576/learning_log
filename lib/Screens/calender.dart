@@ -78,7 +78,9 @@ class _CalenderState extends State<Calender> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Settings()),
-                          );
+                          ).then((value) => {
+                            reset_state()
+                          });
                         })
                       ],
                     )

@@ -459,7 +459,9 @@ class _SettingsState extends State<Settings> {
                       Settings_Stu newClient = new Settings_Stu();
                       newClient.id = num;
                       DBProvider.db.deleteClient(newClient.id);
-                      setState(() {});
+                      setState(() {
+                        reset();
+                      });
                     }),
             ],
           ),
@@ -494,7 +496,9 @@ class _SettingsState extends State<Settings> {
                       Help_Stu newClient = new Help_Stu();
                       newClient.id = num;
                       DBProvider.db.deleteHelp(newClient.id);
-                      setState(() {});
+                      setState(() {
+                        reset();
+                      });
                     }),
             ],
           ),

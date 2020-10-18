@@ -136,6 +136,7 @@ class DBProvider {
   Future<String> form_insert(form_model data) async{
     final db = await database;
     String color = data.Color_name;
+    print(data.complete.toString());
     String val = color;
       var res = await db.rawInsert('INSERT Into Assign_Form(Course_name,Color_name,Helpers_name,learn_to,prepare_to,practice_to,do_date,due_date,est_min,act_min,review_to,notes_to,complete) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',[data.Course_name,val,data.Helpers_name,
         data.learn_to,data.prepare_to,data.practice_to,data.do_date,data.due_date,data.est_min,data.act_min,data.review_to,data.notes_to,data.complete]);
