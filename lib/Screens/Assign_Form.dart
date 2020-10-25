@@ -45,16 +45,14 @@ class _AssignemntFormState extends State<AssignemntForm> {
   int due_val = 0;
   int do_val = 0;
 
-  String _dodate = "Not set";
-  String _duedate = "Not set";
+  String _dodate = " ";
+  String _duedate = " ";
   List _myPreparation;
   List _myPractices;
   List _review;
   List<Settings_Stu> _subjects = <Settings_Stu>[];
-  //List<Settings_Stu> _subjectid = <Settings_Stu>[];
   Settings_Stu _dropdownValue;
   List<Help_Stu> _helpers = <Help_Stu>[];
-  //List<Help_Stu> _helperid = <Help_Stu>[];
   Help_Stu _dropHelpValue;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool sub= true,hel= true,learn= true,prep= true,prac= true,dod= true,due= true,est= true,act= true,review = true,complete = false;
@@ -62,8 +60,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
   Future courselist() async {
     _subjects = await DBProvider.db.getAllSettings();
     _helpers = await DBProvider.db.getAllHelp();
-/*  _subjectid = await DBProvider.db.getID(widget.Course_name);
-    _helperid = await DBProvider.db.getHelpID(widget.Helpers_name);*/
     setState(() {
       if(widget.id == null){
         if(_subjects != null){
@@ -77,8 +73,8 @@ class _AssignemntFormState extends State<AssignemntForm> {
         }
         due_val = 0;
         do_val = 0;
-        _dodate = "Not set";
-        _duedate = "Not set";
+        _dodate = " ";
+        _duedate = " ";
       }
       else{
         int j = 0;
@@ -157,7 +153,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        color: Color.fromRGBO(51, 102, 255,1),
+        color: Color.fromRGBO(183, 181, 199, 1.0),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Padding(
@@ -170,8 +166,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   IconButton(icon: Icon(Icons.keyboard_backspace),color: Colors.white, onPressed: (){
                     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender()));
                   }),
-                  SizedBox(width: MediaQuery.of(context).size.width/9.0,),
-                  Text("Learning Log",style: TextStyle(color: Colors.white,fontSize: 30.0,fontWeight: FontWeight.w500),)
+                  Text("Assignment Details",style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.w500),)
                 ],
               ),
               Row(
@@ -193,7 +188,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                         border: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(2.0),
                                         ),
-                                        fillColor: Colors.white,
+                                        fillColor: (_dropdownValue != null) ? Color(int.parse(_dropdownValue.Color_name)) : Colors.white,
                                         filled: true,
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(2.0),
@@ -358,21 +353,21 @@ class _AssignemntFormState extends State<AssignemntForm> {
                     children: [
                       Text("Prepare",style: TextStyle(color: Colors.white,fontSize: 18.0)),
                       Container(
-                        height: (_myPreparation == []) ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/9.3,
+                        height: (_myPreparation == []) ? MediaQuery.of(context).size.height/40 : MediaQuery.of(context).size.height/8.8,
                         width: MediaQuery.of(context).size.width/1.11,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           children: [
                             MultiSelectFormField(
                               autovalidate: false,
-                              chipBackGroundColor: Colors.red,
+                              title: Container(),
+                              chipBackGroundColor: Color.fromRGBO(255, 97, 102, 1.0),
                               chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                               checkBoxActiveColor: Colors.red,
                               checkBoxCheckColor: Colors.white,
                               dialogTextStyle: TextStyle(fontSize: 22.0),
                               dialogShapeBorder: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                              title: Container(width: 0.0,height: 0.0,),
                               dataSource: [
                                 {
                                   "display": "Class",
@@ -415,7 +410,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                   "value": "Outline",
                                 },
                               ],
-                              hintWidget: Container(width: 0.0,height: 0.0,),
+                              hintWidget: Text("Select one or more entries from dropdown list "),
                               textField: 'display',
                               valueField: 'value',
                               okButtonLabel: 'OK',
@@ -445,21 +440,20 @@ class _AssignemntFormState extends State<AssignemntForm> {
                     children: [
                       Text("Practice",style: TextStyle(color: Colors.white,fontSize: 18.0)),
                       Container(
-                        height: (_myPractices == []) ? MediaQuery.of(context).size.height/25 : MediaQuery.of(context).size.height/9.3,
+                        height: (_myPractices == []) ? MediaQuery.of(context).size.height/25 : MediaQuery.of(context).size.height/8.8,
                         width: MediaQuery.of(context).size.width/1.11,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           children: [
                             MultiSelectFormField(
                               autovalidate: false,
-                              chipBackGroundColor: Colors.yellow,
+                              chipBackGroundColor: Color.fromRGBO(255, 255, 153, 1.0),
                               dialogTextStyle: TextStyle(fontSize: 20.0),
                               chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                               checkBoxActiveColor: Colors.yellow,
-                              checkBoxCheckColor: Colors.black,
+                              checkBoxCheckColor: Colors.white,
                               dialogShapeBorder: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                              title: Container(height: 0.0,width: 0.0,),
                               dataSource: [
                                 {
                                   "display": "Answer Orally",
@@ -510,7 +504,8 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                   "value": "Listen new language",
                                 },
                               ],
-                              hintWidget: Container(height: 0.0,width: 0.0,),
+                              hintWidget: Text("Select one or more entries from dropdown list "),
+                              title: Container(height: 0.0,width: 0.0,),
                               textField: 'display',
                               valueField: 'value',
                               okButtonLabel: 'OK',
@@ -545,7 +540,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           width: MediaQuery.of(context).size.width/2.3,
                           color: Colors.white,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(_dodate,style: TextStyle(fontSize: 18.0),),
                               IconButton(icon: Icon(Icons.calendar_today_outlined,size: 18.0,), onPressed: (){
@@ -600,7 +595,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           width: MediaQuery.of(context).size.width/2.4,
                           color: Colors.white,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(_duedate,style: TextStyle(fontSize: 18.0),),
                               IconButton(icon: Icon(Icons.calendar_today_outlined,size: 18.0,), onPressed: (){
@@ -655,7 +650,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                       Text("Est. Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                       Container(
                         height: MediaQuery.of(context).size.height/25,
-                        width: MediaQuery.of(context).size.width/2.3,
+                        width: MediaQuery.of(context).size.width/3.2,
                         child: TextField(
                           controller: estminController,
                           style: TextStyle(fontSize: 20.0),
@@ -682,14 +677,14 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         Text("Required",style: TextStyle(color: Colors.red),)
                     ],
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.width/20.0,),
+                  SizedBox(width: MediaQuery.of(context).size.width/15.0,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Actual Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                       Container(
                         height: MediaQuery.of(context).size.height/25,
-                        width: MediaQuery.of(context).size.width/2.4,
+                        width: MediaQuery.of(context).size.width/3.2,
                         child: TextField(
                           controller: actminController,
                           style: TextStyle(fontSize: 20.0),
@@ -716,6 +711,31 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         Text("Required",style: TextStyle(color: Colors.red),)
                     ],
                   ),
+                  SizedBox(width: MediaQuery.of(context).size.width/20.0,),
+                  Column(
+                    children: [
+                      Text("Done",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
+                      SizedBox(height: MediaQuery.of(context).size.height/70,),
+                      Container(
+                        height: MediaQuery.of(context).size.height/40,
+                        width: MediaQuery.of(context).size.width/6,
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          value: complete,
+                          onChanged: (newValue) {
+                            setState(() {
+                              complete = newValue;
+                              if(complete == true){
+                                compController.text = 1.toString();
+                              }
+                              else{
+                                compController.text = 0.toString();
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ],),
                 ],
               ),
               Row(
@@ -726,52 +746,52 @@ class _AssignemntFormState extends State<AssignemntForm> {
                     children: [
                       Text("Review",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
                       Container(
-                        height: (_review == []) ? MediaQuery.of(context).size.height/25 : MediaQuery.of(context).size.height/9.3,
+                        height: (_review == []) ? MediaQuery.of(context).size.height/25 : MediaQuery.of(context).size.height/8.8,
                         width: MediaQuery.of(context).size.width/1.11,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
                           children: [
                             MultiSelectFormField(
                               autovalidate: false,
-                              chipBackGroundColor: Colors.green,
+                              chipBackGroundColor: Color.fromRGBO(102, 220, 130, 1.0),
                               chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                               dialogTextStyle: TextStyle(fontSize: 22.0),
                               checkBoxActiveColor: Colors.green,
                               checkBoxCheckColor: Colors.white,
                               dialogShapeBorder: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                              title: Container(width: 0.0,height: 0.0,),
                               dataSource: [
                                 {
-                                  "display": "Monday",
+                                  "display": "Mon",
                                   "value": "Monday",
                                 },
                                 {
-                                  "display": "Tuesday",
+                                  "display": "Tues",
                                   "value": "Tuesday",
                                 },
                                 {
-                                  "display": "Wednesday",
+                                  "display": "Wed",
                                   "value": "Wednesday",
                                 },
                                 {
-                                  "display": "Thursday",
+                                  "display": "Thurs",
                                   "value": "Thursday",
                                 },
                                 {
-                                  "display": "Friday",
+                                  "display": "Fri",
                                   "value": "Friday",
                                 },
                                 {
-                                  "display": "Saturday",
+                                  "display": "Sat",
                                   "value": "Saturday",
                                 },
                                 {
-                                  "display": "Sunday",
+                                  "display": "Sun",
                                   "value": "Sunday",
                                 },
                               ],
-                              hintWidget: Container(height: 0.0,width: 0.0,),
+                              hintWidget: Text("Select one or more entries from dropdown list "),
+                              title: Container(height: 0.0,width: 0.0,),
                               textField: 'display',
                               valueField: 'value',
                               okButtonLabel: 'OK',
@@ -788,8 +808,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           ],
                         ),
                       ),
-                      if(review == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
                     ],
                   ),
                 ],
@@ -805,7 +823,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                       children: [
                         Container(
                           height: MediaQuery.of(context).size.height/25,
-                          width: MediaQuery.of(context).size.width/1.4,
+                          width: MediaQuery.of(context).size.width/1.1,
                           child: TextField(
                             controller: notesController,
                             style: TextStyle(fontSize: 20.0),
@@ -828,30 +846,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           ),
                         ),
                       ],
-                    ),
-                  ],),
-                  Column(
-                    children: [
-                      Text("Done",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
-                      SizedBox(height: MediaQuery.of(context).size.height/70,),
-                      Container(
-                        height: MediaQuery.of(context).size.height/40,
-                        width: MediaQuery.of(context).size.width/6,
-                        child: Checkbox(
-                        checkColor: Colors.white,
-                        value: complete,
-                        onChanged: (newValue) {
-                          setState(() {
-                            complete = newValue;
-                            if(complete == true){
-                              compController.text = 1.toString();
-                            }
-                            else{
-                              compController.text = 0.toString();
-                            }
-                          });
-                        },
-                      ),
                     ),
                   ],),
                 ],
@@ -955,23 +949,13 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             prac = true;
                           });
                         }
-                        if(_review.isEmpty){
-                          setState(() {
-                            review = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            review = true;
-                          });
-                        }
 
                         if(widget.id == null){
                           if((learnController.text != "") && (estminController.text != "")
                               && (actminController.text != "") && (subjectController.text != "")
                               && (helpController.text != "") && (due_val > 0)
                               && (do_val > 0) && (_myPreparation.isNotEmpty)
-                              && (_myPractices.isNotEmpty) && (_review.isNotEmpty)
+                              && (_myPractices.isNotEmpty)
                           ){
                             print(compController.text);
                             if(compController.text == ""){
@@ -991,7 +975,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             m.do_date = do_val;
                             m.prepare_to = _myPreparation.join(",");
                             m.practice_to = _myPractices.join(",");
-                            m.review_to = _review.join(",");
+                            if(_review.isNotEmpty){
+                              m.review_to = _review.join(",");
+                            }
+                            else{
+                              m.review_to = _review.join("");
+                            }
                             m.complete = int.parse(compController.text);
                             var msg = await DBProvider.db.form_insert(m).then((value){
                               if(value == "Success"){
@@ -1061,10 +1050,10 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           _review.clear();
                         });
                       },
-                      color: Color.fromRGBO(68, 114, 196, 1.0),
+                      color: Color.fromRGBO(121, 205, 239, 1.0),
                       shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.white)
+                          borderRadius: new BorderRadius.circular(20.0),
+                          side: BorderSide(color: Colors.black)
                       ),
                       child: Center(
                         child: Text(
@@ -1096,10 +1085,10 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           _review.clear();
                         });
                       },
-                      color: Color.fromRGBO(68, 114, 196, 1.0),
+                      color: Color.fromRGBO(121, 205, 239, 1.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.white)
+                        side: BorderSide(color: Colors.black)
                       ),
                       child: Center(
                         child: Text(

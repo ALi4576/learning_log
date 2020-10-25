@@ -53,38 +53,41 @@ class _CalenderState extends State<Calender> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          color: Colors.white,
+          color: Color.fromRGBO(183, 181, 199, 1.0),
           child: Padding(
             padding: EdgeInsets.only(top:MediaQuery.of(context).size.height/20),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text("Learning Log",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.bold),),
-                    SizedBox(width: MediaQuery.of(context).size.width/20,),
-                    Row(
-                      children: [
-                        IconButton(icon: Icon(Icons.add), onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>
-                                AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_to: "", notes_to: "")),
-                          ).then((value) => {
-                            reset_state()
-                          });
-                        }),
-                        IconButton(icon: Icon(Icons.settings), onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Settings()),
-                          ).then((value) => {
-                            reset_state()
-                          });
-                        })
-                      ],
-                    )
-                  ],
+                Container(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("Learning Log",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.bold),),
+                      SizedBox(width: MediaQuery.of(context).size.width/20,),
+                      Row(
+                        children: [
+                          IconButton(icon: Icon(Icons.add), onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+                                  AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_to: "", notes_to: "")),
+                            ).then((value) => {
+                              reset_state()
+                            });
+                          }),
+                          IconButton(icon: Icon(Icons.settings), onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Settings()),
+                            ).then((value) => {
+                              reset_state()
+                            });
+                          })
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -137,12 +140,12 @@ class _CalenderState extends State<Calender> {
                                       itemBuilder: (BuildContext context, int index) {
                                         form_model item = snapshot.data[index];
                                         DateTime d = DateTime.fromMillisecondsSinceEpoch(item.due_date);
-                                        String date = d.day.toString() + "/" + d.month.toString() + "/" + d.year.toString();
+                                        String date = d.month.toString() + "/" + d.day.toString() + "/" + d.year.toString();
                                         String dates;
                                         if(index > 0) {
                                           DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].due_date);
-                                          dates = e.day.toString() +
-                                              "/" + e.month.toString() + "/" +
+                                          dates = e.month.toString() +
+                                              "/" + e.day.toString() + "/" +
                                               e.year.toString();
                                         }
                                         return Container(
@@ -150,79 +153,76 @@ class _CalenderState extends State<Calender> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   if(date != dates)
-                                                    Text(DateFormat('EEEE,d MMM,yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.do_date)).toString(),style: TextStyle(color: Colors.grey,fontSize: 20.0,fontWeight: FontWeight.w700),),
-                                                  Container(
-                                                    width: MediaQuery.of(context).size.width/1.02,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.black,width: 1),
-                                                      color: Color(int.parse(item.Color_name)).withOpacity(0.5),
-                                                      borderRadius: BorderRadius.all(Radius.circular(15))
+                                                    Padding(
+                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      child: Text(DateFormat('EEEE, d MMM, yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.do_date)).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
                                                     ),
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/70,bottom: MediaQuery.of(context).size.height/70),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  GestureDetector(
+                                                    child: Container(
+                                                      width: MediaQuery.of(context).size.width/1.02,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(color: Colors.black,width: 1),
+                                                        color: (item.complete == 0) ? (Colors.white) : (Color.fromRGBO(216, 215, 225, 1.0)),
+                                                        borderRadius: BorderRadius.all(Radius.circular(15))
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
-                                                              Text("Subject:",style: TextStyle(fontSize: 16.0),),
-                                                              SizedBox(height: MediaQuery.of(context).size.height/70,),
-                                                              Text("Learn to:",style: TextStyle(fontSize: 16.0),),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                            children: [
-                                                              Container(color: Colors.white, child: Text(item.Course_name,style: TextStyle(fontSize: 15.0),),),
-                                                              SizedBox(height: MediaQuery.of(context).size.height/70,),
                                                               Container(
-                                                                width: MediaQuery.of(context).size.width/4,
-                                                                color: Colors.white,
-                                                                child: Text(item.learn_to,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 15.0),)
+                                                                width: MediaQuery.of(context).size.width/3.5,
+                                                                height: MediaQuery.of(context).size.height/25,
+                                                                decoration: BoxDecoration(
+                                                                    color: Color(int.parse(item.Color_name)),
+                                                                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                                                                child: Center(child: Text(item.Course_name,style: TextStyle(fontSize: 20.0),)),),
+                                                              Container(
+                                                                width: MediaQuery.of(context).size.width/2,
+                                                                height: MediaQuery.of(context).size.height/25,
+                                                                child: Center(child: Text("Due " + date,style: TextStyle(fontSize: 20.0),)),
+                                                              ),
+                                                              SizedBox(width: MediaQuery.of(context).size.width/30,),
+                                                              Container(
+                                                                width: MediaQuery.of(context).size.width/12,
+                                                                height: MediaQuery.of(context).size.height/30,
+                                                                decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                    color: Colors.black,
+                                                                  ),
+                                                                ),
+                                                                child: Center(
+                                                                    child: (item.complete == 1) ? Text("X",style: TextStyle(fontSize: 20.0),) : Text(" ",style: TextStyle(fontSize: 20.0),),
+                                                                ),
                                                               ),
                                                             ],
                                                           ),
-                                                          Column(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Due Date:",style: TextStyle(fontSize: 16.0),),
-                                                              SizedBox(height: MediaQuery.of(context).size.height/70,),
-                                                              Text("Est. min:",style: TextStyle(fontSize: 16.0),),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Container(color: Colors.white, child: Text(date,style: TextStyle(fontSize: 15.0),),),
-                                                              SizedBox(height: MediaQuery.of(context).size.height/70,),
-                                                              Container(color: Colors.white, child: Text(item.est_min.toString(),style: TextStyle(fontSize: 15.0),),),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            children: [
-                                                              IconButton(icon: Icon(Entypo.dots_three_vertical,size: 20.0,color: Colors.black,),
-                                                                onPressed: (){
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(builder: (context) =>
-                                                                        AssignemntForm(id:item.id,Course_name: item.Course_name,Color_name: item.Color_name,Helpers_name: item.Helpers_name, learn_to: item.learn_to,prepare_to: item.prepare_to,
-                                                                          practice_to: item.practice_to, do_date: item.do_date, due_date: item.due_date, est_min: item.est_min, act_min: item.act_min, review_to: item.review_to, notes_to: item.notes_to,complete: item.complete,)),
-                                                                  ).then((value) => {
-                                                                    reset_state()
-                                                                  });
-                                                                })
-                                                            ],
+                                                          Padding(
+                                                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/90,left: MediaQuery.of(context).size.width/30,),
+                                                            child: Container(
+                                                              width: MediaQuery.of(context).size.width/2,
+                                                              height: MediaQuery.of(context).size.height/25,
+                                                              child: Text(item.learn_to,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
                                                     ),
+                                                    onTap: (){
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) =>
+                                                            AssignemntForm(id: item.id,Course_name: item.Course_name,Color_name: item.Color_name,Helpers_name: item.Helpers_name,
+                                                                learn_to: item.learn_to, prepare_to: item.prepare_to, practice_to: item.practice_to, do_date: item.do_date, due_date: item.due_date,
+                                                                est_min: item.est_min, act_min: item.act_min, review_to: item.review_to, notes_to: item.notes_to,complete: item.complete,)),
+                                                      ).then((value) => {
+                                                        reset_state()
+                                                      });
+                                                    },
                                                   ),
                                                   SizedBox(height: MediaQuery.of(context).size.height/40,)
                                                 ],
@@ -250,105 +250,4 @@ class _CalenderState extends State<Calender> {
         )
     );
   }
-
- /* void _showDialog(int id,String Course_name,String Color_name,String Helpers_name,String learn_to,String prepare_to,String practice_to,int do_date,int due_date,int est_min,int act_min,String review_to, String notes_to){
-    showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return StatefulBuilder(builder: (context,setstate){
-            return ButtonBarTheme(data: ButtonBarThemeData(alignment: MainAxisAlignment.center),
-              child: AlertDialog(
-                actions: <Widget>[
-                  new FlatButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    child: new Text("View Details"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      _showDetails(id, Course_name, Color_name, Helpers_name, learn_to, prepare_to, practice_to, do_date, due_date, est_min, act_min, review_to, notes_to);
-                    },
-                  ),
-                  new FlatButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    child: new Text("Edit"),
-                    onPressed: () {
-
-                    },
-                  ),
-                  new FlatButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    child: new Text("Delete"),
-                    onPressed: () {
-                      DBProvider.db.deleteForm(id);
-                      Navigator.of(context).pop();
-                      setState(() {
-                        reset_state();
-                      });
-                    },
-                  ),
-                  new FlatButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    child: new Text("Mark as Completed"),
-                    onPressed: () {
-                    },
-                  ),
-                ],
-              ),);
-          });
-        }
-    );
-  }
-
-  void _showDetails(int id,String Course_name,String Color_name,String Helpers_name,String learn_to,String prepare_to,String practice_to,int do_date,int due_date,int est_min,int act_min,String review_to, String notes_to){
-    showDialog(
-        context: context,
-        builder: (BuildContext context){
-          DateTime does = DateTime.fromMillisecondsSinceEpoch(do_date);
-          DateTime Dues = DateTime.fromMillisecondsSinceEpoch(due_date);
-          return StatefulBuilder(builder: (context,setstate){
-            return ButtonBarTheme(data: ButtonBarThemeData(alignment: MainAxisAlignment.center),
-              child: AlertDialog(
-                backgroundColor: Color(int.parse(Color_name)),
-                actions: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("Subject: " + Course_name,style: TextStyle(fontSize: 15.0),),
-                      Text("Helper Name: " + Helpers_name,style: TextStyle(fontSize: 15.0),),
-                    ],
-                  ),
-                  SizedBox(height: 10.0,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("Est Min: " + est_min.toString(),style: TextStyle(fontSize: 15.0),),
-                      Text("Act Min: " + act_min.toString(),style: TextStyle(fontSize: 15.0),),
-                    ],
-                  ),
-                  SizedBox(height: 10.0,),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Do Date: " + does.day.toString() + "/" + does.month.toString() + "/" + does.year.toString() ,style: TextStyle(fontSize: 15.0),),
-                      SizedBox(height: 10.0,),
-                      Text("Due Date: " + Dues.day.toString() + "/" + Dues.month.toString() + "/" + Dues.year.toString(),style: TextStyle(fontSize: 15.0),),
-                      SizedBox(height: 10.0,),
-                      Text("Learn: " + learn_to),
-                      SizedBox(height: 10.0,),
-                      Text("Prepare: " + prepare_to),
-                      SizedBox(height: 10.0,),
-                      Text("Practice: " + practice_to),
-                      SizedBox(height: 10.0,),
-                      Text("Review: " + review_to),
-                      SizedBox(height: 10.0,),
-                      Text("Notes: " + notes_to),
-                    ],
-                  ),
-                ],
-              ),);
-          });
-        }
-    );
-  }
-*/
 }
