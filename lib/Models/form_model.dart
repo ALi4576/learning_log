@@ -22,7 +22,8 @@ class form_model {
   int due_date;
   int est_min;
   int act_min;
-  String review_to;
+  int review_1;
+  int review_2;
   String notes_to;
   int complete;
 
@@ -38,7 +39,8 @@ class form_model {
     this.due_date ,
     this.est_min ,
     this.act_min ,
-    this.review_to ,
+    this.review_1,
+    this.review_2,
     this.notes_to,
     this.complete
   });
@@ -55,7 +57,8 @@ class form_model {
     due_date: json["due_date"],
     est_min: json["est_min"],
     act_min: json["act_min"],
-    review_to: json["review_to"],
+    review_1: json["review_1"],
+    review_2: json["review_2"],
     notes_to: json["notes_to"],
     complete: json["complete"],
   );
@@ -72,7 +75,8 @@ class form_model {
     "due_date": due_date,
     "est_min": est_min,
     "act_min": act_min,
-    "review_to": review_to,
+    "review_1": review_1,
+    "review_2": review_2,
     "notes_to": notes_to,
     "complete": complete
   };

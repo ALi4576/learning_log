@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 import 'package:intl/intl.dart';
 import 'package:student_planner/Database/database_sett.dart';
 import 'package:student_planner/Models/form_model.dart';
@@ -15,17 +16,24 @@ class Calender extends StatefulWidget {
 class _CalenderState extends State<Calender> {
   bool dateValue = false;
   bool compValue = false;
+  String _verticalGroupValue = "All";
+
+  List<String> _status = ["All", "Todo only"];
+  var rev = " ";
   List<form_model> meetings = <form_model>[];
   Future event_details_due;
-  //Future event_details_do;
+  List<String> days =[];
   bool checkedValue = false;
   bool chValue = false;
   reset_state() async{
     setState(() {
-      //event_details_do = DBProvider.db.getAllform_do();
-      String datetype;
-      int comptype;
-      if(chValue == true && checkedValue == false){
+      if(_verticalGroupValue == "All"){
+        event_details_due = DBProvider.db.showAllform_due();
+      }
+      else{
+        event_details_due = DBProvider.db.Todoform_do();
+      }
+      /*if(chValue == true && checkedValue == false){
         event_details_due = DBProvider.db.getAllform_due("do_date");
       }
       else if(chValue == true && checkedValue == true){
@@ -36,7 +44,7 @@ class _CalenderState extends State<Calender> {
       }
       else{
         event_details_due = DBProvider.db.getAllform_do(1, "due_date");
-      }
+      }*/
     });
   }
 
@@ -71,7 +79,7 @@ class _CalenderState extends State<Calender> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) =>
-                                  AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_to: "", notes_to: "")),
+                                  AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_1: 0, review_2: 0, notes_to: "")),
                             ).then((value) => {
                               reset_state()
                             });
@@ -92,153 +100,67 @@ class _CalenderState extends State<Calender> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width/1.8,
-                      child: CheckboxListTile(
-                        title: Text("Sort-Due Date",style: TextStyle(fontSize: 16.0),),
-                        checkColor: Colors.white,
-                        value: checkedValue,
-                        onChanged: (newValue) {
-                          setState(() {
-                            checkedValue = newValue;
-                            reset_state();
-                          });
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width/2.3,
-                      child: CheckboxListTile(
-                        title: Text("Show All",style: TextStyle(fontSize: 16.0),),
-                        checkColor: Colors.white,
-                        value: chValue,
-                        onChanged: (newValue) {
-                          setState(() {
-                            chValue = newValue;
-                            reset_state();
-                          });
-                        },
+                    Text("Show"),
+                    RadioGroup<String>.builder(
+                      direction: Axis.horizontal,
+                      groupValue: _verticalGroupValue,
+                      onChanged: (value) => setState(() {
+                        _verticalGroupValue = value;
+                        reset_state();
+                      }),
+                      items: _status,
+                      itemBuilder: (item) => RadioButtonBuilder(
+                        item,
                       ),
                     ),
                   ],
                 ),
                 Container(
                   child: Expanded(
-                    child: ListView(
+                    child: Row(
                       children: [
-                        Row(
-                          children: [
-                            FutureBuilder<List<form_model>>(
-                              future: event_details_due,
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height / 1.1,
-                                    child: ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        form_model item = snapshot.data[index];
-                                        DateTime d = DateTime.fromMillisecondsSinceEpoch(item.due_date);
-                                        String date = d.month.toString() + "/" + d.day.toString() + "/" + d.year.toString();
-                                        String dates;
-                                        if(index > 0) {
-                                          DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].due_date);
-                                          dates = e.month.toString() +
-                                              "/" + e.day.toString() + "/" +
-                                              e.year.toString();
-                                        }
-                                        return Container(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  if(date != dates)
-                                                    Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
-                                                      child: Text(DateFormat('EEEE, d MMM, yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.do_date)).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
-                                                    ),
-                                                  GestureDetector(
-                                                    child: Container(
-                                                      width: MediaQuery.of(context).size.width/1.02,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(color: Colors.black,width: 1),
-                                                        color: (item.complete == 0) ? (Colors.white) : (Color.fromRGBO(216, 215, 225, 1.0)),
-                                                        borderRadius: BorderRadius.all(Radius.circular(15))
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            children: [
-                                                              Container(
-                                                                width: MediaQuery.of(context).size.width/3.5,
-                                                                height: MediaQuery.of(context).size.height/25,
-                                                                decoration: BoxDecoration(
-                                                                    color: Color(int.parse(item.Color_name)),
-                                                                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                                                                child: Center(child: Text(item.Course_name,style: TextStyle(fontSize: 20.0),)),),
-                                                              Container(
-                                                                width: MediaQuery.of(context).size.width/2,
-                                                                height: MediaQuery.of(context).size.height/25,
-                                                                child: Center(child: Text("Due " + date,style: TextStyle(fontSize: 20.0),)),
-                                                              ),
-                                                              SizedBox(width: MediaQuery.of(context).size.width/30,),
-                                                              Container(
-                                                                width: MediaQuery.of(context).size.width/12,
-                                                                height: MediaQuery.of(context).size.height/30,
-                                                                decoration: BoxDecoration(
-                                                                  border: Border.all(
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                ),
-                                                                child: Center(
-                                                                    child: (item.complete == 1) ? Text("X",style: TextStyle(fontSize: 20.0),) : Text(" ",style: TextStyle(fontSize: 20.0),),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/90,left: MediaQuery.of(context).size.width/30,),
-                                                            child: Container(
-                                                              width: MediaQuery.of(context).size.width/2,
-                                                              height: MediaQuery.of(context).size.height/25,
-                                                              child: Text(item.learn_to,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    onTap: (){
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(builder: (context) =>
-                                                            AssignemntForm(id: item.id,Course_name: item.Course_name,Color_name: item.Color_name,Helpers_name: item.Helpers_name,
-                                                                learn_to: item.learn_to, prepare_to: item.prepare_to, practice_to: item.practice_to, do_date: item.do_date, due_date: item.due_date,
-                                                                est_min: item.est_min, act_min: item.act_min, review_to: item.review_to, notes_to: item.notes_to,complete: item.complete,)),
-                                                      ).then((value) => {
-                                                        reset_state()
-                                                      });
-                                                    },
-                                                  ),
-                                                  SizedBox(height: MediaQuery.of(context).size.height/40,)
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              },
-                            ),
-                          ],
+                        FutureBuilder<List<form_model>>(
+                          future: event_details_due,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              snapshot.data.sort((a, b) => a.do_date.compareTo(b.do_date));
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height / 1.1,
+                                child: ListView.builder(
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    form_model item = snapshot.data[index];
+                                    DateTime d = DateTime.fromMillisecondsSinceEpoch(item.do_date);
+                                    String date = d.month.toString() + "/" + d.day.toString() + "/" + d.year.toString();
+                                    String dates;
+                                    var dayu = DateTime.now();
+                                    if(index > 0) {
+                                      DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].do_date);
+                                      dates = e.month.toString() +
+                                          "/" + e.day.toString() + "/" +
+                                          e.year.toString();
+                                    }
+                                    return Container(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          (_verticalGroupValue == "Todo only" && (((item.review_1 >= dayu.millisecondsSinceEpoch || item.review_2 >= dayu.millisecondsSinceEpoch)  || (item.do_date >= dayu.millisecondsSinceEpoch) && item.complete == 0))) ? Display(date, dates, item.id, item.Course_name, item.Color_name,
+                                              item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
+                                              item.review_2, item.notes_to, item.complete) : Container(),
+                                          (_verticalGroupValue == "All") ? Display(date, dates, item.id, item.Course_name, item.Color_name,
+                                              item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
+                                              item.review_2, item.notes_to, item.complete) : Container()
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -248,6 +170,104 @@ class _CalenderState extends State<Calender> {
             ),
           ),
         )
+    );
+  }
+  Widget Display(String date, String dates, int id, String Course_name, String Color_name, String Helpers_name, String learn_to,String prepare_to,String practice_to,int do_date,int due_date,int est_min,int act_min,int review_1,int review_2,String notes_to, int complete,){
+    DateTime e = DateTime.fromMillisecondsSinceEpoch(due_date);
+    var duesdates = e.month.toString() +
+        "/" + e.day.toString() + "/" +
+        e.year.toString();
+    return Column(
+      children: [
+        if(date != dates)
+          Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Text(DateFormat('EEEE, d MMM, yyyy').format(DateTime.fromMillisecondsSinceEpoch(do_date)).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
+          ),
+        GestureDetector(
+          child: Container(
+            width: MediaQuery.of(context).size.width/1.02,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black,width: 1),
+                color: (complete == 0) ? (Colors.white) : (Color.fromRGBO(216, 215, 225, 1.0)),
+                borderRadius: BorderRadius.all(Radius.circular(15))
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width/3.5,
+                      height: MediaQuery.of(context).size.height/25,
+                      decoration: BoxDecoration(
+                          color: Color(int.parse(Color_name)),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Center(child: Text(Course_name,style: TextStyle(fontSize: 20.0),)),),
+                    Container(
+                      width: MediaQuery.of(context).size.width/2,
+                      height: MediaQuery.of(context).size.height/25,
+                      child: Center(child: Text("Due " + duesdates.toString(),style: TextStyle(fontSize: 20.0),)),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width/30,),
+                    Container(
+                      width: MediaQuery.of(context).size.width/12,
+                      height: MediaQuery.of(context).size.height/30,
+                      child: Center(
+                        child: (complete == 1 && (review_1 > 0  || review_2 > 0)) ? Container(
+                          height: MediaQuery.of(context).size.height/40,
+                          width: MediaQuery.of(context).size.width/6,
+                          child: Checkbox(
+                            checkColor: Colors.white,
+                            value: true,
+                            onChanged: (newValue) {
+                            },
+                          ),
+                        ) : Container(
+                          height: MediaQuery.of(context).size.height/40,
+                          width: MediaQuery.of(context).size.width/6,
+                          child: Checkbox(
+                            checkColor: Colors.white,
+                            value: false,
+                            onChanged: (newValue) {
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/90,left: MediaQuery.of(context).size.width/30,),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width/2,
+                          height: MediaQuery.of(context).size.height/25,
+                          child: Text(learn_to,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)
+                      ),
+                    ),
+                    Text(rev),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>
+                  AssignemntForm(id: id,Course_name: Course_name,Color_name: Color_name,Helpers_name:Helpers_name,
+                    learn_to: learn_to, prepare_to: prepare_to, practice_to: practice_to, do_date: do_date, due_date: due_date,
+                    est_min: est_min, act_min: act_min, review_1: review_1,review_2: review_2, notes_to: notes_to,complete: complete,)),
+            ).then((value) => {
+              reset_state()
+            });
+          },
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height/40,),
+      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_planner/Database/database_sett.dart';
 import 'package:student_planner/Models/settingsModel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -13,14 +14,21 @@ class _SettingsState extends State<Settings> {
   final positionController = TextEditingController();
   final poshelpController = TextEditingController();
   Future gethelp;
-  Future getsettings;
   List<String> Courses = new List(10);
   List<String> Helpers = new List(10);
-
+  Color bckcolor;
+  bool st = false;
+  Future getsettings;
   reset() async{
     setState(() {
-      getsettings = DBProvider.db.getAllSettings();
       gethelp = DBProvider.db.getAllHelp();
+      getsettings = DBProvider.db.getAllSettings();
+    });
+  }
+
+  colorchange(int val){
+    setState(() {
+      bckcolor = Color(val);
     });
   }
 
@@ -36,19 +44,19 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    Courses[0] = "0xFFFF8181";
-    Courses[1] = "0xFFFFD319";
-    Courses[2] = "0xFFFFFF66";
-    Courses[3] = "0xFFCCF438";
-    Courses[4] = "0xFF01FF01";
-    Courses[5] = "0xFF17F9C9";
-    Courses[6] = "0xFF43CEFF";
-    Courses[7] = "0xFFE885FF";
-    Courses[8] = "0xFFDDDDDD";
-    Courses[9] = "0xFFFFFFFF";
+    Courses[0] = "0xFFFF6166";
+    Courses[1] = "0xFFFF9966";
+    Courses[2] = "0xFFFFCC66";
+    Courses[3] = "0xFFFFFF99";
+    Courses[4] = "0xFFC3FD9B";
+    Courses[5] = "0xFF66DC82";
+    Courses[6] = "0xFF70F4DE";
+    Courses[7] = "0xFF79CDEF";
+    Courses[8] = "0xFF88B1CA";
+    Courses[9] = "0xFFB7B7FF";
     return Scaffold(
       body: Container(
-          color: Color.fromRGBO(51, 102, 255, 1),
+          color: Color.fromRGBO(183, 181, 199, 1.0),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Padding(
@@ -85,7 +93,7 @@ class _SettingsState extends State<Settings> {
                         children: [
                           Container(
                             height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: MediaQuery.of(context).size.width / 1.5,
                             child: TextField(
                               controller: courseController,
                               style: TextStyle(fontSize: 20.0),
@@ -94,7 +102,7 @@ class _SettingsState extends State<Settings> {
                                     borderRadius: BorderRadius.circular(2.0),
                                   ),
                                   hintText: "Add Course",
-                                  fillColor: Colors.white,
+                                  fillColor: (positionController.text.isNotEmpty) ? bckcolor : Colors.white,
                                   filled: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(2.0),
@@ -118,49 +126,19 @@ class _SettingsState extends State<Settings> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 40,
                       ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 20,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: TextField(
-                          controller: positionController,
-                          keyboardType: TextInputType.number,
-                          style: TextStyle(fontSize: 20.0),
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                              ),
-                              hintText: "Color 1-10",
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                                borderSide: BorderSide(
-                                  color: Color.fromRGBO(252, 228, 219, 200.0),
-                                ),
-                              ),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(252, 228, 219, 200.0),
-                                      width: 3.0))),
-                        ),
-                      ),
                       IconButton(
                           icon: Icon(Icons.add),
                           color: Colors.white,
                           onPressed: () {
-                            if (courseController.text != "" &&
-                                (int.parse(positionController.text) > 0 &&
-                                    int.parse(positionController.text) < 11)) {
+                            if (courseController.text != "" && positionController.text != "") {
                               Settings_Stu newClient = new Settings_Stu();
                               newClient.id = int.parse(positionController.text);
                               newClient.Course_name = courseController.text;
                               newClient.Color_name = Courses[int.parse(positionController.text) - 1];
                               DBProvider.db.newSettings(newClient);
-                              reset();
+                              getsettings = DBProvider.db.getAllSettings().then((value) => {
+                                reset()
+                              });
                             }
                           })
                     ],
@@ -171,64 +149,18 @@ class _SettingsState extends State<Settings> {
                       left: MediaQuery.of(context).size.width / 30,right: MediaQuery.of(context).size.width / 30),
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[0].toString())),
-                          child: Center(child: Text("1")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[1].toString())),
-                          child: Center(child: Text("2")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[2].toString())),
-                          child: Center(child: Text("3")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[3].toString())),
-                          child: Center(child: Text("4")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[4].toString())),
-                          child: Center(child: Text("5")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[5].toString())),
-                          child: Center(child: Text("6")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[6].toString())),
-                          child: Center(child: Text("7")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[7].toString())),
-                          child: Center(child: Text("8")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[8].toString())),
-                          child: Center(child: Text("9")),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Color(int.parse(Courses[9].toString())),
-                          child: Center(child: Text("10")),
+                      for(int i = 0 ; i < 10;i++) Expanded(
+                        child: GestureDetector(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height/20,
+                            color: Color(int.parse(Courses[i].toString())),
+                          ),
+                          onTap: (){
+                            setState(() {
+                              positionController.text = (i + 1).toString();
+                              colorchange(int.parse(Courses[i].toString()));
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -245,7 +177,7 @@ class _SettingsState extends State<Settings> {
                         children: [
                           Container(
                             height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 2.5,
+                            width: MediaQuery.of(context).size.width / 1.5,
                             child: TextField(
                               controller: helpController,
                               style: TextStyle(fontSize: 20.0),
@@ -382,14 +314,14 @@ class _SettingsState extends State<Settings> {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width / 2.5,
-                      height: 65.0,
+                      height: MediaQuery.of(context).size.height/10.5,
                       padding: EdgeInsets.all(10.0),
                       child: RaisedButton(
-                        onPressed: () {},
-                        color: Color.fromRGBO(68, 114, 196, 1.0),
+                        onPressed: _launchURL,
+                        color: Color.fromRGBO(28, 136, 229, 1.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(20.0),
-                            side: BorderSide(color: Colors.white)),
+                            ),
                         child: Center(
                           child: Text(
                             "User Guide",
@@ -403,16 +335,16 @@ class _SettingsState extends State<Settings> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2.5,
-                      height: 65.0,
+                      height: MediaQuery.of(context).size.height/10.5,
                       padding: EdgeInsets.all(10.0),
                       child: RaisedButton(
                         onPressed: () {
                           _showDialog();
                         },
-                        color: Color.fromRGBO(68, 114, 196, 1.0),
+                        color: Color.fromRGBO(28, 136, 229, 1.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(20.0),
-                            side: BorderSide(color: Colors.white)),
+                        ),
                         child: Center(
                           child: Text(
                             "Delete All",
@@ -433,13 +365,22 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  _launchURL() async {
+    const url = 'https://www.PowerLearners.com/LearningLog/UserGuide/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   Widget courses(String cl, String name, int num) {
     return Row(
       children: [
         Container(
           width: MediaQuery.of(context).size.width / 2.7,
           height: MediaQuery.of(context).size.height / 20,
-          color: Color(int.parse(cl)).withOpacity(0.8),
+          color: Color(int.parse(cl)),
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [

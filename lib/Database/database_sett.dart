@@ -30,9 +30,9 @@ class DBProvider {
   }
 
   static void _createDb(Database db) {
-     db.execute('CREATE TABLE Settings (id INTEGER PRIMARY KEY AUTOINCREMENT,Course_name TEXT,Color_name TEXT)');
+     db.execute('CREATE TABLE Settings (id INTEGER PRIMARY KEY,Course_name TEXT,Color_name TEXT)');
      db.execute('CREATE TABLE Helpers (id INTEGER PRIMARY KEY,Helper_name TEXT)');
-     db.execute('CREATE TABLE Assign_Form (id INTEGER PRIMARY KEY AUTOINCREMENT,Course_name TEXT,Color_name TEXT,Helpers_name TEXT,learn_to TEXT,prepare_to TEXT,practice_to TEXT,do_date INTEGER,due_date INTEGER,est_min INTEGER,act_min INTEGER,review_to TEXT,notes_to TEXT,complete INTEGER)');
+     db.execute('CREATE TABLE Assign_Form (id INTEGER PRIMARY KEY AUTOINCREMENT,Course_name TEXT,Color_name TEXT,Helpers_name TEXT,learn_to TEXT,prepare_to TEXT,practice_to TEXT,do_date INTEGER,due_date INTEGER,est_min INTEGER,act_min INTEGER,review_1 INTEGER,review_2 INTEGER,notes_to TEXT,complete INTEGER)');
   }
 
   /*Settings Screen*/
@@ -52,13 +52,6 @@ class DBProvider {
 
     }
   }
-
-  /*updateClient(Settings_Stu newClient) async {
-    final db = await database;
-    var res = await db.update("Settings", newClient.toMap(),
-        where: "id = ?", whereArgs: [newClient.id]);
-    return res;
-  }*/
 
   //Delete Course
   deleteClient(int id) async {
@@ -123,12 +116,6 @@ class DBProvider {
     res.isNotEmpty ? res.map((c) => Help_Stu.fromMap(c)).toList() : null;
     return list;
   }
-  /*
-  deleteAll() async {
-    final db = await database;
-    db.rawDelete("Delete * from Client");
-  }*/
-
 
   /*Assign_Form*/
 
@@ -138,8 +125,8 @@ class DBProvider {
     String color = data.Color_name;
     print(data.complete.toString());
     String val = color;
-      var res = await db.rawInsert('INSERT Into Assign_Form(Course_name,Color_name,Helpers_name,learn_to,prepare_to,practice_to,do_date,due_date,est_min,act_min,review_to,notes_to,complete) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',[data.Course_name,val,data.Helpers_name,
-        data.learn_to,data.prepare_to,data.practice_to,data.do_date,data.due_date,data.est_min,data.act_min,data.review_to,data.notes_to,data.complete]);
+      var res = await db.rawInsert('INSERT Into Assign_Form(Course_name,Color_name,Helpers_name,learn_to,prepare_to,practice_to,do_date,due_date,est_min,act_min,review_1,review_2,notes_to,complete) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[data.Course_name,val,data.Helpers_name,
+        data.learn_to,data.prepare_to,data.practice_to,data.do_date,data.due_date,data.est_min,data.act_min,data.review_1,data.review_2,data.notes_to,data.complete]);
       return "Success";
   }
 
@@ -149,14 +136,13 @@ class DBProvider {
     return db.delete("Assign_Form", where: "id = ?", whereArgs: [id]);
   }
 
-  //get_all order_by due date
+  /*/get_all order_by due date
   Future<List<form_model>> getAllform_due(String sort) async {
     final db = await database;
-    print(sort);
     var res = await db.query("Assign_Form",orderBy: sort);
     List<form_model> list =  res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
     return list;
-  }
+  }*/
 
   //get_all order_by do date
   Future<List<form_model>> getAllform_do(int comp,String date) async {
@@ -166,6 +152,25 @@ class DBProvider {
     res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
     return list;
   }
+
+  //show_all
+  Future<List<form_model>> showAllform_due() async {
+    final db = await database;
+    var res = await db.query("Assign_Form");
+    List<form_model> list =  res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
+    return list;
+  }
+
+  //Todo
+  Future<List<form_model>> Todoform_do() async {
+    final db = await database;
+    var res = await db.rawQuery("SELECT * FROM Assign_Form WHERE (review_1 IS NOT NULL AND complete = 1) OR (review_2 IS NOT NULL AND complete = 1)  OR (complete = 0) ORDER BY "
+        "(CASE WHEN review_1 IS NOT NULL THEN review_1 WHEN review_2 IS NOT NULL THEN review_2 ELSE do_date END)");
+    List<form_model> list =
+    res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
+    return list;
+  }
+
 
   //Update
   Future<String> Update_form(form_model data) async {

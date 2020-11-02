@@ -4,9 +4,9 @@ import 'Screens/calender.dart';
 
 void main() {
   runApp(MyApp());
-  /*SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-  ));*/
+  ));
 }
 
 class MyApp extends StatelessWidget {
