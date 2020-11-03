@@ -196,16 +196,22 @@ class _AssignemntFormState extends State<AssignemntForm> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Padding(
-          padding: EdgeInsets.only(left:MediaQuery.of(context).size.width/22.0,right:MediaQuery.of(context).size.width/22.0),
+          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height/32.0,left:MediaQuery.of(context).size.width/22.0,right:MediaQuery.of(context).size.width/22.0),
           child: ListView(
             children: [
-              Center(child: Text("Assignment Details",style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.w500),)),
+              Center(child: Text("Assignment Details",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
               Row(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Subject",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Subject",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width/2.3,
                         height: MediaQuery.of(context).size.height/25,
@@ -334,7 +340,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Learn To:",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                      Row(
+                        children: [
+                          Text("Learn To",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       Container(
                         height: MediaQuery.of(context).size.height/25,
                         width: MediaQuery.of(context).size.width/1.11,
@@ -371,7 +382,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Prepare",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                      Row(
+                        children: [
+                          Text("Prepare",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       Container(
                         height: (_myPreparation.length < 4) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5,
                         width: MediaQuery.of(context).size.width/1.11,
@@ -458,7 +474,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Practice",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                      Row(
+                        children: [
+                          Text("Practice",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       Container(
                         height: (_myPractices.length < 3) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5,
                         width: MediaQuery.of(context).size.width/1.11,
@@ -552,7 +573,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Do Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                      Row(
+                        children: [
+                          Text("Do Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       GestureDetector(
                         child: (do_val == 0)  ? Container(
                           height: MediaQuery.of(context).size.height/25,
@@ -605,7 +631,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Due Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                      Row(
+                        children: [
+                          Text("Due Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       GestureDetector(
                         child: (due_val == 0)  ? Container(
                         height: MediaQuery.of(context).size.height/25,
@@ -661,7 +692,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Est. Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                      Row(
+                        children: [
+                          Text("Est. Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       Container(
                         height: MediaQuery.of(context).size.height/25,
                         width: MediaQuery.of(context).size.width/3.2,
@@ -695,7 +731,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Actual Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                      Row(
+                        children: [
+                          Text("Actual Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                        ],
+                      ),
                       Container(
                         height: MediaQuery.of(context).size.height/25,
                         width: MediaQuery.of(context).size.width/3.2,

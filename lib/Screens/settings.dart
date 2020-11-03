@@ -63,14 +63,7 @@ class _SettingsState extends State<Settings> {
             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 15),
             child: Column(
               children: [
-                Center(
-                    child: Text(
-                  "Learning Log Settings",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 27.0,
-                      fontWeight: FontWeight.w500),
-                )),
+                Center(child: Text("Learning Log Settings",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -313,7 +306,7 @@ class _SettingsState extends State<Settings> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width / 2.5,
+                      width: MediaQuery.of(context).size.width / 2.2,
                       height: MediaQuery.of(context).size.height/10.5,
                       padding: EdgeInsets.all(10.0),
                       child: RaisedButton(
@@ -327,14 +320,14 @@ class _SettingsState extends State<Settings> {
                             "User Guide",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width / 2.5,
+                      width: MediaQuery.of(context).size.width / 2.2,
                       height: MediaQuery.of(context).size.height/10.5,
                       padding: EdgeInsets.all(10.0),
                       child: RaisedButton(
@@ -347,10 +340,10 @@ class _SettingsState extends State<Settings> {
                         ),
                         child: Center(
                           child: Text(
-                            "Delete All",
+                            "Delete All Assignments",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
