@@ -208,7 +208,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Subject",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("Courses",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                           Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
                         ],
                       ),
