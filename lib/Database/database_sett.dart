@@ -136,14 +136,6 @@ class DBProvider {
     return db.delete("Assign_Form", where: "id = ?", whereArgs: [id]);
   }
 
-  /*/get_all order_by due date
-  Future<List<form_model>> getAllform_due(String sort) async {
-    final db = await database;
-    var res = await db.query("Assign_Form",orderBy: sort);
-    List<form_model> list =  res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
-    return list;
-  }*/
-
   //get_all order_by do date
   Future<List<form_model>> getAllform_do(int comp,String date) async {
     final db = await database;
@@ -158,7 +150,28 @@ class DBProvider {
     final db = await database;
     var res = await db.query("Assign_Form");
     List<form_model> list =  res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
-    return list;
+    List<form_model> sorting = <form_model>[];
+    for(int i = 0;i<list.length;i++){
+      form_model fm = new form_model();
+      fm.complete = list[i].complete;
+      fm.do_date = list[i].do_date;
+      fm.review_1 = list[i].review_1;
+      fm.review_2 = list[i].review_2;
+      fm.act_min = list[i].act_min;
+      fm.Course_name = list[i].Course_name;
+      fm.Color_name = list[i].Color_name;
+      fm.id = list[i].id;
+      fm.notes_to = list[i].notes_to;
+      fm.due_date = list[i].due_date;
+      fm.est_min = list[i].est_min;
+      fm.learn_to = list[i].learn_to;
+      fm.prepare_to = list[i].prepare_to;
+      fm.practice_to = list[i].practice_to;
+      fm.Helpers_name = list[i].Helpers_name;
+      sorting.add(fm);
+    }
+    sorting.sort((a,b) => a.do_date.compareTo(b.do_date));
+    return sorting;
   }
 
   //Todo
@@ -168,7 +181,181 @@ class DBProvider {
         "(CASE WHEN review_1 IS NOT NULL THEN review_1 WHEN review_2 IS NOT NULL THEN review_2 ELSE do_date END)");
     List<form_model> list =
     res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
-    return list;
+    List<form_model> sorting = <form_model>[];
+    for(int i = 0;i<list.length;i++){
+      if(list[i].complete == 0 && list[i].do_date >= DateTime.now().millisecondsSinceEpoch && list[i].review_1 == 0 && list[i].review_2 == 0){
+        form_model fm = new form_model();
+        fm.complete = 0;
+        fm.do_date = list[i].do_date;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        fm.sort = list[i].do_date;
+        fm.Helpers_name = list[i].Helpers_name;
+        sorting.add(fm);
+      }
+      else if(list[i].complete == 0 && list[i].do_date < DateTime.now().millisecondsSinceEpoch && (list[i].review_1 == 0 || list[i].review_2 == 0)){
+        form_model fm = new form_model();
+        fm.complete = 0;
+        fm.do_date = list[i].do_date;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        fm.sort = list[i].do_date;
+        fm.Helpers_name = list[i].Helpers_name;
+        sorting.add(fm);
+      }
+      else if (list[i].complete == 1 && list[i].review_2 < DateTime.now().millisecondsSinceEpoch && list[i].review_1 < DateTime.now().millisecondsSinceEpoch){
+        form_model fm = new form_model();
+        fm.complete = 1;
+        fm.do_date = list[i].do_date;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        fm.sort = list[i].do_date;
+        fm.Helpers_name = list[i].Helpers_name;
+        sorting.add(fm);
+      }
+      else if(list[i].complete == 1 && list[i].review_1 >= DateTime.now().millisecondsSinceEpoch && list[i].review_2 == 0){
+        form_model fm = new form_model();
+        fm.complete = 1;
+        fm.do_date = list[i].do_date;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        fm.Helpers_name = list[i].Helpers_name;
+        fm.sort = list[i].review_1;
+        sorting.add(fm);
+      }
+      else if(list[i].complete == 1 && list[i].review_2 >= DateTime.now().millisecondsSinceEpoch && list[i].review_1 == 0){
+        form_model fm = new form_model();
+        fm.complete = 1;
+        fm.do_date = list[i].do_date;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        fm.Helpers_name = list[i].Helpers_name;
+        fm.sort = list[i].review_2;
+        sorting.add(fm);
+      }
+      else if(list[i].complete == 1 && list[i].review_2 >= DateTime.now().millisecondsSinceEpoch && list[i].review_1 >= DateTime.now().millisecondsSinceEpoch){
+        form_model fm = new form_model();
+        if(list[i].review_1 > list[i].review_2){
+          fm.sort = list[i].review_2;
+        }
+        else{
+          fm.sort = list[i].review_1;
+        }
+        fm.complete = 1;
+        fm.do_date = list[i].do_date;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        fm.Helpers_name = list[i].Helpers_name;
+        sorting.add(fm);
+      }
+      else if(list[i].do_date >= DateTime.now().millisecondsSinceEpoch && (list[i].review_1 >= DateTime.now().millisecondsSinceEpoch || list[i].review_2 >= DateTime.now().millisecondsSinceEpoch ) || list[i].complete == 0){
+        form_model fm = new form_model();
+        fm.complete = fm.complete;
+        fm.do_date = list[i].do_date;
+        fm.Helpers_name = list[i].Helpers_name;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        fm.sort = list[i].do_date;
+        sorting.add(fm);
+      }
+      else if((list[i].review_1 > 0 || list[i].review_2 > 0) && (list[i].review_1 >= DateTime.now().millisecondsSinceEpoch || list[i].review_2 >= DateTime.now().millisecondsSinceEpoch)){
+        form_model fm = new form_model();
+        if(list[i].review_1 > list[i].review_2){
+          fm.sort = list[i].review_1;
+        }
+        else{
+          fm.sort = list[i].review_2;
+        }
+        fm.complete = fm.complete;
+        fm.do_date = list[i].do_date;
+        fm.Helpers_name = list[i].Helpers_name;
+        fm.review_1 = list[i].review_1;
+        fm.review_2 = list[i].review_2;
+        fm.act_min = list[i].act_min;
+        fm.Course_name = list[i].Course_name;
+        fm.Color_name = list[i].Color_name;
+        fm.id = list[i].id;
+        fm.notes_to = list[i].notes_to;
+        fm.due_date = list[i].due_date;
+        fm.est_min = list[i].est_min;
+        fm.learn_to = list[i].learn_to;
+        fm.prepare_to = list[i].prepare_to;
+        fm.practice_to = list[i].practice_to;
+        sorting.add(fm);
+      }
+    }
+    sorting.sort((a,b) => a.sort.compareTo(b.sort));
+    return sorting;
   }
 
 

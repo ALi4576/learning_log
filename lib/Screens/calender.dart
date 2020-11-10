@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:intl/intl.dart';
 import 'package:student_planner/Database/database_sett.dart';
@@ -9,6 +8,10 @@ import 'Assign_Form.dart';
 import 'settings.dart';
 
 class Calender extends StatefulWidget {
+  final String show_todo;
+
+  const Calender({Key key, this.show_todo}) : super(key: key);
+
   @override
   _CalenderState createState() => _CalenderState();
 }
@@ -16,11 +19,10 @@ class Calender extends StatefulWidget {
 class _CalenderState extends State<Calender> {
   bool dateValue = false;
   bool compValue = false;
-  String _verticalGroupValue = "All";
+  String _verticalGroupValue;
 
   List<String> _status = ["All", "Todo only"];
   var rev = " ";
-  List<form_model> meetings = <form_model>[];
   Future event_details_due;
   List<String> days =[];
   bool checkedValue = false;
@@ -33,23 +35,12 @@ class _CalenderState extends State<Calender> {
       else{
         event_details_due = DBProvider.db.Todoform_do();
       }
-      /*if(chValue == true && checkedValue == false){
-        event_details_due = DBProvider.db.getAllform_due("do_date");
-      }
-      else if(chValue == true && checkedValue == true){
-        event_details_due = DBProvider.db.getAllform_due("due_date");
-      }
-      else if(chValue == false && checkedValue == false){
-        event_details_due = DBProvider.db.getAllform_do(1, "do_date");
-      }
-      else{
-        event_details_due = DBProvider.db.getAllform_do(1, "due_date");
-      }*/
     });
   }
 
   @override
   void initState() {
+    _verticalGroupValue = widget.show_todo;
     // TODO: implement initState
     super.initState();
     setState(() {
@@ -67,19 +58,17 @@ class _CalenderState extends State<Calender> {
             child: Column(
               children: [
                 Container(
-                  color: Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Learning Log",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.bold),),
-                      SizedBox(width: MediaQuery.of(context).size.width/20,),
+                      Text("Power Learners Guide",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),),
                       Row(
                         children: [
                           IconButton(icon: Icon(Icons.add), onPressed: (){
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) =>
-                                  AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_1: 0, review_2: 0, notes_to: "")),
+                                  AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_1: 0, review_2: 0, notes_to: "",show_todo: _verticalGroupValue,)),
                             ).then((value) => {
                               reset_state()
                             });
@@ -123,7 +112,6 @@ class _CalenderState extends State<Calender> {
                           future: event_details_due,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              snapshot.data.sort((a, b) => a.do_date.compareTo(b.do_date));
                               return Container(
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height / 1.1,
@@ -135,6 +123,17 @@ class _CalenderState extends State<Calender> {
                                     String date = d.month.toString() + "/" + d.day.toString() + "/" + d.year.toString();
                                     String dates;
                                     var dayu = DateTime.now();
+                                    String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
+                                    var review1date = DateTime.fromMillisecondsSinceEpoch(item.review_1);
+                                    String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
+                                    var review2date = DateTime.fromMillisecondsSinceEpoch(item.review_2);
+                                    String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
+                                    var dodate = DateTime.fromMillisecondsSinceEpoch(item.do_date);
+                                    String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
+                                    int tday = int.parse(today);
+                                    int r1 = int.parse(rev1date);
+                                    int r2 = int.parse(rev2date);
+                                    int dd = int.parse(datedo);
                                     if(index > 0) {
                                       DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].do_date);
                                       dates = e.month.toString() +
@@ -145,7 +144,10 @@ class _CalenderState extends State<Calender> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          (_verticalGroupValue == "Todo only" && (((item.review_1 >= dayu.millisecondsSinceEpoch || item.review_2 >= dayu.millisecondsSinceEpoch)  || (item.do_date >= dayu.millisecondsSinceEpoch) && item.complete == 0))) ? Display(date, dates, item.id, item.Course_name, item.Color_name,
+                                          (_verticalGroupValue == "Todo only" && ((item.complete == 0 && dd < tday) || (item.complete == 0 && dd == tday) || (item.complete == 1 && (r1 == tday || r2 == tday)))) ? Display(date, dates, item.id, item.Course_name, item.Color_name,
+                                              item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
+                                              item.review_2, item.notes_to, item.complete) : Container(),
+                                          (_verticalGroupValue == "Todo only" && ((item.complete == 0 && dd > tday) || (item.complete == 1 && (r1 > tday || r2 > tday)))) ? Display(date, dates, item.id, item.Course_name, item.Color_name,
                                               item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
                                               item.review_2, item.notes_to, item.complete) : Container(),
                                           (_verticalGroupValue == "All") ? Display(date, dates, item.id, item.Course_name, item.Color_name,
@@ -243,12 +245,13 @@ class _CalenderState extends State<Calender> {
                     Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/90,left: MediaQuery.of(context).size.width/30,),
                       child: Container(
-                          width: MediaQuery.of(context).size.width/2,
+                          width: MediaQuery.of(context).size.width/1.25,
                           height: MediaQuery.of(context).size.height/25,
                           child: Text(learn_to,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)
                       ),
                     ),
-                    Text(rev),
+                    SizedBox(width: MediaQuery.of(context).size.width/50,),
+                    Text(est_min.toString())
                   ],
                 ),
               ],
@@ -260,7 +263,7 @@ class _CalenderState extends State<Calender> {
               MaterialPageRoute(builder: (context) =>
                   AssignemntForm(id: id,Course_name: Course_name,Color_name: Color_name,Helpers_name:Helpers_name,
                     learn_to: learn_to, prepare_to: prepare_to, practice_to: practice_to, do_date: do_date, due_date: due_date,
-                    est_min: est_min, act_min: act_min, review_1: review_1,review_2: review_2, notes_to: notes_to,complete: complete,)),
+                    est_min: est_min, act_min: act_min, review_1: review_1,review_2: review_2, notes_to: notes_to,complete: complete,show_todo: _verticalGroupValue,)),
             ).then((value) => {
               reset_state()
             });

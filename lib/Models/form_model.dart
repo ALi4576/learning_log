@@ -26,6 +26,7 @@ class form_model {
   int review_2;
   String notes_to;
   int complete;
+  int sort;
 
   form_model({
     this.id,
@@ -42,7 +43,8 @@ class form_model {
     this.review_1,
     this.review_2,
     this.notes_to,
-    this.complete
+    this.complete,
+    this.sort
   });
 
   factory form_model.fromMap(Map<String, dynamic> json) => new form_model(

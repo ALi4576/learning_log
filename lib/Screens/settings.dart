@@ -18,7 +18,7 @@ class _SettingsState extends State<Settings> {
   List<String> Helpers = new List(10);
   Color bckcolor;
   bool st = false;
-  Future getsettings;
+  Future<List<Settings_Stu>> getsettings;
   reset() async{
     setState(() {
       gethelp = DBProvider.db.getAllHelp();
@@ -63,7 +63,6 @@ class _SettingsState extends State<Settings> {
             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 15),
             child: Column(
               children: [
-                Center(child: Text("Learning Log Settings",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -73,6 +72,8 @@ class _SettingsState extends State<Settings> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         }),
+                    SizedBox(width: MediaQuery.of(context).size.width/4.4,),
+                    Center(child: Text("Settings",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
                   ],
                 ),
                 Padding(
@@ -129,8 +130,10 @@ class _SettingsState extends State<Settings> {
                               newClient.Course_name = courseController.text;
                               newClient.Color_name = Courses[int.parse(positionController.text) - 1];
                               DBProvider.db.newSettings(newClient);
-                              getsettings = DBProvider.db.getAllSettings().then((value) => {
-                                reset()
+                              getsettings = DBProvider.db.getAllSettings().then((value) => reset());
+                              setState(() {
+                                positionController.text = "";
+                                courseController.text = "";
                               });
                             }
                           })
@@ -213,6 +216,9 @@ class _SettingsState extends State<Settings> {
                               add_help.Helper_name = helpController.text;
                               DBProvider.db.newHelp(add_help);
                               reset();
+                              setState(() {
+                                helpController.text = "";
+                              });
                             }
                           })
                     ],

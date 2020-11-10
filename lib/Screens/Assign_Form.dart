@@ -23,8 +23,9 @@ class AssignemntForm extends StatefulWidget {
   final int review_2;
   final String notes_to;
   final int complete;
+  final String show_todo;
 
-  const AssignemntForm({Key key, this.id, this.Course_name, this.Helpers_name, this.learn_to, this.prepare_to, this.practice_to, this.do_date, this.due_date, this.est_min, this.act_min,this.review_1, this.review_2, this.notes_to, this.Color_name, this.complete}) : super(key: key);
+  const AssignemntForm({Key key, this.id, this.Course_name, this.Helpers_name, this.learn_to, this.prepare_to, this.practice_to, this.do_date, this.due_date, this.est_min, this.act_min,this.review_1, this.review_2, this.notes_to, this.Color_name, this.complete, this.show_todo}) : super(key: key);
 
 
   @override
@@ -64,7 +65,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
   List<Help_Stu> _helpers = <Help_Stu>[];
   Help_Stu _dropHelpValue;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool sub= true,learn= true,prep= true,prac= true,dod= true,due= true,est= true,act= true,review = true,complete = false;
+  bool sub= true,learn= true,prep= true,prac= true,dod= true,due= true,est= true,review = true,complete = false;
 
   Future courselist() async {
     _subjects = await DBProvider.db.getAllSettings();
@@ -72,6 +73,11 @@ class _AssignemntFormState extends State<AssignemntForm> {
     setState(() {
       if(widget.id == null){
         if(_subjects != null){
+          Settings_Stu ss = new Settings_Stu();
+          ss.id = 0;
+          ss.Color_name = "0xFFFFFFFF";
+          ss.Course_name = "";
+          _subjects.insert(0, ss);
           _dropdownValue = _subjects[0];
           subjectController.text = _subjects[0].Course_name;
           colorController.text = _subjects[0].Color_name;
@@ -95,7 +101,13 @@ class _AssignemntFormState extends State<AssignemntForm> {
       }
       else{
         int j = 0;
+        int k = 0;
         if(_subjects != null){
+          Settings_Stu ss = new Settings_Stu();
+          ss.id = 0;
+          ss.Color_name = "0xFFFFFFFF";
+          ss.Course_name = "";
+          _subjects.insert(0, ss);
           for(int i = 0;i<_subjects.length;i++){
             if(_subjects[i].Course_name == widget.Course_name){
               setState(() {
@@ -113,7 +125,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
           hs.Helper_name = "";
           hs.id = 0;
           _helpers.insert(0, hs);
-          int k = 0;
           for(int i = 0;i<_helpers.length;i++){
             if(_helpers[i].Helper_name == widget.Helpers_name){
               setState(() {
@@ -125,12 +136,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
           _dropHelpValue = _helpers[k];
           helpController.text = _helpers[k].Helper_name;
         }
-        if(_helpers.isEmpty){
-          Help_Stu hs = new Help_Stu();
-          hs.Helper_name = "";
-          hs.id = 0;
-          _helpers.insert(0, hs);
-        }
+
         if(widget.complete == 0){
           compController.text = 0.toString();
           complete = false;
@@ -140,10 +146,9 @@ class _AssignemntFormState extends State<AssignemntForm> {
           complete = true;
         }
 
-
         due_val = widget.due_date;
         var a = DateTime.fromMillisecondsSinceEpoch(due_val);
-        _duedate = '${a.day}/${a.month}/${a.year}';
+        _duedate = '${a.month}/${a.day}/${a.year}';
 
         do_val = widget.do_date;
         var b = DateTime.fromMillisecondsSinceEpoch(do_val);
@@ -152,18 +157,23 @@ class _AssignemntFormState extends State<AssignemntForm> {
         if(widget.review_1 != null){
           review_1 = widget.review_1;
           var c = DateTime.fromMillisecondsSinceEpoch(review_1);
-          _rev1 = '${c.day}/${c.month}/${c.year}';
+          _rev1 = '${c.month}/${c.day}/${c.year}';
         }
 
         if(widget.review_2 != null){
           review_2 = widget.review_2;
           var d = DateTime.fromMillisecondsSinceEpoch(review_2);
-          _rev2 = '${d.day}/${d.month}/${d.year}';
+          _rev2 = '${d.month}/${d.day}/${d.year}';
         }
 
         learnController.text = widget.learn_to;
         notesController.text = widget.notes_to;
-        actminController.text = widget.act_min.toString();
+        if(widget.act_min == null){
+          actminController.text = "";
+        }
+        else{
+          actminController.text = widget.act_min.toString();
+        }
         estminController.text = widget.est_min.toString();
         colorController.text = widget.Color_name;
         compController.text = widget.complete.toString();
@@ -199,7 +209,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
           padding: EdgeInsets.only(top:MediaQuery.of(context).size.height/32.0,left:MediaQuery.of(context).size.width/22.0,right:MediaQuery.of(context).size.width/22.0),
           child: ListView(
             children: [
-              Center(child: Text("Assignment Details",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
+              Center(child: Text("Learning Plan",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
               Row(
                 children: [
                   Column(
@@ -268,7 +278,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         ),
                       ),
                       if(sub == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
                   SizedBox(width: MediaQuery.of(context).size.width/20.0,),
@@ -299,7 +309,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                     enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
                                         borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
                                 ),
-                                isEmpty: helpController == null,
                                 child: new DropdownButton<Help_Stu>(
                                     value: _dropHelpValue,
                                     isDense: true,
@@ -371,7 +380,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         ),
                       ),
                       if(learn == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ],
@@ -389,7 +398,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         ],
                       ),
                       Container(
-                        height: (_myPreparation.length < 4) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5,
+                        height: (_myPreparation.length < 4) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5.5,
                         width: MediaQuery.of(context).size.width/1.11,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
@@ -463,7 +472,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         ),
                       ),
                       if(prep == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ],
@@ -481,7 +490,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         ],
                       ),
                       Container(
-                        height: (_myPractices.length < 3) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5,
+                        height: (_myPractices.length < 3) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5.5,
                         width: MediaQuery.of(context).size.width/1.11,
                         child: ListView(
                           physics: NeverScrollableScrollPhysics(),
@@ -563,7 +572,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         ),
                       ),
                       if(prac == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ],
@@ -624,7 +633,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         },
                       ),
                       if(dod == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
                   SizedBox(width: MediaQuery.of(context).size.width/30.0,),
@@ -682,7 +691,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         },
                       ),
                       if(due == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ],
@@ -724,7 +733,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         ),
                       ),
                       if(est == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
                   SizedBox(width: MediaQuery.of(context).size.width/15.0,),
@@ -734,7 +743,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                       Row(
                         children: [
                           Text("Actual Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
                         ],
                       ),
                       Container(
@@ -762,8 +770,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           ),
                         ),
                       ),
-                      if(act == false)
-                        Text("Required",style: TextStyle(color: Colors.red),)
                     ],
                   ),
                   SizedBox(width: MediaQuery.of(context).size.width/20.0,),
@@ -965,16 +971,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             est = true;
                           });
                         }
-                        if(actminController.text == ""){
-                          setState(() {
-                            act = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            act = true;
-                          });
-                        }
                         if(subjectController.text == ""){
                           setState(() {
                             sub = false;
@@ -1028,7 +1024,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
 
                         if(widget.id == null){
                           if((learnController.text != "") && (estminController.text != "")
-                              && (actminController.text != "") && (subjectController.text != "")
+                              && (subjectController.text != "")
                               && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
                               && (_myPractices.isNotEmpty)
                           ){
@@ -1043,7 +1039,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             m.Helpers_name = helpController.text;
                             m.Course_name = subjectController.text;
                             m.Color_name = colorController.text;
-                            m.act_min = int.parse(actminController.text);
+                            if(actminController.text == ""){
+                              m.act_min = null;
+                            }
+                            else{
+                              m.act_min = int.parse(actminController.text);
+                            }
                             m.est_min = int.parse(estminController.text);
                             m.due_date = due_val;
                             m.do_date = do_val;
@@ -1058,7 +1059,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                   content: Text('Inserted!'),
                                 );
                                 _scaffoldKey.currentState.showSnackBar(snackBar);
-                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender()));
+                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
                               }
                               else{
                                 final snackBar = SnackBar(
@@ -1071,7 +1072,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         }
                         else{
                           if((learnController.text != "") && (estminController.text != "")
-                              && (actminController.text != "") && (subjectController.text != "")
+                              && (subjectController.text != "")
                               && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
                               && (_myPractices.isNotEmpty)
                           ){
@@ -1082,7 +1083,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             m.Helpers_name = helpController.text;
                             m.Course_name = subjectController.text;
                             m.Color_name = colorController.text;
-                            m.act_min = int.parse(actminController.text);
+                            if(actminController.text == ""){
+                              m.act_min = null;
+                            }
+                            else{
+                              m.act_min = int.parse(actminController.text);
+                            }
                             m.est_min = int.parse(estminController.text);
                             m.due_date = due_val;
                             m.do_date = do_val;
@@ -1097,7 +1103,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                   content: Text('Updated!'),
                                 );
                                 _scaffoldKey.currentState.showSnackBar(snackBar);
-                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender()));
+                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
                               }
                               else{
                                 final snackBar = SnackBar(
@@ -1108,23 +1114,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             });
                           }
                         }
-
-                        setState(() {
-                          dateController.text = "";
-                          learnController.text = "";
-                          doController.text = "";
-                          estminController.text = "";
-                          actminController.text = "";
-                          notesController.text = "";
-                          _myPreparation.clear();
-                          _myPractices.clear();
-                          review1Controller.text = "";
-                          review2Controller.text = "";
-                          _dodate = " ";
-                          _duedate = " ";
-                          _rev1 = " ";
-                          _rev2 = " ";
-                        });
                       },
                       color: Color.fromRGBO(28, 136, 229, 1.0),
                       shape: RoundedRectangleBorder(
@@ -1164,7 +1153,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           _rev1 = " ";
                           _rev2 = " ";
                         });
-                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender()));
+                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
                       },
                       color: Color.fromRGBO(28, 136, 229, 1.0),
                       shape: RoundedRectangleBorder(
