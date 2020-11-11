@@ -1040,18 +1040,40 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             m.Course_name = subjectController.text;
                             m.Color_name = colorController.text;
                             if(actminController.text == ""){
-                              m.act_min = null;
+                              setState(() {
+                                m.act_min = null;
+                              });
                             }
                             else{
-                              m.act_min = int.parse(actminController.text);
+                              setState(() {
+                                m.act_min = int.parse(actminController.text);
+                              });
                             }
                             m.est_min = int.parse(estminController.text);
                             m.due_date = due_val;
                             m.do_date = do_val;
                             m.prepare_to = _myPreparation.join(",");
                             m.practice_to = _myPractices.join(",");
-                            m.review_1 = review_1;
-                            m.review_2 = review_2;
+                            if(review_1 == null){
+                              setState(() {
+                                m.review_1 = 0;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                m.review_1 = review_1;
+                              });
+                            }
+                            if(review_2 == null){
+                              setState(() {
+                                m.review_2 = 0;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                m.review_2 = review_2;
+                              });
+                            }
                             m.complete = int.parse(compController.text);
                             var msg = await DBProvider.db.form_insert(m).then((value){
                               if(value == "Success"){
@@ -1084,18 +1106,40 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             m.Course_name = subjectController.text;
                             m.Color_name = colorController.text;
                             if(actminController.text == ""){
-                              m.act_min = null;
+                              setState(() {
+                                m.act_min = null;
+                              });
                             }
                             else{
-                              m.act_min = int.parse(actminController.text);
+                              setState(() {
+                                m.act_min = int.parse(actminController.text);
+                              });
                             }
                             m.est_min = int.parse(estminController.text);
                             m.due_date = due_val;
                             m.do_date = do_val;
                             m.prepare_to = _myPreparation.join(",");
                             m.practice_to = _myPractices.join(",");
-                            m.review_1 = review_1;
-                            m.review_2 = review_2;
+                            if(review_1 == null){
+                              setState(() {
+                                m.review_1 = 0;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                m.review_1 = review_1;
+                              });
+                            }
+                            if(review_2 == null){
+                              setState(() {
+                                m.review_2 = 0;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                m.review_2 = review_2;
+                              });
+                            }
                             m.complete = int.parse(compController.text);
                             var msg = await DBProvider.db.Update_form(m).then((value){
                               if(value == "Success"){
