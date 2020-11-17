@@ -153,26 +153,41 @@ class DBProvider {
     List<form_model> sorting = <form_model>[];
     if(list != null){
       for(int i = 0;i<list.length;i++){
-        form_model fm = new form_model();
-        fm.complete = list[i].complete;
-        fm.do_date = list[i].do_date;
-        fm.review_1 = list[i].review_1;
-        fm.review_2 = list[i].review_2;
-        fm.act_min = list[i].act_min;
-        fm.Course_name = list[i].Course_name;
-        fm.Color_name = list[i].Color_name;
-        fm.id = list[i].id;
-        fm.notes_to = list[i].notes_to;
-        fm.due_date = list[i].due_date;
-        fm.est_min = list[i].est_min;
-        fm.learn_to = list[i].learn_to;
-        fm.prepare_to = list[i].prepare_to;
-        fm.practice_to = list[i].practice_to;
-        fm.Helpers_name = list[i].Helpers_name;
-        fm.sort = list[i].do_date;
-        sorting.add(fm);
+        String dates;
+        var dayu = DateTime.now();
+        String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
+        var review1date = DateTime.fromMillisecondsSinceEpoch(list[i].review_1);
+        String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
+        var review2date = DateTime.fromMillisecondsSinceEpoch(list[i].review_2);
+        String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
+        var dodate = DateTime.fromMillisecondsSinceEpoch(list[i].do_date);
+        String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
+        int tday = int.parse(today);
+        int r1 = int.parse(rev1date);
+        int r2 = int.parse(rev2date);
+        int dd = int.parse(datedo);
+        if((list[i].complete == 1 && dd < tday) || (list[i].complete == 0 && dd < tday && (r1 < tday && r2 < tday)) || (list[i].complete == 0 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && (r1 < tday && r2 < tday))){
+          form_model fm = new form_model();
+          fm.complete = list[i].complete;
+          fm.do_date = list[i].do_date;
+          fm.review_1 = list[i].review_1;
+          fm.review_2 = list[i].review_2;
+          fm.act_min = list[i].act_min;
+          fm.Course_name = list[i].Course_name;
+          fm.Color_name = list[i].Color_name;
+          fm.id = list[i].id;
+          fm.notes_to = list[i].notes_to;
+          fm.due_date = list[i].due_date;
+          fm.est_min = list[i].est_min;
+          fm.learn_to = list[i].learn_to;
+          fm.prepare_to = list[i].prepare_to;
+          fm.practice_to = list[i].practice_to;
+          fm.Helpers_name = list[i].Helpers_name;
+          fm.sort = list[i].due_date;
+          sorting.add(fm);
+        }
       }
-      sorting.sort((a,b) => a.sort.compareTo(b.sort));
+      sorting.sort((a,b) => a.due_date.compareTo(b.due_date));
     }
     return sorting;
   }
@@ -187,7 +202,20 @@ class DBProvider {
     List<form_model> sorting = <form_model>[];
     if(list != null){
       for(int i = 0;i<list.length;i++){
-        if(list[i].complete == 0 && list[i].do_date >= DateTime.now().millisecondsSinceEpoch){
+        String dates;
+        var dayu = DateTime.now();
+        String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
+        var review1date = DateTime.fromMillisecondsSinceEpoch(list[i].review_1);
+        String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
+        var review2date = DateTime.fromMillisecondsSinceEpoch(list[i].review_2);
+        String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
+        var dodate = DateTime.fromMillisecondsSinceEpoch(list[i].do_date);
+        String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
+        int tday = int.parse(today);
+        int r1 = int.parse(rev1date);
+        int r2 = int.parse(rev2date);
+        int dd = int.parse(datedo);
+        if(list[i].complete == 0 && dd >= tday){
           form_model fm = new form_model();
           fm.complete = 0;
           fm.do_date = list[i].do_date;
@@ -208,7 +236,7 @@ class DBProvider {
           fm.Helpers_name = list[i].Helpers_name;
           sorting.add(fm);
         }
-        else if(list[i].complete == 0 && list[i].do_date < DateTime.now().millisecondsSinceEpoch){
+        else if(list[i].complete == 0 && dd < tday){
           form_model fm = new form_model();
           fm.complete = 0;
           fm.do_date = list[i].do_date;
@@ -229,7 +257,7 @@ class DBProvider {
           fm.Helpers_name = list[i].Helpers_name;
           sorting.add(fm);
         }
-        else if (list[i].complete == 1 && list[i].review_2 < DateTime.now().millisecondsSinceEpoch && list[i].review_1 < DateTime.now().millisecondsSinceEpoch){
+        else if (list[i].complete == 1 && r1 < tday && r2 < tday){
           form_model fm = new form_model();
           if(list[i].review_1 > list[i].review_2){
             fm.sort = list[i].review_1;
@@ -296,9 +324,9 @@ class DBProvider {
         fm.sort = list[i].review_2;
         sorting.add(fm);
       }*/
-        else if(list[i].complete == 1 && list[i].review_2 >= DateTime.now().millisecondsSinceEpoch && list[i].review_1 >= DateTime.now().millisecondsSinceEpoch){
+        else if(list[i].complete == 1 && (r1 >= tday && r2 >= tday)){
           form_model fm = new form_model();
-          if(list[i].review_1 > list[i].review_2){
+          if(list[i].review_1 >= list[i].review_2){
             fm.sort = list[i].review_2;
           }
           else{
@@ -322,9 +350,9 @@ class DBProvider {
           //print(DateTime.fromMillisecondsSinceEpoch(fm.sort));
           sorting.add(fm);
         }
-        else if(list[i].complete == 1 && (list[i].review_1 >= DateTime.now().millisecondsSinceEpoch || list[i].review_2 >= DateTime.now().millisecondsSinceEpoch ) || list[i].complete == 0){
+        else if(list[i].complete == 1 && (r1 >= tday || r2 >= tday) || list[i].complete == 0){
         form_model fm = new form_model();
-        if(list[i].review_1 > DateTime.now().millisecondsSinceEpoch){
+        if(list[i].review_1 >= DateTime.now().millisecondsSinceEpoch){
           fm.sort = list[i].review_1;
         }
         else{
@@ -347,7 +375,7 @@ class DBProvider {
         fm.practice_to = list[i].practice_to;
         sorting.add(fm);
       }
-        else if(list[i].complete == 1 && (list[i].review_1 > 0 || list[i].review_2 > 0) && (list[i].review_1 < DateTime.now().millisecondsSinceEpoch || list[i].review_2 < DateTime.now().millisecondsSinceEpoch)){
+        else if(list[i].complete == 1 && (r1 > 0 || r2 > 0) && (r1 < tday || r2 < tday)){
         form_model fm = new form_model();
         if(list[i].review_1 > list[i].review_2){
           fm.sort = list[i].review_1;

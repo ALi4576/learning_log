@@ -218,7 +218,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Courses",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("Course",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                           Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
                         ],
                       ),
@@ -497,11 +497,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           children: [
                             MultiSelectFormField(
                               autovalidate: false,
-                              chipBackGroundColor: Color.fromRGBO(255, 255, 153, 1.0),
+                              chipBackGroundColor: Color(0xFFC3FD9B),
                               dialogTextStyle: TextStyle(fontSize: 20.0),
-                              chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 14.0),
-                              checkBoxActiveColor: Colors.yellow,
-                              checkBoxCheckColor: Colors.white,
+                              chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize:(_myPractices.length < 3) ? 12.0 : 14.0),
+                              checkBoxActiveColor: Color(0xFFC3FD9B),
+                              checkBoxCheckColor: Colors.black,
+                              title: Container(),
                               dialogShapeBorder: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(12.0))),
                               dataSource: [
@@ -555,7 +556,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                 },
                               ],
                               hintWidget: Text("Select one or more entries from dropdown list ",style: TextStyle(fontSize: 20.0),),
-                              title: Container(height: 0.0,width: 0.0,),
                               textField: 'display',
                               valueField: 'value',
                               okButtonLabel: 'OK',
