@@ -73,6 +73,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
     setState(() {
       if(widget.id == null){
         if(_subjects != null){
+          for(int t = 0;t<_subjects.length;t++){
+            print(t);
+            if(_subjects[t].Course_name == ""){
+              _subjects.removeAt(t);
+            }
+          }
           Settings_Stu ss = new Settings_Stu();
           ss.id = 0;
           ss.Color_name = "0xFFFFFFFF";
@@ -83,6 +89,12 @@ class _AssignemntFormState extends State<AssignemntForm> {
           colorController.text = _subjects[0].Color_name;
         }
         if(_helpers != null){
+          print(_helpers.length);
+          for(int t = 0;t<_helpers.length;t++){
+            if(_helpers[t].Helper_name == ""){
+              _helpers.removeAt(t);
+            }
+          }
           Help_Stu hs = new Help_Stu();
           hs.Helper_name = "";
           hs.id = 0;
@@ -103,6 +115,11 @@ class _AssignemntFormState extends State<AssignemntForm> {
         int j = 0;
         int k = 0;
         if(_subjects != null){
+          for(int t = 0;t<_subjects.length;t++){
+            if(_subjects[t].Course_name == ""){
+              _subjects.removeAt(t);
+            }
+          }
           Settings_Stu ss = new Settings_Stu();
           ss.id = 0;
           ss.Color_name = "0xFFFFFFFF";
@@ -121,6 +138,11 @@ class _AssignemntFormState extends State<AssignemntForm> {
           colorController.text = _subjects[j].Color_name;
         }
         if(_helpers != null){
+          for(int t = 0;t<_helpers.length;t++){
+            if(_helpers[t].Helper_name == ""){
+              _helpers.removeAt(t);
+            }
+          }
           Help_Stu hs = new Help_Stu();
           hs.Helper_name = "";
           hs.id = 0;
@@ -324,7 +346,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                       return DropdownMenuItem<Help_Stu>(
                                         value: value,
                                         child: Container(
-                                          width: MediaQuery.of(context).size.width/4,
+                                          width: MediaQuery.of(context).size.width/3.5,
                                           child: Row(
                                             children: [
                                               Expanded(child: Text(value.Helper_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)),

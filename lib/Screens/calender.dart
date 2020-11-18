@@ -238,7 +238,7 @@ class _CalenderState extends State<Calender> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        ((item.complete == 1 && dd < tday) || (item.complete == 0 && dd < tday && (r1 < tday && r2 < tday)) || (item.complete == 0 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && (r1 < tday && r2 < tday))) ? Dismissible(
+                                        ((r1 < tday && r2 < tday && dd < tday) && ((item.complete == 1 && dd < tday) || (item.complete == 0 && dd < tday && (r1 < tday && r2 < tday)) || (item.complete == 0 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && (r1 < tday && r2 < tday)))) ? Dismissible(
                                           key: Key(item.id.toString()),
                                           background: Container(color: Colors.greenAccent),
                                           onDismissed: (direction) {
@@ -293,7 +293,7 @@ class _CalenderState extends State<Calender> {
     else if(((r1 > 0 || r2 > 0) && ((r1 == tday && complete == 1) || (r2 == tday && complete == 1)))){
       backcolor = Color.fromRGBO(216, 215, 225, 1.0);
     }
-    else if(complete == 1 && ((dd < tday && (r1 < tday || r2 < tday)))){
+    else if(complete == 1 && ((dd < tday && (r1 < tday && r2 < tday)))){
       backcolor = Color.fromRGBO(216, 215, 225, 1.0);
     }
     else if(dd == tday && complete == 1){

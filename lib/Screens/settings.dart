@@ -21,8 +21,8 @@ class _SettingsState extends State<Settings> {
   Future<List<Settings_Stu>> getsettings;
   reset() async{
     setState(() {
-      gethelp = DBProvider.db.getAllHelp();
-      getsettings = DBProvider.db.getAllSettings();
+      gethelp = DBProvider.db.getHelp();
+      getsettings = DBProvider.db.getset();
     });
   }
 
@@ -76,7 +76,7 @@ class _SettingsState extends State<Settings> {
                     Center(child: Text("Settings",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
                   ],
                 ),
-                Padding(
+                /*Padding(
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width / 40),
                   child: Row(
@@ -226,7 +226,7 @@ class _SettingsState extends State<Settings> {
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 40.0,
-                ),
+                ),*/
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -265,9 +265,10 @@ class _SettingsState extends State<Settings> {
                                       height: MediaQuery.of(context).size.height / 2,
                                       child: ListView.builder(
                                         physics: NeverScrollableScrollPhysics(),
-                                        itemCount: snapshot.data.length,
+                                        itemCount: 10,
                                         itemBuilder: (BuildContext context, int index) {
                                           Settings_Stu item = snapshot.data[index];
+                                          courseController.text = item.Course_name;
                                           return courses(item.Color_name, item.Course_name, item.id);
                                         },
                                       ),
@@ -279,8 +280,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 10),
+                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 10),
                               child: FutureBuilder<List<Help_Stu>>(
                                 future: gethelp,
                                 builder: (context, snapshot) {
@@ -289,10 +289,11 @@ class _SettingsState extends State<Settings> {
                                       width: MediaQuery.of(context).size.width / 2.7,
                                       height: MediaQuery.of(context).size.height / 2,
                                       child: ListView.builder(
-                                        itemCount: snapshot.data.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: 10,
                                         itemBuilder: (BuildContext context, int index) {
-                                          Help_Stu item = snapshot.data[index];
-                                          return helpers(item.Helper_name, item.id);
+                                            Help_Stu item = snapshot.data[index];
+                                            return helpers(item.Helper_name, item.id);
                                         },
                                       ),
                                     );
@@ -380,30 +381,30 @@ class _SettingsState extends State<Settings> {
           width: MediaQuery.of(context).size.width / 2.7,
           height: MediaQuery.of(context).size.height / 20,
           color: Color(int.parse(cl)),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/30),
-                child: Center(
-                  child: Text(
-                    name,
-                    style: TextStyle(fontSize: 22.0),
-                  ),
+          child: TextFormField(
+            initialValue: name,
+            onChanged: (value){
+              Settings_Stu st = new Settings_Stu();
+              st.id = num;
+              st.Course_name = value;
+              st.Color_name = cl;
+              DBProvider.db.Update_set(st);
+            },
+            style: TextStyle(fontSize: 20.0),
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(2.0),
                 ),
-              ),
-              if (name != " ")
-                IconButton(
-                    icon: Icon(Icons.remove),
-                    onPressed: () {
-                      Settings_Stu newClient = new Settings_Stu();
-                      newClient.id = num;
-                      DBProvider.db.deleteClient(newClient.id);
-                      setState(() {
-                        reset();
-                      });
-                    }),
-            ],
+                fillColor: (Color(int.parse(cl))),
+                filled: true,
+                contentPadding: EdgeInsets.fromLTRB(
+                    10.0, 0.0, 0.0, 0.0),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(2.0),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(
+                            252, 228, 219, 200.0),
+                        width: 3.0))),
           ),
         )
       ],
@@ -416,31 +417,29 @@ class _SettingsState extends State<Settings> {
         Container(
           width: MediaQuery.of(context).size.width / 2.7,
           height: MediaQuery.of(context).size.height / 20,
-          color: Colors.white,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/30),
-                child: Center(
-                  child: Text(
-                    name,
-                    style: TextStyle(fontSize: 22.0),
-                  ),
+          child: TextFormField(
+            initialValue: name,
+            onChanged: (value){
+              Help_Stu st = new Help_Stu();
+              st.id = num;
+              st.Helper_name = value;
+              DBProvider.db.Update_help(st);
+            },
+            style: TextStyle(fontSize: 20.0),
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(2.0),
                 ),
-              ),
-              if (name != " ")
-                IconButton(
-                    icon: Icon(Icons.remove),
-                    onPressed: () {
-                      Help_Stu newClient = new Help_Stu();
-                      newClient.id = num;
-                      DBProvider.db.deleteHelp(newClient.id);
-                      setState(() {
-                        reset();
-                      });
-                    }),
-            ],
+                fillColor: Colors.white,
+                filled: true,
+                contentPadding: EdgeInsets.fromLTRB(
+                    10.0, 0.0, 0.0, 0.0),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(2.0),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(
+                            252, 228, 219, 200.0),
+                        width: 3.0))),
           ),
         )
       ],

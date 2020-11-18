@@ -29,10 +29,58 @@ class DBProvider {
     );
   }
 
-  static void _createDb(Database db) {
+  static Future<void> _createDb(Database db) async {
      db.execute('CREATE TABLE Settings (id INTEGER PRIMARY KEY,Course_name TEXT,Color_name TEXT)');
      db.execute('CREATE TABLE Helpers (id INTEGER PRIMARY KEY,Helper_name TEXT)');
      db.execute('CREATE TABLE Assign_Form (id INTEGER PRIMARY KEY AUTOINCREMENT,Course_name TEXT,Color_name TEXT,Helpers_name TEXT,learn_to TEXT,prepare_to TEXT,practice_to TEXT,do_date INTEGER,due_date INTEGER,est_min INTEGER,act_min INTEGER,review_1 INTEGER,review_2 INTEGER,notes_to TEXT,complete INTEGER)');
+     var batch = db.batch();
+     List<String> Courses = new List(10);
+     Courses[0] = "0xFFFF6166";
+     Courses[1] = "0xFFFF9966";
+     Courses[2] = "0xFFFFCC66";
+     Courses[3] = "0xFFFFFF99";
+     Courses[4] = "0xFFC3FD9B";
+     Courses[5] = "0xFF66DC82";
+     Courses[6] = "0xFF70F4DE";
+     Courses[7] = "0xFF79CDEF";
+     Courses[8] = "0xFF88B1CA";
+     Courses[9] = "0xFFB7B7FF";
+     List<String> Courses1 = new List(10);
+     Courses1[0] = "Algebra";
+     Courses1[1] = "English";
+     Courses1[2] = "Geography";
+     Courses1[3] = "Chemistry";
+     Courses1[4] = "History";
+     Courses1[5] = "Music";
+     Courses1[6] = "Spanish";
+     Courses1[7] = "Biology";
+     Courses1[8] = "";
+     Courses1[9] = "";
+     Settings_Stu st = new Settings_Stu();
+     for(int i = 0;i < 10;i++){
+       st.id = i + 1;
+       st.Course_name = Courses1[i];
+       st.Color_name = Courses[i];
+       batch.insert('Settings', st.toMap());
+     }
+     List<String> Helperslist = new List(10);
+     Helperslist[0] = "Bob";
+     Helperslist[1] = "Alice";
+     Helperslist[2] = "Ms.Franklin";
+     Helperslist[3] = "Aunt Ellen";
+     Helperslist[4] = "";
+     Helperslist[5] = "";
+     Helperslist[6] = "";
+     Helperslist[7] = "";
+     Helperslist[8] = "";
+     Helperslist[9] = "";
+     Help_Stu ht = new Help_Stu();
+     for(int i = 1;i <= 10;i++){
+       ht.id = i;
+       ht.Helper_name = Helperslist[i - 1];
+       batch.insert('Helpers', ht.toMap());
+     }
+     await batch.commit();
   }
 
   /*Settings Screen*/
@@ -59,12 +107,36 @@ class DBProvider {
     return db.delete("Settings", where: "id = ?", whereArgs: [id]);
   }
 
+  //Update
+  Future<String> Update_set(Settings_Stu data) async {
+    final db = await database;
+    var res = await db.update("Settings", data.toMap(),
+        where: "id = ?", whereArgs: [data.id]);
+    return "Success";
+  }
+
   //Get All courses
   Future<List<Settings_Stu>> getAllSettings() async {
     final db = await database;
     var res = await db.query("Settings");
-    List<Settings_Stu> list =
-    res.isNotEmpty ? res.map((c) => Settings_Stu.fromMap(c)).toList() : null;
+    List<Settings_Stu> list = res.isNotEmpty ? res.map((c) => Settings_Stu.fromMap(c)).toList() : null;
+    List<Settings_Stu> sort = <Settings_Stu>[];
+    for(int i = 0;i < list.length;i++){
+      if(list[i].Course_name != ""){
+        Settings_Stu st = new Settings_Stu();
+        st.id = list[i].id;
+        st.Course_name = list[i].Course_name;
+        st.Color_name = list[i].Color_name;
+        sort.add(st);
+      }
+    }
+    return sort;
+  }
+
+  Future<List<Settings_Stu>> getset() async {
+    final db = await database;
+    var res = await db.query("Settings");
+    List<Settings_Stu> list = res.isNotEmpty ? res.map((c) => Settings_Stu.fromMap(c)).toList() : null;
     return list;
   }
 
@@ -99,15 +171,37 @@ class DBProvider {
     return db.delete("Helpers", where: "id = ?", whereArgs: [id]);
   }
 
+  //Update
+  Future<String> Update_help(Help_Stu data) async {
+    final db = await database;
+    var res = await db.update("Helpers", data.toMap(),
+        where: "id = ?", whereArgs: [data.id]);
+    return "Success";
+  }
+
   //Get ALl Helpers
   Future<List<Help_Stu>> getAllHelp() async {
     final db = await database;
     var res = await db.query("Helpers");
-    List<Help_Stu> list =
-    res.isNotEmpty ? res.map((c) => Help_Stu.fromMap(c)).toList() : null;
-    return list;
+    List<Help_Stu> list = res.isNotEmpty ? res.map((c) => Help_Stu.fromMap(c)).toList() : null;
+    List<Help_Stu> sort = <Help_Stu>[];
+    for(int i = 0;i < list.length;i++){
+      if(list[i].Helper_name != ""){
+        Help_Stu st = new Help_Stu();
+        st.id = list[i].id;
+        st.Helper_name = list[i].Helper_name;
+        sort.add(st);
+      }
+    }
+    return sort;
   }
 
+  Future<List<Help_Stu>> getHelp() async {
+    final db = await database;
+    var res = await db.query("Helpers");
+    List<Help_Stu> list = res.isNotEmpty ? res.map((c) => Help_Stu.fromMap(c)).toList() : null;
+    return list;
+  }
   //Get Help id
   getHelpID(String name) async{
     final db = await database;
