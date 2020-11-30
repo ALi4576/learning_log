@@ -65,7 +65,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
   List<Help_Stu> _helpers = <Help_Stu>[];
   Help_Stu _dropHelpValue;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool sub= true,learn= true,prep= true,prac= true,dod= true,due= true,est= true,review = true,complete = false;
+  bool sub= true,learn= true,prep= true,prac= true,dod= true,due= true,est= true,review = true,complete = false,act = true;
 
   Future courselist() async {
     _subjects = await DBProvider.db.getAllSettings();
@@ -74,7 +74,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
       if(widget.id == null){
         if(_subjects != null){
           for(int t = 0;t<_subjects.length;t++){
-            print(t);
             if(_subjects[t].Course_name == ""){
               _subjects.removeAt(t);
             }
@@ -89,7 +88,6 @@ class _AssignemntFormState extends State<AssignemntForm> {
           colorController.text = _subjects[0].Color_name;
         }
         if(_helpers != null){
-          print(_helpers.length);
           for(int t = 0;t<_helpers.length;t++){
             if(_helpers[t].Helper_name == ""){
               _helpers.removeAt(t);
@@ -205,6 +203,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
 
   @override
   void initState() {
+    compController.text = 0.toString();
     super.initState();
     if(widget.id != null){
       _myPreparation = widget.prepare_to.split(",").toList();
@@ -519,10 +518,10 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           children: [
                             MultiSelectFormField(
                               autovalidate: false,
-                              chipBackGroundColor: Color(0xFFC3FD9B),
+                              chipBackGroundColor: Color(0xFF66DC82),
                               dialogTextStyle: TextStyle(fontSize: 20.0),
                               chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize:(_myPractices.length < 3) ? 12.0 : 14.0),
-                              checkBoxActiveColor: Color(0xFFC3FD9B),
+                              checkBoxActiveColor: Color(0xFF66DC82),
                               checkBoxCheckColor: Colors.black,
                               title: Container(),
                               dialogShapeBorder: RoundedRectangleBorder(
@@ -725,8 +724,8 @@ class _AssignemntFormState extends State<AssignemntForm> {
                     children: [
                       Row(
                         children: [
-                          Text("Est. Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                          Text("Est. Minutes",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("*",style: TextStyle(color: Colors.red,fontSize: 14.0),),
                         ],
                       ),
                       Container(
@@ -758,13 +757,13 @@ class _AssignemntFormState extends State<AssignemntForm> {
                         Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.width/15.0,),
+                 SizedBox(width: MediaQuery.of(context).size.width/30.0,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          Text("Actual Min",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          Text("Actual Minutes",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                         ],
                       ),
                       Container(
@@ -792,16 +791,18 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           ),
                         ),
                       ),
+                      if(act == false && actminController.text == "")
+                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                     ],
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.width/20.0,),
+                 SizedBox(width: MediaQuery.of(context).size.width/30.0,),
                   Column(
                     children: [
                       Text("Done",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
                       SizedBox(height: MediaQuery.of(context).size.height/70,),
                       Container(
                         height: MediaQuery.of(context).size.height/40,
-                        width: MediaQuery.of(context).size.width/6,
+                        width: MediaQuery.of(context).size.width/10,
                         child: Checkbox(
                           checkColor: Colors.white,
                           value: complete,
@@ -810,9 +811,13 @@ class _AssignemntFormState extends State<AssignemntForm> {
                               complete = newValue;
                               if(complete == true){
                                 compController.text = 1.toString();
+                                if(actminController.text == ""){
+                                  act = false;
+                                }
                               }
                               else{
                                 compController.text = 0.toString();
+                                act = true;
                               }
                             });
                           },
@@ -1043,141 +1048,146 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             prac = true;
                           });
                         }
-
                         if(widget.id == null){
-                          if((learnController.text != "") && (estminController.text != "")
-                              && (subjectController.text != "")
-                              && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
-                              && (_myPractices.isNotEmpty)
-                          ){
-                            if(compController.text == ""){
-                              setState(() {
-                                compController.text = 0.toString();
-                              });
-                            }
-                            form_model m = new form_model();
-                            m.learn_to = learnController.text;
-                            m.notes_to = notesController.text;
-                            m.Helpers_name = helpController.text;
-                            m.Course_name = subjectController.text;
-                            m.Color_name = colorController.text;
-                            if(actminController.text == ""){
-                              setState(() {
-                                m.act_min = null;
-                              });
-                            }
-                            else{
-                              setState(() {
-                                m.act_min = int.parse(actminController.text);
-                              });
-                            }
-                            m.est_min = int.parse(estminController.text);
-                            m.due_date = due_val;
-                            m.do_date = do_val;
-                            m.prepare_to = _myPreparation.join(",");
-                            m.practice_to = _myPractices.join(",");
-                            if(review_1 == null){
-                              setState(() {
-                                m.review_1 = 0;
-                              });
-                            }
-                            else{
-                              setState(() {
-                                m.review_1 = review_1;
-                              });
-                            }
-                            if(review_2 == null){
-                              setState(() {
-                                m.review_2 = 0;
-                              });
-                            }
-                            else{
-                              setState(() {
-                                m.review_2 = review_2;
-                              });
-                            }
-                            m.complete = int.parse(compController.text);
-                            var msg = await DBProvider.db.form_insert(m).then((value){
-                              if(value == "Success"){
-                                final snackBar = SnackBar(
-                                  content: Text('Inserted!'),
-                                );
-                                _scaffoldKey.currentState.showSnackBar(snackBar);
-                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                          if((compController.text == 1.toString() && actminController.text != "") || compController.text == 0.toString()){
+                            print(actminController.text);
+                            print(compController.text);
+                            if((learnController.text != "") && (estminController.text != "")
+                                && (subjectController.text != "")
+                                && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
+                                && (_myPractices.isNotEmpty)
+                            ){
+                              if(compController.text == ""){
+                                setState(() {
+                                  compController.text = 0.toString();
+                                });
+                              }
+                              form_model m = new form_model();
+                              m.learn_to = learnController.text;
+                              m.notes_to = notesController.text;
+                              m.Helpers_name = helpController.text;
+                              m.Course_name = subjectController.text;
+                              m.Color_name = colorController.text;
+                              if(actminController.text == ""){
+                                setState(() {
+                                  m.act_min = null;
+                                });
                               }
                               else{
-                                final snackBar = SnackBar(
-                                  content: Text(value.toString()),
-                                );
-                                _scaffoldKey.currentState.showSnackBar(snackBar);
+                                setState(() {
+                                  m.act_min = int.parse(actminController.text);
+                                });
                               }
-                            });
+                              m.est_min = int.parse(estminController.text);
+                              m.due_date = due_val;
+                              m.do_date = do_val;
+                              m.prepare_to = _myPreparation.join(",");
+                              m.practice_to = _myPractices.join(",");
+                              if(review_1 == null){
+                                setState(() {
+                                  m.review_1 = 0;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  m.review_1 = review_1;
+                                });
+                              }
+                              if(review_2 == null){
+                                setState(() {
+                                  m.review_2 = 0;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  m.review_2 = review_2;
+                                });
+                              }
+                              m.complete = int.parse(compController.text);
+                              var msg = await DBProvider.db.form_insert(m).then((value){
+                                if(value == "Success"){
+                                  final snackBar = SnackBar(
+                                    content: Text('Inserted!'),
+                                  );
+                                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                                }
+                                else{
+                                  final snackBar = SnackBar(
+                                    content: Text(value.toString()),
+                                  );
+                                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                                }
+                              });
+                            }
                           }
                         }
                         else{
-                          if((learnController.text != "") && (estminController.text != "")
-                              && (subjectController.text != "")
-                              && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
-                              && (_myPractices.isNotEmpty)
-                          ){
-                            form_model m = new form_model();
-                            m.id = widget.id;
-                            m.learn_to = learnController.text;
-                            m.notes_to = notesController.text;
-                            m.Helpers_name = helpController.text;
-                            m.Course_name = subjectController.text;
-                            m.Color_name = colorController.text;
-                            if(actminController.text == ""){
-                              setState(() {
-                                m.act_min = null;
-                              });
-                            }
-                            else{
-                              setState(() {
-                                m.act_min = int.parse(actminController.text);
-                              });
-                            }
-                            m.est_min = int.parse(estminController.text);
-                            m.due_date = due_val;
-                            m.do_date = do_val;
-                            m.prepare_to = _myPreparation.join(",");
-                            m.practice_to = _myPractices.join(",");
-                            if(review_1 == null){
-                              setState(() {
-                                m.review_1 = 0;
-                              });
-                            }
-                            else{
-                              setState(() {
-                                m.review_1 = review_1;
-                              });
-                            }
-                            if(review_2 == null){
-                              setState(() {
-                                m.review_2 = 0;
-                              });
-                            }
-                            else{
-                              setState(() {
-                                m.review_2 = review_2;
-                              });
-                            }
-                            m.complete = int.parse(compController.text);
-                            var msg = await DBProvider.db.Update_form(m).then((value){
-                              if(value == "Success"){
-                                final snackBar = SnackBar(
-                                  content: Text('Updated!'),
-                                );
-                                _scaffoldKey.currentState.showSnackBar(snackBar);
-                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                          if((compController.text == 1.toString() && actminController.text != "") || compController.text == 0.toString()){
+                            if((learnController.text != "") && (estminController.text != "")
+                                && (subjectController.text != "")
+                                && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
+                                && (_myPractices.isNotEmpty)
+                            ){
+                              form_model m = new form_model();
+                              m.id = widget.id;
+                              m.learn_to = learnController.text;
+                              m.notes_to = notesController.text;
+                              m.Helpers_name = helpController.text;
+                              m.Course_name = subjectController.text;
+                              m.Color_name = colorController.text;
+                              if(actminController.text == ""){
+                                setState(() {
+                                  m.act_min = null;
+                                });
                               }
                               else{
-                                final snackBar = SnackBar(
-                                  content: Text(value.toString()),
-                                );
-                                _scaffoldKey.currentState.showSnackBar(snackBar);
+                                setState(() {
+                                  m.act_min = int.parse(actminController.text);
+                                });
                               }
-                            });
+                              m.est_min = int.parse(estminController.text);
+                              m.due_date = due_val;
+                              m.do_date = do_val;
+                              m.prepare_to = _myPreparation.join(",");
+                              m.practice_to = _myPractices.join(",");
+                              if(review_1 == null){
+                                setState(() {
+                                  m.review_1 = 0;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  m.review_1 = review_1;
+                                });
+                              }
+                              if(review_2 == null){
+                                setState(() {
+                                  m.review_2 = 0;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  m.review_2 = review_2;
+                                });
+                              }
+                              m.complete = int.parse(compController.text);
+                              var msg = await DBProvider.db.Update_form(m).then((value){
+                                if(value == "Success"){
+                                  final snackBar = SnackBar(
+                                    content: Text('Updated!'),
+                                  );
+                                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                                }
+                                else{
+                                  final snackBar = SnackBar(
+                                    content: Text(value.toString()),
+                                  );
+                                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                                }
+                              });
+                            }
                           }
                         }
                       },

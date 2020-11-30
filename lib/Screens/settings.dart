@@ -76,157 +76,6 @@ class _SettingsState extends State<Settings> {
                     Center(child: Text("Settings",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
                   ],
                 ),
-                /*Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            child: TextField(
-                              controller: courseController,
-                              style: TextStyle(fontSize: 20.0),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(2.0),
-                                  ),
-                                  hintText: "Add Course",
-                                  fillColor: (positionController.text.isNotEmpty) ? bckcolor : Colors.white,
-                                  filled: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(2.0),
-                                    borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(252, 228, 219, 200.0),
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.fromLTRB(
-                                      20.0, 10.0, 20.0, 0.0),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                      borderSide: BorderSide(
-                                          color: Color.fromRGBO(
-                                              252, 228, 219, 200.0),
-                                          width: 3.0))),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 40,
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.add),
-                          color: Colors.white,
-                          onPressed: () {
-                            if (courseController.text != "" && positionController.text != "") {
-                              Settings_Stu newClient = new Settings_Stu();
-                              newClient.id = int.parse(positionController.text);
-                              newClient.Course_name = courseController.text;
-                              newClient.Color_name = Courses[int.parse(positionController.text) - 1];
-                              DBProvider.db.newSettings(newClient);
-                              getsettings = DBProvider.db.getAllSettings().then((value) => reset());
-                              setState(() {
-                                positionController.text = "";
-                                courseController.text = "";
-                              });
-                            }
-                          })
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 30,right: MediaQuery.of(context).size.width / 30),
-                  child: Row(
-                    children: [
-                      for(int i = 0 ; i < 10;i++) Expanded(
-                        child: GestureDetector(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height/20,
-                            color: Color(int.parse(Courses[i].toString())),
-                          ),
-                          onTap: (){
-                            setState(() {
-                              positionController.text = (i + 1).toString();
-                              colorchange(int.parse(Courses[i].toString()));
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            child: TextField(
-                              controller: helpController,
-                              style: TextStyle(fontSize: 20.0),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(2.0),
-                                  ),
-                                  hintText: "Helpers",
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(2.0),
-                                    borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(252, 228, 219, 200.0),
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.fromLTRB(
-                                      20.0, 10.0, 20.0, 0.0),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                      borderSide: BorderSide(
-                                          color: Color.fromRGBO(
-                                              252, 228, 219, 200.0),
-                                          width: 3.0))),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 40,
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.add),
-                          color: Colors.white,
-                          onPressed: () {
-                            if (helpController.text != "")
-                            {
-                              Help_Stu add_help = new Help_Stu();
-                              add_help.Helper_name = helpController.text;
-                              DBProvider.db.newHelp(add_help);
-                              reset();
-                              setState(() {
-                                helpController.text = "";
-                              });
-                            }
-                          })
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 40.0,
-                ),*/
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -324,7 +173,7 @@ class _SettingsState extends State<Settings> {
                             ),
                         child: Center(
                           child: Text(
-                            "User Guide",
+                            "Help",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
@@ -366,7 +215,7 @@ class _SettingsState extends State<Settings> {
   }
 
   _launchURL() async {
-    const url = 'https://www.PowerLearners.com/LearningLog/UserGuide/';
+    const url = 'http://powerlearners.com/AppHelp/';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -379,7 +228,7 @@ class _SettingsState extends State<Settings> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width / 2.7,
-          height: MediaQuery.of(context).size.height / 20,
+          height: MediaQuery.of(context).size.height / 25,
           color: Color(int.parse(cl)),
           child: TextFormField(
             initialValue: name,
@@ -416,7 +265,7 @@ class _SettingsState extends State<Settings> {
       children: [
         Container(
           width: MediaQuery.of(context).size.width / 2.7,
-          height: MediaQuery.of(context).size.height / 20,
+          height: MediaQuery.of(context).size.height / 25,
           child: TextFormField(
             initialValue: name,
             onChanged: (value){
@@ -454,7 +303,7 @@ class _SettingsState extends State<Settings> {
             builder: (context,setState){
             return AlertDialog(
               title: new Text("Delete"),
-              content: new Text("All Settings, Helpers and Assignment will be deleted"),
+              content: new Text("Delete All Assignments"),
               actions: <Widget>[
                 new FlatButton(
                   child: new Text("Yes"),

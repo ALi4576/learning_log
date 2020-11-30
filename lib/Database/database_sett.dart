@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -143,8 +142,6 @@ class DBProvider {
 //delete all
   Future<String> deleteall() async {
     final db = await database;
-    db.delete("Settings");
-    db.delete("Helpers");
     db.delete("Assign_Form");
     return "Deleted";
   }
@@ -247,7 +244,6 @@ class DBProvider {
     List<form_model> sorting = <form_model>[];
     if(list != null){
       for(int i = 0;i<list.length;i++){
-        String dates;
         var dayu = DateTime.now();
         String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
         var review1date = DateTime.fromMillisecondsSinceEpoch(list[i].review_1);
@@ -260,7 +256,8 @@ class DBProvider {
         int r1 = int.parse(rev1date);
         int r2 = int.parse(rev2date);
         int dd = int.parse(datedo);
-        if((list[i].complete == 1 && dd < tday) || (list[i].complete == 0 && dd < tday && (r1 < tday && r2 < tday)) || (list[i].complete == 0 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && (r1 < tday && r2 < tday))){
+        print(r1);
+        if((list[i].complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (list[i].complete == 1 && dd > tday && (r1 == 197011 && r2 == 197011)) || (list[i].complete == 1 && dd == tday && (r1 == 197011 && r2 == 197011)) ||(list[i].complete == 1 && dd < tday) || (list[i].complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && (r1 < tday && r2 < tday))){
           form_model fm = new form_model();
           fm.complete = list[i].complete;
           fm.do_date = list[i].do_date;
@@ -378,46 +375,6 @@ class DBProvider {
           //print(DateTime.fromMillisecondsSinceEpoch(fm.sort));
           sorting.add(fm);
         }
-        /*else if(list[i].complete == 1 && list[i].review_1 >= DateTime.now().millisecondsSinceEpoch && list[i].review_2 == 0){
-        form_model fm = new form_model();
-        fm.complete = 1;
-        fm.do_date = list[i].do_date;
-        fm.review_1 = list[i].review_1;
-        fm.review_2 = list[i].review_2;
-        fm.act_min = list[i].act_min;
-        fm.Course_name = list[i].Course_name;
-        fm.Color_name = list[i].Color_name;
-        fm.id = list[i].id;
-        fm.notes_to = list[i].notes_to;
-        fm.due_date = list[i].due_date;
-        fm.est_min = list[i].est_min;
-        fm.learn_to = list[i].learn_to;
-        fm.prepare_to = list[i].prepare_to;
-        fm.practice_to = list[i].practice_to;
-        fm.Helpers_name = list[i].Helpers_name;
-        fm.sort = list[i].review_1;
-        sorting.add(fm);
-      }
-      else if(list[i].complete == 1 && list[i].review_2 >= DateTime.now().millisecondsSinceEpoch && list[i].review_1 == 0){
-        form_model fm = new form_model();
-        fm.complete = 1;
-        fm.do_date = list[i].do_date;
-        fm.review_1 = list[i].review_1;
-        fm.review_2 = list[i].review_2;
-        fm.act_min = list[i].act_min;
-        fm.Course_name = list[i].Course_name;
-        fm.Color_name = list[i].Color_name;
-        fm.id = list[i].id;
-        fm.notes_to = list[i].notes_to;
-        fm.due_date = list[i].due_date;
-        fm.est_min = list[i].est_min;
-        fm.learn_to = list[i].learn_to;
-        fm.prepare_to = list[i].prepare_to;
-        fm.practice_to = list[i].practice_to;
-        fm.Helpers_name = list[i].Helpers_name;
-        fm.sort = list[i].review_2;
-        sorting.add(fm);
-      }*/
         else if(list[i].complete == 1 && (r1 >= tday && r2 >= tday)){
           form_model fm = new form_model();
           if(list[i].review_1 >= list[i].review_2){

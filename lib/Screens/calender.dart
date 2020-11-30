@@ -22,7 +22,7 @@ class _CalenderState extends State<Calender> {
   bool exp = false;
   String _verticalGroupValue;
 
-  List<String> _status = ["History", "Todo only"];
+  List<String> _status = ["History", "ToDo"];
   var rev = " ";
   Future event_details_due;
   Future event_details_his;
@@ -124,7 +124,7 @@ class _CalenderState extends State<Calender> {
                   height: MediaQuery.of(context).size.height/1.2,
                   child: Column(
                     children: [
-                      (_verticalGroupValue == "Todo only") ? FutureBuilder<List<form_model>>(
+                      (_verticalGroupValue == "ToDo") ? FutureBuilder<List<form_model>>(
                         future: event_details_due,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -238,7 +238,7 @@ class _CalenderState extends State<Calender> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        ((r1 < tday && r2 < tday && dd < tday) && ((item.complete == 1 && dd < tday) || (item.complete == 0 && dd < tday && (r1 < tday && r2 < tday)) || (item.complete == 0 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && (r1 < tday && r2 < tday)))) ? Dismissible(
+                                        ((item.complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (item.complete == 1 && dd > tday && (r1 == 197011 && r2 == 197011)) || (item.complete == 1 && dd == tday && (r1 == 197011  && r2 == 197011 )) || (r1 < tday && r2 < tday && dd < tday) && ((item.complete == 1 && dd < tday) || (item.complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && (r1 < tday && r2 < tday)))) ? Dismissible(
                                           key: Key(item.id.toString()),
                                           background: Container(color: Colors.greenAccent),
                                           onDismissed: (direction) {
@@ -282,21 +282,24 @@ class _CalenderState extends State<Calender> {
     Color bordercolor = Colors.black;
     var width = 1.0;
 
-    if(dd < tday && complete == 0){
+    /*if(dd < tday && complete == 0){
       backcolor = Colors.white;
       bordercolor = Colors.red;
       width = 3.0;
-    }
-    else if(dd == tday && complete == 0){
+    }*/
+    /*if(dd == tday && complete == 0){
       backcolor = Colors.white;
-    }
-    else if(((r1 > 0 || r2 > 0) && ((r1 == tday && complete == 1) || (r2 == tday && complete == 1)))){
+    }*/
+    if(((r1 > 0 || r2 > 0) && ((r1 == tday && complete == 1) || (r2 == tday && complete == 1)))){
       backcolor = Color.fromRGBO(216, 215, 225, 1.0);
     }
     else if(complete == 1 && ((dd < tday && (r1 < tday && r2 < tday)))){
       backcolor = Color.fromRGBO(216, 215, 225, 1.0);
     }
     else if(dd == tday && complete == 1){
+      backcolor = Color.fromRGBO(216, 215, 225, 1.0);
+    }
+    else if((complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (complete == 1 && dd > tday && (r1 == 197011 && r2 == 197011))){
       backcolor = Color.fromRGBO(216, 215, 225, 1.0);
     }
 
@@ -340,7 +343,7 @@ class _CalenderState extends State<Calender> {
                         width: MediaQuery.of(context).size.width/12,
                         height: MediaQuery.of(context).size.height/30,
                         child: Center(
-                          child: (complete == 1 && (review_1 > 0  || review_2 > 0)) ? Container(
+                          child: (complete == 1) ? Container(
                             height: MediaQuery.of(context).size.height/40,
                             width: MediaQuery.of(context).size.width/6,
                             child: Checkbox(
@@ -653,7 +656,6 @@ class _CalenderState extends State<Calender> {
                   ],
                 );}
           );
-
         }
     );
   }
