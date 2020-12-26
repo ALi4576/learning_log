@@ -78,27 +78,42 @@ class _CalenderState extends State<Calender> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Power Learners Guide",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),),
-                      Row(
-                        children: [
-                          IconButton(icon: Icon(Icons.add), onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>
-                                  AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_1: 0, review_2: 0, notes_to: "",show_todo: _verticalGroupValue,)),
-                            ).then((value) => {
-                              reset_state()
-                            });
-                          }),
-                          IconButton(icon: Icon(Icons.settings), onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Settings()),
-                            ).then((value) => {
-                              reset_state()
-                            });
-                          })
-                        ],
+                      Container(
+                        width: MediaQuery.of(context).size.width/1.5,
+                        child: Row(
+                         children: [
+                           Text("Power Learners ",style: TextStyle(
+                               fontSize: (MediaQuery.of(context).textScaleFactor > 1) ? (22.0 - MediaQuery.of(context).textScaleFactor) : 21.0,
+                               fontWeight: FontWeight.w500),),
+                           Text("Calendar",style: TextStyle(
+                               fontSize: (MediaQuery.of(context).textScaleFactor > 1) ? (20.0 - MediaQuery.of(context).textScaleFactor) : 20.0,
+                               fontWeight: FontWeight.w500),)
+                         ],
+                       )
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width/3.6,
+                        child: Row(
+                          children: [
+                            IconButton(icon: Icon(Icons.add), onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>
+                                    AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_1: 0, review_2: 0, notes_to: "",show_todo: _verticalGroupValue,)),
+                              ).then((value) => {
+                                reset_state()
+                              });
+                            }),
+                            IconButton(icon: Icon(Icons.settings), onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Settings()),
+                              ).then((value) => {
+                                reset_state()
+                              });
+                            })
+                          ],
+                        ),
                       )
                     ],
                   ),
