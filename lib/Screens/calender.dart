@@ -69,219 +69,220 @@ class _CalenderState extends State<Calender> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
+          height: MediaQuery.of(context).size.height,
           color: Color.fromRGBO(183, 181, 199, 1.0),
-          child: Padding(
-            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height/20),
-            child: Column(
-              children: [
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width/1.5,
-                        child: Row(
-                         children: [
-                           Text("Power Learners ",style: TextStyle(
+          child: ListView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width/1.5,
+                      child: Row(
+                       children: [
+                         Flexible(
+                           child: Text("Power Learners Calendar",style: TextStyle(
                                fontSize: (MediaQuery.of(context).textScaleFactor > 1) ? (22.0 - MediaQuery.of(context).textScaleFactor) : 21.0,
                                fontWeight: FontWeight.w500),),
-                           Text("Calendar",style: TextStyle(
-                               fontSize: (MediaQuery.of(context).textScaleFactor > 1) ? (20.0 - MediaQuery.of(context).textScaleFactor) : 20.0,
-                               fontWeight: FontWeight.w500),)
-                         ],
-                       )
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width/3.6,
-                        child: Row(
-                          children: [
-                            IconButton(icon: Icon(Icons.add), onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>
-                                    AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_1: 0, review_2: 0, notes_to: "",show_todo: _verticalGroupValue,)),
-                              ).then((value) => {
-                                reset_state()
-                              });
-                            }),
-                            IconButton(icon: Icon(Icons.settings), onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Settings()),
-                              ).then((value) => {
-                                reset_state()
-                              });
-                            })
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RadioGroup<String>.builder(
-                      direction: Axis.horizontal,
-                      groupValue: _verticalGroupValue,
-                      onChanged: (value) => setState(() {
-                        _verticalGroupValue = value;
-                        reset_state();
-                      }),
-                      items: _status,
-                      itemBuilder: (item) => RadioButtonBuilder(
-                        item,
-                      ),
+                         ),
+/*                           Text("Calendar",style: TextStyle(
+                             fontSize: (MediaQuery.of(context).textScaleFactor > 1) ? (20.0 - MediaQuery.of(context).textScaleFactor) : 20.0,
+                             fontWeight: FontWeight.w500),)*/
+                       ],
+                     )
                     ),
+                    Container(
+                      width: MediaQuery.of(context).size.width/3.6,
+                      child: Row(
+                        children: [
+                          IconButton(icon: Icon(Icons.add), onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+                                  AssignemntForm(id: null,Course_name: "",Color_name: "",Helpers_name: "", learn_to: "", prepare_to: "", practice_to: "", do_date: 0, due_date: 0, est_min: 0, act_min: 0, review_1: 0, review_2: 0, notes_to: "",show_todo: _verticalGroupValue,)),
+                            ).then((value) => {
+                              reset_state()
+                            });
+                          }),
+                          IconButton(icon: Icon(Icons.settings), onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Settings()),
+                            ).then((value) => {
+                              reset_state()
+                            });
+                          })
+                        ],
+                      ),
+                    )
                   ],
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height/1.2,
-                  child: Column(
-                    children: [
-                      (_verticalGroupValue == "ToDo") ? FutureBuilder<List<form_model>>(
-                        future: event_details_due,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height / 1.27,
-                              child: ListView.builder(
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  form_model item = snapshot.data[index];
-                                  DateTime d = DateTime.fromMillisecondsSinceEpoch(item.sort);
-                                  String date = d.month.toString() + d.day.toString() + d.year.toString();
-                                  String dates;
-                                  var dayu = DateTime.now();
-                                  String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
-                                  var review1date = DateTime.fromMillisecondsSinceEpoch(item.review_1);
-                                  String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
-                                  var review2date = DateTime.fromMillisecondsSinceEpoch(item.review_2);
-                                  String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
-                                  var dodate = DateTime.fromMillisecondsSinceEpoch(item.do_date);
-                                  String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
-                                  int tday = int.parse(today);
-                                  int r1 = int.parse(rev1date);
-                                  int r2 = int.parse(rev2date);
-                                  int dd = int.parse(datedo);
-                                  if(index > 0) {
-                                    DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].sort);
-                                    dates = e.month.toString() + e.day.toString() + e.year.toString();
-                                  }
-                                  return Container(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        if(index == 0)
-                                          Padding(
-                                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/70,left: MediaQuery.of(context).size.width/50),
-                                            child: Text("Today: "+ DateFormat('EEEE, d MMM, yyyy').format(DateTime.now()).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
-                                          ),
-                                        ((item.complete == 0 && dd < tday) || (item.complete == 0 && dd == tday) || (item.complete == 1 && (r1 == tday || r2 == tday))) ? Dismissible(
-                                          key: Key(item.id.toString()),
-                                          background: Container(color: Colors.greenAccent),
-                                          onDismissed: (direction) {
-                                            setState(() {
-                                              snapshot.data.removeAt(index);
-                                            });
-                                            _showDialog(item.id,item.Course_name);
-                                          },
-                                          child: Display_todo_Today(tday,r1,r2,dd,date, dates, item.id, item.Course_name, item.Color_name,
-                                              item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
-                                              item.review_2, item.notes_to, item.complete,item.sort),
-                                        ) : Container(),
-                                        ((item.complete == 0 && dd > tday) || (item.complete == 1 && ((r1 > tday && r2 != tday) || (r2 > tday && r1 != tday)) && (r1 != tday && r2 != tday))) ? Dismissible(
-                                          key: Key(item.id.toString()),
-                                          background: Container(color: Colors.greenAccent),
-                                          onDismissed: (direction) {
-                                            setState(() {
-                                              snapshot.data.removeAt(index);
-                                            });
-                                            _showDialog(item.id,item.Course_name);
-                                          },
-                                          child: Display(date, dates, item.id, item.Course_name, item.Color_name,
-                                              item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
-                                              item.review_2, item.notes_to, item.complete ,item.sort),
-                                        ) : Container(),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ) : Container(),
-                      (_verticalGroupValue == "History") ? FutureBuilder<List<form_model>>(
-                        future: event_details_his,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            snapshot.data.sort((a,b) => a.due_date.compareTo(b.due_date));
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height / 1.27,
-                              child: ListView.builder(
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  form_model item = snapshot.data[index];
-                                  DateTime d = DateTime.fromMillisecondsSinceEpoch(item.due_date);
-                                  String date = d.month.toString() + "/" + d.day.toString() + "/" + d.year.toString();
-                                  String dates;
-                                  var dayu = DateTime.now();
-                                  String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
-                                  var review1date = DateTime.fromMillisecondsSinceEpoch(item.review_1);
-                                  String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
-                                  var review2date = DateTime.fromMillisecondsSinceEpoch(item.review_2);
-                                  String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
-                                  var dodate = DateTime.fromMillisecondsSinceEpoch(item.do_date);
-                                  String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
-                                  int tday = int.parse(today);
-                                  int r1 = int.parse(rev1date);
-                                  int r2 = int.parse(rev2date);
-                                  int dd = int.parse(datedo);
-                                  if(index > 0) {
-                                    DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].due_date);
-                                    dates = e.month.toString() +
-                                        "/" + e.day.toString() + "/" +
-                                        e.year.toString();
-                                  }
-                                  return Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        ((item.complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (item.complete == 1 && dd > tday && (r1 == 197011 && r2 == 197011)) || (item.complete == 1 && dd == tday && (r1 == 197011  && r2 == 197011 )) || (r1 < tday && r2 < tday && dd < tday) && ((item.complete == 1 && dd < tday) || (item.complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && (r1 < tday && r2 < tday)))) ? Dismissible(
-                                          key: Key(item.id.toString()),
-                                          background: Container(color: Colors.greenAccent),
-                                          onDismissed: (direction) {
-                                            setState(() {
-                                              snapshot.data.removeAt(index);
-                                            });
-                                            _showDialog(item.id,item.Course_name);
-                                          },
-                                          child: Display_show_all(tday,r1,r2,dd,date, dates, item.id, item.Course_name, item.Color_name,
-                                              item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
-                                              item.review_2, item.notes_to, item.complete),
-                                        ) : Container(height: 0.0,),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ) : Container(),
-                    ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RadioGroup<String>.builder(
+                    direction: Axis.horizontal,
+                    groupValue: _verticalGroupValue,
+                    onChanged: (value) => setState(() {
+                      _verticalGroupValue = value;
+                      reset_state();
+                    }),
+                    items: _status,
+                    itemBuilder: (item) => RadioButtonBuilder(
+                      item,
+                    ),
                   ),
-                )
-              ],
-            ),
+                ],
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height/1.2,
+                child: Column(
+                  children: [
+                    (_verticalGroupValue == "ToDo") ? FutureBuilder<List<form_model>>(
+                      future: event_details_due,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height / 1.22,
+                            child: ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                form_model item = snapshot.data[index];
+                                DateTime d = DateTime.fromMillisecondsSinceEpoch(item.sort);
+                                String date = d.month.toString() + d.day.toString() + d.year.toString();
+                                String dates;
+                                var dayu = DateTime.now();
+                                String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
+                                var review1date = DateTime.fromMillisecondsSinceEpoch(item.review_1);
+                                String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
+                                var review2date = DateTime.fromMillisecondsSinceEpoch(item.review_2);
+                                String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
+                                var dodate = DateTime.fromMillisecondsSinceEpoch(item.do_date);
+                                String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
+                                int tday = int.parse(today);
+                                int r1 = int.parse(rev1date);
+                                int r2 = int.parse(rev2date);
+                                int dd = int.parse(datedo);
+                                if(index > 0) {
+                                  DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].sort);
+                                  dates = e.month.toString() + e.day.toString() + e.year.toString();
+                                }
+                                return Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if(index == 0)
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/70,left: MediaQuery.of(context).size.width/50),
+                                          child: Text("Today: "+ DateFormat('EEEE, d MMM, yyyy').format(DateTime.now()).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
+                                        ),
+                                      ((item.complete == 0 && dd < tday) || (item.complete == 0 && dd == tday) || (item.complete == 1 && (r1 == tday || r2 == tday))) ? Dismissible(
+                                        key: Key(item.id.toString()),
+                                        background: Container(color: Colors.greenAccent),
+                                        onDismissed: (direction) {
+                                          setState(() {
+                                            snapshot.data.removeAt(index);
+                                          });
+                                          _showDialog(item.id,item.Course_name);
+                                        },
+                                        child: Display_todo_Today(tday,r1,r2,dd,date, dates, item.id, item.Course_name, item.Color_name,
+                                            item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
+                                            item.review_2, item.notes_to, item.complete,item.sort),
+                                      ) : Container(),
+                                      ((item.complete == 0 && dd > tday) || (item.complete == 1 && ((r1 > tday && r2 != tday) || (r2 > tday && r1 != tday)) && (r1 != tday && r2 != tday))) ? Dismissible(
+                                        key: Key(item.id.toString()),
+                                        background: Container(color: Colors.greenAccent),
+                                        onDismissed: (direction) {
+                                          setState(() {
+                                            snapshot.data.removeAt(index);
+                                          });
+                                          _showDialog(item.id,item.Course_name);
+                                        },
+                                        child: Display(date, dates, item.id, item.Course_name, item.Color_name,
+                                            item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
+                                            item.review_2, item.notes_to, item.complete ,item.sort),
+                                      ) : Container(),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ) : Container(),
+                    (_verticalGroupValue == "History") ? FutureBuilder<List<form_model>>(
+                      future: event_details_his,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          snapshot.data.sort((a,b) => a.due_date.compareTo(b.due_date));
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height / 1.22,
+                            child: ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                form_model item = snapshot.data[index];
+                                DateTime d = DateTime.fromMillisecondsSinceEpoch(item.due_date);
+                                String date = d.month.toString() + "/" + d.day.toString() + "/" + d.year.toString();
+                                String dates;
+                                var dayu = DateTime.now();
+                                String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
+                                var review1date = DateTime.fromMillisecondsSinceEpoch(item.review_1);
+                                String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
+                                var review2date = DateTime.fromMillisecondsSinceEpoch(item.review_2);
+                                String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
+                                var dodate = DateTime.fromMillisecondsSinceEpoch(item.do_date);
+                                String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
+                                int tday = int.parse(today);
+                                int r1 = int.parse(rev1date);
+                                int r2 = int.parse(rev2date);
+                                int dd = int.parse(datedo);
+                                if(index > 0) {
+                                  DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].due_date);
+                                  dates = e.month.toString() +
+                                      "/" + e.day.toString() + "/" +
+                                      e.year.toString();
+                                }
+                                return Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ((item.complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (item.complete == 1 && dd > tday && (r1 == 197011 && r2 == 197011)) || (item.complete == 1 && dd == tday && (r1 == 197011  && r2 == 197011 )) || (r1 < tday && r2 < tday && dd < tday) && ((item.complete == 1 && dd < tday) || (item.complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (item.complete == 1 && (r1 < tday && r2 < tday)))) ? Dismissible(
+                                        key: Key(item.id.toString()),
+                                        background: Container(color: Colors.greenAccent),
+                                        onDismissed: (direction) {
+                                          setState(() {
+                                            snapshot.data.removeAt(index);
+                                          });
+                                          _showDialog(item.id,item.Course_name);
+                                        },
+                                        child: Display_show_all(tday,r1,r2,dd,date, dates, item.id, item.Course_name, item.Color_name,
+                                            item.Helpers_name, item.learn_to, item.prepare_to, item.practice_to, item.do_date, item.due_date, item.est_min, item.act_min, item.review_1,
+                                            item.review_2, item.notes_to, item.complete),
+                                      ) : Container(height: 0.0,),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ) : Container(),
+                  ],
+                ),
+              )
+            ],
           ),
         )
     );
