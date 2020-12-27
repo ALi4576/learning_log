@@ -59,155 +59,158 @@ class _SettingsState extends State<Settings> {
           color: Color.fromRGBO(183, 181, 199, 1.0),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 15),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                        icon: Icon(Icons.keyboard_backspace),
-                        color: Colors.white,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        }),
-                    SizedBox(width: MediaQuery.of(context).size.width/4.4,),
-                    Center(child: Text("Settings",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Courses",
-                      style: TextStyle(
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 15),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButton(
+                          icon: Icon(Icons.keyboard_backspace),
                           color: Colors.white,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    Text(
-                      "Helpers",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
-                Container(
-                  child: Expanded(
-                    child: ListView(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 10),
-                              child: FutureBuilder<List<Settings_Stu>>(
-                                future: getsettings,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width / 2.7,
-                                      height: MediaQuery.of(context).size.height / 2,
-                                      child: ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: 10,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          Settings_Stu item = snapshot.data[index];
-                                          courseController.text = item.Course_name;
-                                          return courses(item.Color_name, item.Course_name, item.id);
-                                        },
-                                      ),
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                },
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
+                      SizedBox(width: MediaQuery.of(context).size.width/4.4,),
+                      Center(child: Text("Settings",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Courses",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        "Helpers",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    child: Expanded(
+                      child: ListView(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width / 10),
+                                child: FutureBuilder<List<Settings_Stu>>(
+                                  future: getsettings,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Container(
+                                        width: MediaQuery.of(context).size.width / 2.7,
+                                        height: MediaQuery.of(context).size.height / 2,
+                                        child: ListView.builder(
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: 10,
+                                          itemBuilder: (BuildContext context, int index) {
+                                            Settings_Stu item = snapshot.data[index];
+                                            courseController.text = item.Course_name;
+                                            return courses(item.Color_name, item.Course_name, item.id);
+                                          },
+                                        ),
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 10),
-                              child: FutureBuilder<List<Help_Stu>>(
-                                future: gethelp,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width / 2.7,
-                                      height: MediaQuery.of(context).size.height / 2,
-                                      child: ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: 10,
-                                        itemBuilder: (BuildContext context, int index) {
-                                            Help_Stu item = snapshot.data[index];
-                                            return helpers(item.Helper_name, item.id);
-                                        },
-                                      ),
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                },
+                              Padding(
+                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 10),
+                                child: FutureBuilder<List<Help_Stu>>(
+                                  future: gethelp,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Container(
+                                        width: MediaQuery.of(context).size.width / 2.7,
+                                        height: MediaQuery.of(context).size.height / 2,
+                                        child: ListView.builder(
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: 10,
+                                          itemBuilder: (BuildContext context, int index) {
+                                              Help_Stu item = snapshot.data[index];
+                                              return helpers(item.Helper_name, item.id);
+                                          },
+                                        ),
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2.2,
-                      height: MediaQuery.of(context).size.height/10.5,
-                      padding: EdgeInsets.all(10.0),
-                      child: RaisedButton(
-                        onPressed: _launchURL,
-                        color: Color.fromRGBO(28, 136, 229, 1.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.2,
+                        height: MediaQuery.of(context).size.height/10.5,
+                        padding: EdgeInsets.all(10.0),
+                        child: RaisedButton(
+                          onPressed: _launchURL,
+                          color: Color.fromRGBO(28, 136, 229, 1.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                              ),
+                          child: Center(
+                            child: Text(
+                              "Help",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w600),
                             ),
-                        child: Center(
-                          child: Text(
-                            "Help",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2.2,
-                      height: MediaQuery.of(context).size.height/10.5,
-                      padding: EdgeInsets.all(10.0),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _showDialog();
-                        },
-                        color: Color.fromRGBO(28, 136, 229, 1.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(20.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Delete All Assignments",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w600),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.2,
+                        height: MediaQuery.of(context).size.height/10.5,
+                        padding: EdgeInsets.all(10.0),
+                        child: RaisedButton(
+                          onPressed: () {
+                            _showDialog();
+                          },
+                          color: Color.fromRGBO(28, 136, 229, 1.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Delete All Assignments",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           )
       ),

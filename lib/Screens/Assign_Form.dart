@@ -226,726 +226,177 @@ class _AssignemntFormState extends State<AssignemntForm> {
         color: Color.fromRGBO(183, 181, 199, 1.0),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height/32.0,left:MediaQuery.of(context).size.width/22.0,right:MediaQuery.of(context).size.width/22.0),
-          child: ListView(
-            children: [
-              Center(child: Text("Learning Plan",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("Course",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
-                        ],
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width/2.3,
-                        height: MediaQuery.of(context).size.height/25,
-                        child: FormField(
-                          builder: (FormFieldState state) {
-                            return DropdownButtonHideUnderline(
-                              child: new InputDecorator(
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                    ),
-                                    fillColor: (_dropdownValue != null) ? Color(int.parse(_dropdownValue.Color_name)) : Colors.white,
-                                    filled: true,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                      borderSide: BorderSide(
-                                        color: Color.fromRGBO(252, 228, 219, 200.0),
-                                      ),
-                                    ),
-                                    contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
-                                        borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
-                                ),
-                                isEmpty: subjectController == null,
-                                child: new DropdownButton<Settings_Stu>(
-                                  value: _dropdownValue,
-                                  isDense: true,
-                                  onChanged: (Settings_Stu newValue) {
-                                    setState(() {
-                                      if(newValue.Course_name != null || newValue.Course_name != ""){
-                                        subjectController.text = newValue.Course_name;
-                                        colorController.text = newValue.Color_name;
-                                        _dropdownValue = newValue;
-                                      }
-                                    });
-                                  },
-                                  items: (_dropdownValue != null) ? _subjects.map((Settings_Stu value) {
-                                    return DropdownMenuItem<Settings_Stu>(
-                                      value: value,
-                                      child: Container(
-                                        width: MediaQuery.of(context).size.width/4,
-                                        child: Row(
-                                          children: [
-                                            Expanded(child: Text(value.Course_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)),
-                                          ],
-                                        ),
-                                      )
-                                    );
-                                  }).toList() : null
-                                ),
-                              ),
-                            );
-                          },
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: Padding(
+            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height/32.0,left:MediaQuery.of(context).size.width/22.0,right:MediaQuery.of(context).size.width/22.0),
+            child: ListView(
+              children: [
+                Center(child: Text("Learning Plan",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500),)),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("Course",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                            Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                          ],
                         ),
-                      ),
-                      if(sub == false)
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width/20.0,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Helpers",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                      Container(
-                        width: MediaQuery.of(context).size.width/2.4,
-                        height: MediaQuery.of(context).size.height/25,
-                        child: FormField(
-                          builder: (FormFieldState state) {
-                            return DropdownButtonHideUnderline(
-                              child: new InputDecorator(
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                    ),
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                      borderSide: BorderSide(
-                                        color: Color.fromRGBO(252, 228, 219, 200.0),
+                        Container(
+                          width: MediaQuery.of(context).size.width/2.3,
+                          height: MediaQuery.of(context).size.height/25,
+                          child: FormField(
+                            builder: (FormFieldState state) {
+                              return DropdownButtonHideUnderline(
+                                child: new InputDecorator(
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2.0),
                                       ),
-                                    ),
-                                    contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                                    enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
-                                        borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
-                                ),
-                                child: new DropdownButton<Help_Stu>(
-                                    value: _dropHelpValue,
+                                      fillColor: (_dropdownValue != null) ? Color(int.parse(_dropdownValue.Color_name)) : Colors.white,
+                                      filled: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2.0),
+                                        borderSide: BorderSide(
+                                          color: Color.fromRGBO(252, 228, 219, 200.0),
+                                        ),
+                                      ),
+                                      contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
+                                      enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
+                                          borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
+                                  ),
+                                  isEmpty: subjectController == null,
+                                  child: new DropdownButton<Settings_Stu>(
+                                    value: _dropdownValue,
                                     isDense: true,
-                                    onChanged: (Help_Stu newValue) {
+                                    onChanged: (Settings_Stu newValue) {
                                       setState(() {
-                                        if(newValue.Helper_name != null || newValue.Helper_name != ""){
-                                          helpController.text = newValue.Helper_name;
-                                          _dropHelpValue = newValue;
+                                        if(newValue.Course_name != null || newValue.Course_name != ""){
+                                          subjectController.text = newValue.Course_name;
+                                          colorController.text = newValue.Color_name;
+                                          _dropdownValue = newValue;
+                                          sub = true;
                                         }
                                       });
                                     },
-                                    items: (_dropHelpValue != null) ? _helpers.map((Help_Stu value) {
-                                      return DropdownMenuItem<Help_Stu>(
+                                    items: (_dropdownValue != null) ? _subjects.map((Settings_Stu value) {
+                                      return DropdownMenuItem<Settings_Stu>(
                                         value: value,
                                         child: Container(
-                                          width: MediaQuery.of(context).size.width/3.5,
+                                          width: MediaQuery.of(context).size.width/4,
                                           child: Row(
                                             children: [
-                                              Expanded(child: Text(value.Helper_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)),
+                                              Expanded(child: Text(value.Course_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)),
                                             ],
                                           ),
-                                        ),
+                                        )
                                       );
                                     }).toList() : null
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("Learn To",style: TextStyle(color: Colors.white,fontSize: 18.0)),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
-                        ],
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height/25,
-                        width: MediaQuery.of(context).size.width/1.11,
-                        child: TextField(
-                          controller: learnController,
-                          style: TextStyle(fontSize: 20.0),
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                              ),
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                                borderSide: BorderSide(
-                                  color: Color.fromRGBO(252, 228, 219, 200.0),
-                                ),
-                              ),
-                              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                              enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
-                                  borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
-                          ),
-                        ),
-                      ),
-                      if(learn == false)
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("Prepare",style: TextStyle(color: Colors.white,fontSize: 18.0)),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
-                        ],
-                      ),
-                      Container(
-                        height: (_myPreparation.length < 4) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5.5,
-                        width: MediaQuery.of(context).size.width/1.11,
-                        child: ListView(
-                          physics: NeverScrollableScrollPhysics(),
-                          children: [
-                            MultiSelectFormField(
-                              autovalidate: false,
-                              title: Container(),
-                              chipBackGroundColor: Color.fromRGBO(255, 97, 102, 1.0),
-                              chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 14.0),
-                              checkBoxActiveColor: Colors.red,
-                              checkBoxCheckColor: Colors.white,
-                              dialogTextStyle: TextStyle(fontSize: 22.0),
-                              dialogShapeBorder: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                              dataSource: [
-                                {
-                                  "display": "Class",
-                                  "value": "Class",
-                                },
-                                {
-                                  "display": "List",
-                                  "value": "List",
-                                },
-                                {
-                                  "display": "Read",
-                                  "value": "Read",
-                                },
-                                {
-                                  "display": "Video",
-                                  "value": "Video",
-                                },
-                                {
-                                  "display": "Demo",
-                                  "value": "Demo",
-                                },
-                                {
-                                  "display": "Discuss",
-                                  "value": "Discuss",
-                                },
-                                {
-                                  "display": "Summarize",
-                                  "value": "Summarize",
-                                },
-                                {
-                                  "display": "Draw Diagram",
-                                  "value": "Draw Diagram",
-                                },
-                                {
-                                  "display": "Flashcards",
-                                  "value": "Flashcards",
-                                },
-                                {
-                                  "display": "Outline",
-                                  "value": "Outline",
-                                },
-                              ],
-                              hintWidget: Text("Select one or more entries from dropdown list ",style: TextStyle(fontSize: 20.0),),
-                              textField: 'display',
-                              valueField: 'value',
-                              okButtonLabel: 'OK',
-                              cancelButtonLabel: 'CANCEL',
-                              initialValue: _myPreparation,
-                              onSaved: (value) {
-                                if (value == null) return null;
-                                setState(() {
-                                  _myPreparation = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(prep == false)
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("Practice",style: TextStyle(color: Colors.white,fontSize: 18.0)),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
-                        ],
-                      ),
-                      Container(
-                        height: (_myPractices.length < 3) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5.5,
-                        width: MediaQuery.of(context).size.width/1.11,
-                        child: ListView(
-                          physics: NeverScrollableScrollPhysics(),
-                          children: [
-                            MultiSelectFormField(
-                              autovalidate: false,
-                              chipBackGroundColor: Color(0xFF66DC82),
-                              dialogTextStyle: TextStyle(fontSize: 20.0),
-                              chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize:(_myPractices.length < 3) ? 12.0 : 14.0),
-                              checkBoxActiveColor: Color(0xFF66DC82),
-                              checkBoxCheckColor: Colors.black,
-                              title: Container(),
-                              dialogShapeBorder: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                              dataSource: [
-                                {
-                                  "display": "Answer Orally",
-                                  "value": "Answer Orally",
-                                },
-                                {
-                                  "display": "Short answers",
-                                  "value": "Short answers",
-                                },
-                                {
-                                  "display": "Essay answers",
-                                  "value": "Essay answers",
-                                },
-                                {
-                                  "display": "Solve problems",
-                                  "value": "Solve problems",
-                                },
-                                {
-                                  "display": "Memorize",
-                                  "value": "Memorize",
-                                },
-                                {
-                                  "display": "Flashcard drill",
-                                  "value": "Flashcard drill",
-                                },
-                                {
-                                  "display": "Write essay or paper",
-                                  "value": "Write essay or paper",
-                                },
-                                {
-                                  "display": "Describe or discuss",
-                                  "value": "Describe or discuss",
-                                },
-                                {
-                                  "display": "Write new language",
-                                  "value": "Write new language",
-                                },
-                                {
-                                  "display": "Read new language",
-                                  "value": "Read new language",
-                                },
-                                {
-                                  "display": "Speak new language",
-                                  "value": "Speak new language",
-                                },
-                                {
-                                  "display": "Listen new language",
-                                  "value": "Listen new language",
-                                },
-                              ],
-                              hintWidget: Text("Select one or more entries from dropdown list ",style: TextStyle(fontSize: 20.0),),
-                              textField: 'display',
-                              valueField: 'value',
-                              okButtonLabel: 'OK',
-                              cancelButtonLabel: 'CANCEL',
-                              initialValue: _myPractices,
-                              onSaved: (value) {
-                                if (value == null) return;
-                                setState(() {
-                                  _myPractices = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(prac == false)
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("Do Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
-                        ],
-                      ),
-                      GestureDetector(
-                        child: (do_val == 0)  ? Container(
-                          height: MediaQuery.of(context).size.height/25,
-                          width: MediaQuery.of(context).size.width/2.3,
-                          color: Colors.white,
-                          child: DateTimePicker(
-                            initialValue: '',
-                            style: TextStyle(fontSize: 18.0),
-                            textAlignVertical: TextAlignVertical.center,
-                            textAlign: TextAlign.center,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100),
-                            dateLabelText: '',
-                            dateMask: 'MM-dd-yyyy',
-                            onChanged: (date){
-                              var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
-                              int i = dateTime1.millisecondsSinceEpoch;
-                              setState(() {
-                                var b = DateTime.fromMillisecondsSinceEpoch(i);
-                                _dodate = '${b.month}/${b.day}/${b.year}';
-                                doController.text = _dodate;
-                                do_val = i;
-                              });
-                            },
-                            onSaved: (date){
-                              var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
-                              int i = dateTime1.millisecondsSinceEpoch;
-                              setState(() {
-                                doController.text = _dodate;
-                                do_val = i;
-                              });
+                              );
                             },
                           ),
-                        ) : Container(
-                            height: MediaQuery.of(context).size.height/25,
-                            width: MediaQuery.of(context).size.width/2.4,
-                            color: Colors.white,
-                            child: Center(child: Text(_dodate,style: TextStyle(fontSize: 18.0),))),
-                        onTap: (){
-                          setState(() {
-                            do_val = 0;
-                          });
-                        },
-                      ),
-                      if(dod == false)
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width/30.0,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("Due Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
-                        ],
-                      ),
-                      GestureDetector(
-                        child: (due_val == 0)  ? Container(
-                        height: MediaQuery.of(context).size.height/25,
-                        width: MediaQuery.of(context).size.width/2.3,
-                        color: Colors.white,
-                        child: DateTimePicker(
-                          initialValue: '',
-                          style: TextStyle(fontSize: 18.0),
-                          textAlignVertical: TextAlignVertical.center,
-                          textAlign: TextAlign.center,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2100),
-                          dateLabelText: '',
-                          dateMask: 'MM-dd-yyyy',
-                          onChanged: (date){
-                            var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
-                            int i = dateTime1.millisecondsSinceEpoch;
-                            setState(() {
-                              var b = DateTime.fromMillisecondsSinceEpoch(i);
-                              _duedate = '${b.month}/${b.day}/${b.year}';
-                              dateController.text = _duedate;
-                              due_val = i;
-                            });
-                          },
-                          onSaved: (date){
-                            var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
-                            int i = dateTime1.millisecondsSinceEpoch;
-                            setState(() {
-                              dateController.text = _duedate;
-                              due_val = i;
-                            });
-                          },
                         ),
-                      ) : Container(
-                          height: MediaQuery.of(context).size.height/25,
-                          width: MediaQuery.of(context).size.width/2.4,
-                          color: Colors.white,
-                          child: Center(child: Text(_duedate,style: TextStyle(fontSize: 18.0),))),
-                        onTap: (){
-                          setState(() {
-                            due_val = 0;
-                          });
-                        },
-                      ),
-                      if(due == false)
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("Est. Minutes",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                          Text("*",style: TextStyle(color: Colors.red,fontSize: 14.0),),
-                        ],
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height/25,
-                        width: MediaQuery.of(context).size.width/3.2,
-                        child: TextField(
-                          controller: estminController,
-                          style: TextStyle(fontSize: 20.0),
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                              ),
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                                borderSide: BorderSide(
-                                  color: Color.fromRGBO(252, 228, 219, 200.0),
-                                ),
-                              ),
-                              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                              enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
-                                  borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
-                          ),
-                        ),
-                      ),
-                      if(est == false)
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                 SizedBox(width: MediaQuery.of(context).size.width/30.0,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("Actual Minutes",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                        ],
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height/25,
-                        width: MediaQuery.of(context).size.width/3.2,
-                        child: TextField(
-                          controller: actminController,
-                          style: TextStyle(fontSize: 20.0),
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                              ),
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2.0),
-                                borderSide: BorderSide(
-                                  color: Color.fromRGBO(252, 228, 219, 200.0),
-                                ),
-                              ),
-                              contentPadding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
-                                  borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
-                          ),
-                        ),
-                      ),
-                      if(act == false && actminController.text == "")
-                        Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                 SizedBox(width: MediaQuery.of(context).size.width/30.0,),
-                  Column(
-                    children: [
-                      Text("Done",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
-                      SizedBox(height: MediaQuery.of(context).size.height/70,),
-                      Container(
-                        height: MediaQuery.of(context).size.height/40,
-                        width: MediaQuery.of(context).size.width/10,
-                        child: Checkbox(
-                          checkColor: Colors.white,
-                          value: complete,
-                          onChanged: (newValue) {
-                            setState(() {
-                              complete = newValue;
-                              if(complete == true){
-                                compController.text = 1.toString();
-                                if(actminController.text == ""){
-                                  act = false;
-                                }
-                              }
-                              else{
-                                compController.text = 0.toString();
-                                act = true;
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                    ],),
-                ],
-              ),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Review 1",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                      GestureDetector(
-                        child: (review_1 == 0)  ? Container(
-                          height: MediaQuery.of(context).size.height/25,
-                          width: MediaQuery.of(context).size.width/2.3,
-                          color: Colors.white,
-                          child: DateTimePicker(
-                            initialValue: '',
-                            style: TextStyle(fontSize: 18.0),
-                            textAlignVertical: TextAlignVertical.center,
-                            textAlign: TextAlign.center,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100),
-                            dateLabelText: '',
-                            dateMask: 'MM-dd-yyyy',
-                            onChanged: (date){
-                              var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
-                              int i = dateTime1.millisecondsSinceEpoch;
-                              setState(() {
-                                var b = DateTime.fromMillisecondsSinceEpoch(i);
-                                _rev1 = '${b.month}/${b.day}/${b.year}';
-                                review1Controller.text = _rev1;
-                                review_1 = i;
-                              });
-                            },
-                            onSaved: (date){
-                              var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
-                              int i = dateTime1.millisecondsSinceEpoch;
-                              setState(() {
-                                review1Controller.text = _rev1;
-                                review_1 = i;
-                              });
-                            },
-                          ),
-                        ) : Container(
-                            height: MediaQuery.of(context).size.height/25,
-                            width: MediaQuery.of(context).size.width/2.4,
-                            color: Colors.white,
-                            child: Center(child: Text(_rev1,style: TextStyle(fontSize: 18.0),))),
-                        onTap: (){
-                          setState(() {
-                            review_1 = 0;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width/30.0,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Review 2",style: TextStyle(color: Colors.white,fontSize: 18.0),),
-                      GestureDetector(
-                        child: (review_2 == 0)  ? Container(
-                          height: MediaQuery.of(context).size.height/25,
-                          width: MediaQuery.of(context).size.width/2.3,
-                          color: Colors.white,
-                          child: DateTimePicker(
-                            initialValue: '',
-                            style: TextStyle(fontSize: 18.0),
-                            textAlignVertical: TextAlignVertical.center,
-                            textAlign: TextAlign.center,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100),
-                            dateLabelText: '',
-                            dateMask: 'MM-dd-yyyy',
-                            onChanged: (date){
-                              var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
-                              int i = dateTime1.millisecondsSinceEpoch;
-                              setState(() {
-                                var b = DateTime.fromMillisecondsSinceEpoch(i);
-                                _rev2 = '${b.month}/${b.day}/${b.year}';
-                                review2Controller.text = _rev2;
-                                review_2 = i;
-                              });
-                            },
-                            onSaved: (date){
-                              var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
-                              int i = dateTime1.millisecondsSinceEpoch;
-                              setState(() {
-                                review2Controller.text = _rev2;
-                                review_2 = i;
-                              });
-                            },
-                          ),
-                        ) : Container(
-                            height: MediaQuery.of(context).size.height/25,
-                            width: MediaQuery.of(context).size.width/2.4,
-                            color: Colors.white,
-                            child: Center(child: Text(_rev2,style: TextStyle(fontSize: 18.0),))),
-                        onTap: (){
-                          setState(() {
-                            review_2 = 0;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                    Text("Notes",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
-                    Row(
+                        if(sub == false)
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width/20.0,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text("Helpers",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                         Container(
-                          width: MediaQuery.of(context).size.width/1.1,
+                          width: MediaQuery.of(context).size.width/2.4,
+                          height: MediaQuery.of(context).size.height/25,
+                          child: FormField(
+                            builder: (FormFieldState state) {
+                              return DropdownButtonHideUnderline(
+                                child: new InputDecorator(
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2.0),
+                                      ),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2.0),
+                                        borderSide: BorderSide(
+                                          color: Color.fromRGBO(252, 228, 219, 200.0),
+                                        ),
+                                      ),
+                                      contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
+                                      enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
+                                          borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
+                                  ),
+                                  child: new DropdownButton<Help_Stu>(
+                                      value: _dropHelpValue,
+                                      isDense: true,
+                                      onChanged: (Help_Stu newValue) {
+                                        setState(() {
+                                          if(newValue.Helper_name != null || newValue.Helper_name != ""){
+                                            helpController.text = newValue.Helper_name;
+                                            _dropHelpValue = newValue;
+                                          }
+                                        });
+                                      },
+                                      items: (_dropHelpValue != null) ? _helpers.map((Help_Stu value) {
+                                        return DropdownMenuItem<Help_Stu>(
+                                          value: value,
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width/3.5,
+                                            child: Row(
+                                              children: [
+                                                Expanded(child: Text(value.Helper_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }).toList() : null
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("Learn To",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                            Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                          ],
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height/25,
+                          width: MediaQuery.of(context).size.width/1.11,
                           child: TextField(
-                            maxLines: 3,
-                            controller: notesController,
+                            controller: learnController,
                             style: TextStyle(fontSize: 20.0),
+                            onSubmitted: (value){
+                                if(value == ""){
+                                  setState(() {
+                                    learn = !learn;
+                                  });
+                                }
+                                else{
+                                  setState(() {
+                                    learn = true;
+                                  });
+                                }
+                            },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(2.0),
@@ -958,298 +409,899 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                     color: Color.fromRGBO(252, 228, 219, 200.0),
                                   ),
                                 ),
-                                contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                                 enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
                                     borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
                             ),
                           ),
                         ),
+                        if(learn == false)
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
                       ],
                     ),
-                  ],),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width/2.5,
-                    height: MediaQuery.of(context).size.height/13,
-                    padding: EdgeInsets.all(10.0),
-                    child: RaisedButton(
-                      onPressed: () async {
-                        if(learnController.text == ""){
-                          setState(() {
-                            learn = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            learn = true;
-                          });
-                        }
-                        if(estminController.text == ""){
-                          setState(() {
-                            est = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            est = true;
-                          });
-                        }
-                        if(subjectController.text == ""){
-                          setState(() {
-                            sub = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            sub = true;
-                          });
-                        }
-                        if(due_val == 0){
-                          setState(() {
-                            due = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            due = true;
-                          });
-                        }
-                        if(do_val == 0){
-                          setState(() {
-                            dod = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            dod = true;
-                          });
-                        }
-                        if(_myPreparation.isEmpty){
-                          setState(() {
-                            prep = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            prep = true;
-                          });
-                        }
-                        if(_myPractices.isEmpty){
-                          setState(() {
-                            prac = false;
-                          });
-                        }
-                        else{
-                          setState(() {
-                            prac = true;
-                          });
-                        }
-                        if(widget.id == null){
-                          if((compController.text == 1.toString() && actminController.text != "") || compController.text == 0.toString()){
-                            print(actminController.text);
-                            print(compController.text);
-                            if((learnController.text != "") && (estminController.text != "")
-                                && (subjectController.text != "")
-                                && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
-                                && (_myPractices.isNotEmpty)
-                            ){
-                              if(compController.text == ""){
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("Prepare",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                            Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                          ],
+                        ),
+                        Container(
+                          height: (_myPreparation.length < 4) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5.5,
+                          width: MediaQuery.of(context).size.width/1.11,
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              MultiSelectFormField(
+                                autovalidate: false,
+                                title: Container(),
+                                chipBackGroundColor: Color.fromRGBO(255, 97, 102, 1.0),
+                                chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 14.0),
+                                checkBoxActiveColor: Colors.red,
+                                checkBoxCheckColor: Colors.white,
+                                dialogTextStyle: TextStyle(fontSize: 22.0),
+                                dialogShapeBorder: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                                dataSource: [
+                                  {
+                                    "display": "Class",
+                                    "value": "Class",
+                                  },
+                                  {
+                                    "display": "List",
+                                    "value": "List",
+                                  },
+                                  {
+                                    "display": "Read",
+                                    "value": "Read",
+                                  },
+                                  {
+                                    "display": "Video",
+                                    "value": "Video",
+                                  },
+                                  {
+                                    "display": "Demo",
+                                    "value": "Demo",
+                                  },
+                                  {
+                                    "display": "Discuss",
+                                    "value": "Discuss",
+                                  },
+                                  {
+                                    "display": "Summarize",
+                                    "value": "Summarize",
+                                  },
+                                  {
+                                    "display": "Draw Diagram",
+                                    "value": "Draw Diagram",
+                                  },
+                                  {
+                                    "display": "Flashcards",
+                                    "value": "Flashcards",
+                                  },
+                                  {
+                                    "display": "Outline",
+                                    "value": "Outline",
+                                  },
+                                ],
+                                hintWidget: Text("Select one or more entries from dropdown list ",style: TextStyle(fontSize: 20.0),),
+                                textField: 'display',
+                                valueField: 'value',
+                                okButtonLabel: 'OK',
+                                cancelButtonLabel: 'CANCEL',
+                                initialValue: _myPreparation,
+                                onSaved: (value) {
+                                  if (value == null) {
+                                    setState(() {
+                                      prep = false;
+                                    });
+                                  }
+                                  else{
+                                    setState(() {
+                                      _myPreparation = value;
+                                      prep = true;
+                                    });
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        if(prep == false)
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("Practice",style: TextStyle(color: Colors.white,fontSize: 18.0)),
+                            Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                          ],
+                        ),
+                        Container(
+                          height: (_myPractices.length < 3) ? MediaQuery.of(context).size.height/7 : MediaQuery.of(context).size.height/5.5,
+                          width: MediaQuery.of(context).size.width/1.11,
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              MultiSelectFormField(
+                                autovalidate: false,
+                                chipBackGroundColor: Color(0xFF66DC82),
+                                dialogTextStyle: TextStyle(fontSize: 20.0),
+                                chipLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize:(_myPractices.length < 3) ? 12.0 : 14.0),
+                                checkBoxActiveColor: Color(0xFF66DC82),
+                                checkBoxCheckColor: Colors.black,
+                                title: Container(),
+                                dialogShapeBorder: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                                dataSource: [
+                                  {
+                                    "display": "Answer Orally",
+                                    "value": "Answer Orally",
+                                  },
+                                  {
+                                    "display": "Short answers",
+                                    "value": "Short answers",
+                                  },
+                                  {
+                                    "display": "Essay answers",
+                                    "value": "Essay answers",
+                                  },
+                                  {
+                                    "display": "Solve problems",
+                                    "value": "Solve problems",
+                                  },
+                                  {
+                                    "display": "Memorize",
+                                    "value": "Memorize",
+                                  },
+                                  {
+                                    "display": "Flashcard drill",
+                                    "value": "Flashcard drill",
+                                  },
+                                  {
+                                    "display": "Write essay or paper",
+                                    "value": "Write essay or paper",
+                                  },
+                                  {
+                                    "display": "Describe or discuss",
+                                    "value": "Describe or discuss",
+                                  },
+                                  {
+                                    "display": "Write new language",
+                                    "value": "Write new language",
+                                  },
+                                  {
+                                    "display": "Read new language",
+                                    "value": "Read new language",
+                                  },
+                                  {
+                                    "display": "Speak new language",
+                                    "value": "Speak new language",
+                                  },
+                                  {
+                                    "display": "Listen new language",
+                                    "value": "Listen new language",
+                                  },
+                                ],
+                                hintWidget: Text("Select one or more entries from dropdown list ",style: TextStyle(fontSize: 20.0),),
+                                textField: 'display',
+                                valueField: 'value',
+                                okButtonLabel: 'OK',
+                                cancelButtonLabel: 'CANCEL',
+                                initialValue: _myPractices,
+                                onSaved: (value) {
+                                  if (value == null) {
+                                    setState(() {
+                                      prac = false;
+                                    });
+                                  }
+                                  else{
+                                    setState(() {
+                                      _myPractices = value;
+                                      prac = true;
+                                    });
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        if(prac == false)
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("Do Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                            Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                          ],
+                        ),
+                        GestureDetector(
+                          child: (do_val == 0)  ? Container(
+                            height: MediaQuery.of(context).size.height/25,
+                            width: MediaQuery.of(context).size.width/2.3,
+                            color: Colors.white,
+                            child: DateTimePicker(
+                              initialValue: '',
+                              style: TextStyle(fontSize: 18.0),
+                              textAlignVertical: TextAlignVertical.center,
+                              textAlign: TextAlign.center,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2100),
+                              dateLabelText: '',
+                              dateMask: 'MM-dd-yyyy',
+                              onChanged: (date){
+                                var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
+                                int i = dateTime1.millisecondsSinceEpoch;
                                 setState(() {
+                                  var b = DateTime.fromMillisecondsSinceEpoch(i);
+                                  _dodate = '${b.month}/${b.day}/${b.year}';
+                                  doController.text = _dodate;
+                                  do_val = i;
+                                  if(_dodate.isNotEmpty){
+                                    dod = true;
+                                  }
+                                  else{
+                                    dod = false;
+                                  }
+                                });
+                              },
+                              onSaved: (date){
+                                var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                                int i = dateTime1.millisecondsSinceEpoch;
+                                setState(() {
+                                  doController.text = _dodate;
+                                  do_val = i;
+                                });
+                              },
+                            ),
+                          ) : Container(
+                              height: MediaQuery.of(context).size.height/25,
+                              width: MediaQuery.of(context).size.width/2.4,
+                              color: Colors.white,
+                              child: Center(child: Text(_dodate,style: TextStyle(fontSize: 18.0),))),
+                          onTap: (){
+                            setState(() {
+                              do_val = 0;
+                            });
+                          },
+                        ),
+                        if(dod == false)
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width/30.0,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("Due Date",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                            Text("*",style: TextStyle(color: Colors.red,fontSize: 18.0),),
+                          ],
+                        ),
+                        GestureDetector(
+                          child: (due_val == 0)  ? Container(
+                          height: MediaQuery.of(context).size.height/25,
+                          width: MediaQuery.of(context).size.width/2.3,
+                          color: Colors.white,
+                          child: DateTimePicker(
+                            initialValue: '',
+                            style: TextStyle(fontSize: 18.0),
+                            textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.center,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100),
+                            dateLabelText: '',
+                            dateMask: 'MM-dd-yyyy',
+                            onChanged: (date){
+                              var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
+                              int i = dateTime1.millisecondsSinceEpoch;
+                              setState(() {
+                                var b = DateTime.fromMillisecondsSinceEpoch(i);
+                                _duedate = '${b.month}/${b.day}/${b.year}';
+                                dateController.text = _duedate;
+                                due_val = i;
+                                if(_duedate.isNotEmpty){
+                                  due = true;
+                                }
+                                else{
+                                  due = false;
+                                }
+                              });
+                            },
+                            onSaved: (date){
+                              var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                              int i = dateTime1.millisecondsSinceEpoch;
+                              setState(() {
+                                dateController.text = _duedate;
+                                due_val = i;
+                              });
+                            },
+                          ),
+                        ) : Container(
+                            height: MediaQuery.of(context).size.height/25,
+                            width: MediaQuery.of(context).size.width/2.4,
+                            color: Colors.white,
+                            child: Center(child: Text(_duedate,style: TextStyle(fontSize: 18.0),))),
+                          onTap: (){
+                            setState(() {
+                              due_val = 0;
+                            });
+                          },
+                        ),
+                        if(due == false)
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("Est. Minutes",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                            Text("*",style: TextStyle(color: Colors.red,fontSize: 14.0),),
+                          ],
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height/25,
+                          width: MediaQuery.of(context).size.width/3.2,
+                          child: TextField(
+                            controller: estminController,
+                            style: TextStyle(fontSize: 20.0),
+                            keyboardType: TextInputType.number,
+                            onSubmitted: (value){
+                              if(value == ""){
+                                setState(() {
+                                  est = !est;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  est = true;
+                                });
+                              }
+                            },
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(2.0),
+                                ),
+                                fillColor: Colors.white,
+                                filled: true,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(2.0),
+                                  borderSide: BorderSide(
+                                    color: Color.fromRGBO(252, 228, 219, 200.0),
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                                enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
+                                    borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
+                            ),
+                          ),
+                        ),
+                        if(est == false)
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                   SizedBox(width: MediaQuery.of(context).size.width/30.0,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("Actual Minutes",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                          ],
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height/25,
+                          width: MediaQuery.of(context).size.width/3.2,
+                          child: TextField(
+                            controller: actminController,
+                            style: TextStyle(fontSize: 20.0),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(2.0),
+                                ),
+                                fillColor: Colors.white,
+                                filled: true,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(2.0),
+                                  borderSide: BorderSide(
+                                    color: Color.fromRGBO(252, 228, 219, 200.0),
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
+                                    borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
+                            ),
+                          ),
+                        ),
+                        if(act == false && actminController.text == "")
+                          Text("Required",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                   SizedBox(width: MediaQuery.of(context).size.width/30.0,),
+                    Column(
+                      children: [
+                        Text("Done",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
+                        SizedBox(height: MediaQuery.of(context).size.height/70,),
+                        Container(
+                          height: MediaQuery.of(context).size.height/40,
+                          width: MediaQuery.of(context).size.width/10,
+                          child: Checkbox(
+                            checkColor: Colors.white,
+                            value: complete,
+                            onChanged: (newValue) {
+                              setState(() {
+                                complete = newValue;
+                                if(complete == true){
+                                  compController.text = 1.toString();
+                                  if(actminController.text == ""){
+                                    act = false;
+                                  }
+                                }
+                                else{
                                   compController.text = 0.toString();
-                                });
-                              }
-                              form_model m = new form_model();
-                              m.learn_to = learnController.text;
-                              m.notes_to = notesController.text;
-                              m.Helpers_name = helpController.text;
-                              m.Course_name = subjectController.text;
-                              m.Color_name = colorController.text;
-                              if(actminController.text == ""){
-                                setState(() {
-                                  m.act_min = null;
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  m.act_min = int.parse(actminController.text);
-                                });
-                              }
-                              m.est_min = int.parse(estminController.text);
-                              m.due_date = due_val;
-                              m.do_date = do_val;
-                              m.prepare_to = _myPreparation.join(",");
-                              m.practice_to = _myPractices.join(",");
-                              if(review_1 == null){
-                                setState(() {
-                                  m.review_1 = 0;
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  m.review_1 = review_1;
-                                });
-                              }
-                              if(review_2 == null){
-                                setState(() {
-                                  m.review_2 = 0;
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  m.review_2 = review_2;
-                                });
-                              }
-                              m.complete = int.parse(compController.text);
-                              var msg = await DBProvider.db.form_insert(m).then((value){
-                                if(value == "Success"){
-                                  final snackBar = SnackBar(
-                                    content: Text('Inserted!'),
-                                  );
-                                  _scaffoldKey.currentState.showSnackBar(snackBar);
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
-                                }
-                                else{
-                                  final snackBar = SnackBar(
-                                    content: Text(value.toString()),
-                                  );
-                                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                                  act = true;
                                 }
                               });
-                            }
+                            },
+                          ),
+                        ),
+                      ],),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Review 1",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                        GestureDetector(
+                          child: (review_1 == 0)  ? Container(
+                            height: MediaQuery.of(context).size.height/25,
+                            width: MediaQuery.of(context).size.width/2.3,
+                            color: Colors.white,
+                            child: DateTimePicker(
+                              initialValue: '',
+                              style: TextStyle(fontSize: 18.0),
+                              textAlignVertical: TextAlignVertical.center,
+                              textAlign: TextAlign.center,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2100),
+                              dateLabelText: '',
+                              dateMask: 'MM-dd-yyyy',
+                              onChanged: (date){
+                                var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
+                                int i = dateTime1.millisecondsSinceEpoch;
+                                setState(() {
+                                  var b = DateTime.fromMillisecondsSinceEpoch(i);
+                                  _rev1 = '${b.month}/${b.day}/${b.year}';
+                                  review1Controller.text = _rev1;
+                                  review_1 = i;
+                                });
+                              },
+                              onSaved: (date){
+                                var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                                int i = dateTime1.millisecondsSinceEpoch;
+                                setState(() {
+                                  review1Controller.text = _rev1;
+                                  review_1 = i;
+                                });
+                              },
+                            ),
+                          ) : Container(
+                              height: MediaQuery.of(context).size.height/25,
+                              width: MediaQuery.of(context).size.width/2.4,
+                              color: Colors.white,
+                              child: Center(child: Text(_rev1,style: TextStyle(fontSize: 18.0),))),
+                          onTap: (){
+                            setState(() {
+                              review_1 = 0;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width/30.0,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Review 2",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                        GestureDetector(
+                          child: (review_2 == 0)  ? Container(
+                            height: MediaQuery.of(context).size.height/25,
+                            width: MediaQuery.of(context).size.width/2.3,
+                            color: Colors.white,
+                            child: DateTimePicker(
+                              initialValue: '',
+                              style: TextStyle(fontSize: 18.0),
+                              textAlignVertical: TextAlignVertical.center,
+                              textAlign: TextAlign.center,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2100),
+                              dateLabelText: '',
+                              dateMask: 'MM-dd-yyyy',
+                              onChanged: (date){
+                                var dateTime1 =new DateFormat("yyyy-MM-dd").parse(date);
+                                int i = dateTime1.millisecondsSinceEpoch;
+                                setState(() {
+                                  var b = DateTime.fromMillisecondsSinceEpoch(i);
+                                  _rev2 = '${b.month}/${b.day}/${b.year}';
+                                  review2Controller.text = _rev2;
+                                  review_2 = i;
+                                });
+                              },
+                              onSaved: (date){
+                                var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                                int i = dateTime1.millisecondsSinceEpoch;
+                                setState(() {
+                                  review2Controller.text = _rev2;
+                                  review_2 = i;
+                                });
+                              },
+                            ),
+                          ) : Container(
+                              height: MediaQuery.of(context).size.height/25,
+                              width: MediaQuery.of(context).size.width/2.4,
+                              color: Colors.white,
+                              child: Center(child: Text(_rev2,style: TextStyle(fontSize: 18.0),))),
+                          onTap: (){
+                            setState(() {
+                              review_2 = 0;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      Text("Notes",style: TextStyle(color: Colors.white,fontSize: 18.0,)),
+                      Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width/1.1,
+                            child: TextField(
+                              maxLines: 3,
+                              controller: notesController,
+                              style: TextStyle(fontSize: 20.0),
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(2.0),
+                                  ),
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(2.0),
+                                    borderSide: BorderSide(
+                                      color: Color.fromRGBO(252, 228, 219, 200.0),
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                                  enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(2.0),
+                                      borderSide: BorderSide(color: Color.fromRGBO(252, 228, 219, 200.0), width: 3.0))
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width/2.5,
+                      height: MediaQuery.of(context).size.height/13,
+                      padding: EdgeInsets.all(10.0),
+                      child: RaisedButton(
+                        onPressed: () async {
+                          if(learnController.text == ""){
+                            setState(() {
+                              learn = false;
+                            });
                           }
-                        }
-                        else{
-                          if((compController.text == 1.toString() && actminController.text != "") || compController.text == 0.toString()){
-                            if((learnController.text != "") && (estminController.text != "")
-                                && (subjectController.text != "")
-                                && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
-                                && (_myPractices.isNotEmpty)
-                            ){
-                              form_model m = new form_model();
-                              m.id = widget.id;
-                              m.learn_to = learnController.text;
-                              m.notes_to = notesController.text;
-                              m.Helpers_name = helpController.text;
-                              m.Course_name = subjectController.text;
-                              m.Color_name = colorController.text;
-                              if(actminController.text == ""){
-                                setState(() {
-                                  m.act_min = null;
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  m.act_min = int.parse(actminController.text);
-                                });
-                              }
-                              m.est_min = int.parse(estminController.text);
-                              m.due_date = due_val;
-                              m.do_date = do_val;
-                              m.prepare_to = _myPreparation.join(",");
-                              m.practice_to = _myPractices.join(",");
-                              if(review_1 == null){
-                                setState(() {
-                                  m.review_1 = 0;
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  m.review_1 = review_1;
-                                });
-                              }
-                              if(review_2 == null){
-                                setState(() {
-                                  m.review_2 = 0;
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  m.review_2 = review_2;
-                                });
-                              }
-                              m.complete = int.parse(compController.text);
-                              var msg = await DBProvider.db.Update_form(m).then((value){
-                                if(value == "Success"){
-                                  final snackBar = SnackBar(
-                                    content: Text('Updated!'),
-                                  );
-                                  _scaffoldKey.currentState.showSnackBar(snackBar);
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                          else{
+                            setState(() {
+                              learn = true;
+                            });
+                          }
+                          if(estminController.text == ""){
+                            setState(() {
+                              est = false;
+                            });
+                          }
+                          else{
+                            setState(() {
+                              est = true;
+                            });
+                          }
+                          if(subjectController.text == ""){
+                            setState(() {
+                              sub = false;
+                            });
+                          }
+                          else{
+                            setState(() {
+                              sub = true;
+                            });
+                          }
+                          if(due_val == 0){
+                            setState(() {
+                              due = false;
+                            });
+                          }
+                          else{
+                            setState(() {
+                              due = true;
+                            });
+                          }
+                          if(do_val == 0){
+                            setState(() {
+                              dod = false;
+                            });
+                          }
+                          else{
+                            setState(() {
+                              dod = true;
+                            });
+                          }
+                          if(_myPreparation.isEmpty){
+                            setState(() {
+                              prep = false;
+                            });
+                          }
+                          else{
+                            setState(() {
+                              prep = true;
+                            });
+                          }
+                          if(_myPractices.isEmpty){
+                            setState(() {
+                              prac = false;
+                            });
+                          }
+                          else{
+                            setState(() {
+                              prac = true;
+                            });
+                          }
+                          if(widget.id == null){
+                            if((compController.text == 1.toString() && actminController.text != "") || compController.text == 0.toString()){
+                              if((learnController.text != "") && (estminController.text != "")
+                                  && (subjectController.text != "")
+                                  && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
+                                  && (_myPractices.isNotEmpty)
+                              ){
+                                if(compController.text == ""){
+                                  setState(() {
+                                    compController.text = 0.toString();
+                                  });
+                                }
+                                form_model m = new form_model();
+                                m.learn_to = learnController.text;
+                                m.notes_to = notesController.text;
+                                m.Helpers_name = helpController.text;
+                                m.Course_name = subjectController.text;
+                                m.Color_name = colorController.text;
+                                if(actminController.text == ""){
+                                  setState(() {
+                                    m.act_min = null;
+                                  });
                                 }
                                 else{
-                                  final snackBar = SnackBar(
-                                    content: Text(value.toString()),
-                                  );
-                                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                                  setState(() {
+                                    m.act_min = int.parse(actminController.text);
+                                  });
                                 }
-                              });
+                                m.est_min = int.parse(estminController.text);
+                                m.due_date = due_val;
+                                m.do_date = do_val;
+                                m.prepare_to = _myPreparation.join(",");
+                                m.practice_to = _myPractices.join(",");
+                                if(review_1 == null){
+                                  setState(() {
+                                    m.review_1 = 0;
+                                  });
+                                }
+                                else{
+                                  setState(() {
+                                    m.review_1 = review_1;
+                                  });
+                                }
+                                if(review_2 == null){
+                                  setState(() {
+                                    m.review_2 = 0;
+                                  });
+                                }
+                                else{
+                                  setState(() {
+                                    m.review_2 = review_2;
+                                  });
+                                }
+                                m.complete = int.parse(compController.text);
+                                var msg = await DBProvider.db.form_insert(m).then((value){
+                                  if(value == "Success"){
+                                    final snackBar = SnackBar(
+                                      content: Text('Inserted!'),
+                                    );
+                                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                                  }
+                                  else{
+                                    final snackBar = SnackBar(
+                                      content: Text(value.toString()),
+                                    );
+                                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                                  }
+                                });
+                              }
                             }
                           }
-                        }
-                      },
-                      color: Color.fromRGBO(28, 136, 229, 1.0),
-                      shape: RoundedRectangleBorder(
+                          else{
+                            if((compController.text == 1.toString() && actminController.text != "") || compController.text == 0.toString()){
+                              if((learnController.text != "") && (estminController.text != "")
+                                  && (subjectController.text != "")
+                                  && (due_val > 0) && (do_val > 0) && (_myPreparation.isNotEmpty)
+                                  && (_myPractices.isNotEmpty)
+                              ){
+                                form_model m = new form_model();
+                                m.id = widget.id;
+                                m.learn_to = learnController.text;
+                                m.notes_to = notesController.text;
+                                m.Helpers_name = helpController.text;
+                                m.Course_name = subjectController.text;
+                                m.Color_name = colorController.text;
+                                if(actminController.text == ""){
+                                  setState(() {
+                                    m.act_min = null;
+                                  });
+                                }
+                                else{
+                                  setState(() {
+                                    m.act_min = int.parse(actminController.text);
+                                  });
+                                }
+                                m.est_min = int.parse(estminController.text);
+                                m.due_date = due_val;
+                                m.do_date = do_val;
+                                m.prepare_to = _myPreparation.join(",");
+                                m.practice_to = _myPractices.join(",");
+                                if(review_1 == null){
+                                  setState(() {
+                                    m.review_1 = 0;
+                                  });
+                                }
+                                else{
+                                  setState(() {
+                                    m.review_1 = review_1;
+                                  });
+                                }
+                                if(review_2 == null){
+                                  setState(() {
+                                    m.review_2 = 0;
+                                  });
+                                }
+                                else{
+                                  setState(() {
+                                    m.review_2 = review_2;
+                                  });
+                                }
+                                m.complete = int.parse(compController.text);
+                                var msg = await DBProvider.db.Update_form(m).then((value){
+                                  if(value == "Success"){
+                                    final snackBar = SnackBar(
+                                      content: Text('Updated!'),
+                                    );
+                                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                                  }
+                                  else{
+                                    final snackBar = SnackBar(
+                                      content: Text(value.toString()),
+                                    );
+                                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                                  }
+                                });
+                              }
+                            }
+                          }
+                        },
+                        color: Color.fromRGBO(28, 136, 229, 1.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(20.0),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width/2.5,
+                      height: MediaQuery.of(context).size.height/13,
+                      padding: EdgeInsets.all(10.0),
+                      child: RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            dateController.text = "";
+                            learnController.text = "";
+                            doController.text = "";
+                            estminController.text = "";
+                            actminController.text = "";
+                            notesController.text = "";
+                            _myPreparation.clear();
+                            _myPractices.clear();
+                            review1Controller.text = "";
+                            review2Controller.text = "";
+                            _dodate = " ";
+                            _duedate = " ";
+                            _rev1 = " ";
+                            _rev2 = " ";
+                          });
+                          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                        },
+                        color: Color.fromRGBO(28, 136, 229, 1.0),
+                        shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width/2.5,
-                    height: MediaQuery.of(context).size.height/13,
-                    padding: EdgeInsets.all(10.0),
-                    child: RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          dateController.text = "";
-                          learnController.text = "";
-                          doController.text = "";
-                          estminController.text = "";
-                          actminController.text = "";
-                          notesController.text = "";
-                          _myPreparation.clear();
-                          _myPractices.clear();
-                          review1Controller.text = "";
-                          review2Controller.text = "";
-                          _dodate = " ";
-                          _duedate = " ";
-                          _rev1 = " ";
-                          _rev2 = " ";
-                        });
-                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
-                      },
-                      color: Color.fromRGBO(28, 136, 229, 1.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
