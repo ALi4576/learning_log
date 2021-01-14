@@ -158,17 +158,14 @@ class _CalenderState extends State<Calender> {
                                   String date = d.month.toString() + d.day.toString() + d.year.toString();
                                   String dates;
                                   var dayu = DateTime.now();
-                                  String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
                                   var review1date = DateTime.fromMillisecondsSinceEpoch(item.review_1);
-                                  String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
                                   var review2date = DateTime.fromMillisecondsSinceEpoch(item.review_2);
-                                  String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
                                   var dodate = DateTime.fromMillisecondsSinceEpoch(item.do_date);
-                                  String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
-                                  int tday = int.parse(today);
-                                  int r1 = int.parse(rev1date);
-                                  int r2 = int.parse(rev2date);
-                                  int dd = int.parse(datedo);
+                                  DateTime t = new DateTime(dayu.year, dayu.month, dayu.day);
+                                  int tday = t.millisecondsSinceEpoch;
+                                  int r1 = review1date.millisecondsSinceEpoch;
+                                  int r2 = review2date.millisecondsSinceEpoch;
+                                  int dd = dodate.millisecondsSinceEpoch;
                                   if(index > 0) {
                                     DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].sort);
                                     dates = e.month.toString() + e.day.toString() + e.year.toString();
@@ -236,17 +233,14 @@ class _CalenderState extends State<Calender> {
                                   String date = d.month.toString() + "/" + d.day.toString() + "/" + d.year.toString();
                                   String dates;
                                   var dayu = DateTime.now();
-                                  String today = dayu.year.toString() + dayu.month.toString() + dayu.day.toString();
                                   var review1date = DateTime.fromMillisecondsSinceEpoch(item.review_1);
-                                  String rev1date = review1date.year.toString() + review1date.month.toString() + review1date.day.toString();
                                   var review2date = DateTime.fromMillisecondsSinceEpoch(item.review_2);
-                                  String rev2date = review2date.year.toString() + review2date.month.toString() + review2date.day.toString();
                                   var dodate = DateTime.fromMillisecondsSinceEpoch(item.do_date);
-                                  String datedo = dodate.year.toString() + dodate.month.toString() + dodate.day.toString();
-                                  int tday = int.parse(today);
-                                  int r1 = int.parse(rev1date);
-                                  int r2 = int.parse(rev2date);
-                                  int dd = int.parse(datedo);
+                                  var t = DateTime(dayu.year,dayu.month,dayu.day);
+                                  int tday = t.millisecondsSinceEpoch;
+                                  int r1 = review1date.millisecondsSinceEpoch;
+                                  int r2 = review2date.millisecondsSinceEpoch;
+                                  int dd = dodate.millisecondsSinceEpoch;
                                   if(index > 0) {
                                     DateTime e = DateTime.fromMillisecondsSinceEpoch(snapshot.data[index -1].due_date);
                                     dates = e.month.toString() +
@@ -329,7 +323,7 @@ class _CalenderState extends State<Calender> {
           if(duesdates != dates)
             Padding(
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/70,left: MediaQuery.of(context).size.width/50),
-              child: Text(DateFormat('EEEE, d MMM, yyyy').format(DateTime.fromMillisecondsSinceEpoch(due_date)).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
+              child: Text(DateFormat('EEEE, MMM d, yyyy').format(DateTime.fromMillisecondsSinceEpoch(due_date)).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
             ),
           GestureDetector(
             child: Container(
@@ -422,6 +416,8 @@ class _CalenderState extends State<Calender> {
 
   Widget Display_todo_Today(int tday,int r1,int r2,int dd,String date, String dates, int id, String Course_name, String Color_name, String Helpers_name, String learn_to,String prepare_to,String practice_to,int do_date,int due_date,int est_min,int act_min,int review_1,int review_2,String notes_to, int complete,int sort){
     DateTime e = DateTime.fromMillisecondsSinceEpoch(due_date);
+   // print(tday);
+   // print(dd);
     var duesdates = e.month.toString() +
         "/" + e.day.toString() + "/" +
         e.year.toString();
@@ -435,9 +431,11 @@ class _CalenderState extends State<Calender> {
     }
     else if(dd == tday && complete == 0){
         backcolor = Colors.white;
+        bordercolor = Colors.black;
     }
     else if(((r1 > 0 || r2 > 0) && ((r1 == tday && complete == 1) || (r2 == tday && complete == 1)))){
         backcolor = Color.fromRGBO(216, 215, 225, 1.0);
+        bordercolor = Colors.black;
     }
 
     DateTime de = DateTime.now();
@@ -554,7 +552,7 @@ class _CalenderState extends State<Calender> {
             if(date != dates)
               Padding(
                 padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/70,left: MediaQuery.of(context).size.width/50),
-                child: Text(DateFormat('EEEE, d MMM, yyyy').format(DateTime.fromMillisecondsSinceEpoch(sort)).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
+                child: Text(DateFormat('EEEE, MMM d, yyyy').format(DateTime.fromMillisecondsSinceEpoch(sort)).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
               ),
             GestureDetector(
               child: Container(

@@ -385,10 +385,22 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           child: TextField(
                             controller: learnController,
                             style: TextStyle(fontSize: 20.0),
+                            onChanged:(value){
+                              if(learnController.text == ""){
+                                setState(() {
+                                  learn = false;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  learn = true;
+                                });
+                              }
+                            },
                             onSubmitted: (value){
                                 if(value == ""){
                                   setState(() {
-                                    learn = !learn;
+                                    learn = false;
                                   });
                                 }
                                 else{
@@ -669,7 +681,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                 });
                               },
                               onSaved: (date){
-                                var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                                var dateTime1 = new DateFormat("yyyy-MM-dd").parse(date);
                                 int i = dateTime1.millisecondsSinceEpoch;
                                 setState(() {
                                   doController.text = _dodate;
@@ -733,7 +745,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                               });
                             },
                             onSaved: (date){
-                              var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                              var dateTime1 = new DateFormat("yyyy-MM-dd").parse(date);
                               int i = dateTime1.millisecondsSinceEpoch;
                               setState(() {
                                 dateController.text = _duedate;
@@ -776,10 +788,22 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             controller: estminController,
                             style: TextStyle(fontSize: 20.0),
                             keyboardType: TextInputType.number,
+                            onChanged: (value){
+                              if(estminController.text == ""){
+                                setState(() {
+                                  est = false;
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  est = true;
+                                });
+                              }
+                            },
                             onSubmitted: (value){
                               if(value == ""){
                                 setState(() {
-                                  est = !est;
+                                  est = false;
                                 });
                               }
                               else{
@@ -910,7 +934,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                 });
                               },
                               onSaved: (date){
-                                var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                                var dateTime1 = new DateFormat("yyyy-MM-dd").parse(date);
                                 int i = dateTime1.millisecondsSinceEpoch;
                                 setState(() {
                                   review1Controller.text = _rev1;
@@ -961,7 +985,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                 });
                               },
                               onSaved: (date){
-                                var dateTime1 = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                                var dateTime1 = new DateFormat("yyyy-MM-dd").parse(date);
                                 int i = dateTime1.millisecondsSinceEpoch;
                                 setState(() {
                                   review2Controller.text = _rev2;
