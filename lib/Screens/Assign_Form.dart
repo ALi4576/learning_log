@@ -289,7 +289,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                           width: MediaQuery.of(context).size.width/4,
                                           child: Row(
                                             children: [
-                                              Expanded(child: Text(value.Course_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)),
+                                              Expanded(child: Text(value.Course_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20.0),)),
                                             ],
                                           ),
                                         )
@@ -309,7 +309,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Helpers",style: TextStyle(color: Colors.white,fontSize: 18.0),),
+                        Text("Helper",style: TextStyle(color: Colors.white,fontSize: 18.0),),
                         Container(
                           width: MediaQuery.of(context).size.width/2.4,
                           height: MediaQuery.of(context).size.height/25,
@@ -351,7 +351,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                             width: MediaQuery.of(context).size.width/3.5,
                                             child: Row(
                                               children: [
-                                                Expanded(child: Text(value.Helper_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 18.0),)),
+                                                Expanded(child: Text(value.Helper_name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20.0),)),
                                               ],
                                             ),
                                           ),
@@ -657,7 +657,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             color: Colors.white,
                             child: DateTimePicker(
                               initialValue: '',
-                              style: TextStyle(fontSize: 18.0),
+                              style: TextStyle(fontSize: 20.0),
                               textAlignVertical: TextAlignVertical.center,
                               textAlign: TextAlign.center,
                               firstDate: DateTime(2000),
@@ -693,7 +693,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                               height: MediaQuery.of(context).size.height/25,
                               width: MediaQuery.of(context).size.width/2.4,
                               color: Colors.white,
-                              child: Center(child: Text(_dodate,style: TextStyle(fontSize: 18.0),))),
+                              child: Center(child: Text(_dodate,style: TextStyle(fontSize: 20.0),))),
                           onTap: (){
                             setState(() {
                               do_val = 0;
@@ -721,7 +721,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                           color: Colors.white,
                           child: DateTimePicker(
                             initialValue: '',
-                            style: TextStyle(fontSize: 18.0),
+                            style: TextStyle(fontSize: 20.0),
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.center,
                             firstDate: DateTime(2000),
@@ -757,7 +757,7 @@ class _AssignemntFormState extends State<AssignemntForm> {
                             height: MediaQuery.of(context).size.height/25,
                             width: MediaQuery.of(context).size.width/2.4,
                             color: Colors.white,
-                            child: Center(child: Text(_duedate,style: TextStyle(fontSize: 18.0),))),
+                            child: Center(child: Text(_duedate,style: TextStyle(fontSize: 20.0),))),
                           onTap: (){
                             setState(() {
                               due_val = 0;

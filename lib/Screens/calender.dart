@@ -178,7 +178,7 @@ class _CalenderState extends State<Calender> {
                                         if(index == 0)
                                           Padding(
                                             padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/70,left: MediaQuery.of(context).size.width/50),
-                                            child: Text("Today: "+ DateFormat('EEEE, d MMM, yyyy').format(DateTime.now()).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
+                                            child: Text("Today: "+ DateFormat('EEEE, MMM d, yyyy').format(DateTime.now()).toString(),style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.w700),),
                                           ),
                                         ((item.complete == 0 && dd < tday) || (item.complete == 0 && dd == tday) || (item.complete == 1 && (r1 == tday || r2 == tday))) ? Dismissible(
                                           key: Key(item.id.toString()),
