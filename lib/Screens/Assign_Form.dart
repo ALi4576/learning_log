@@ -495,8 +495,8 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                     "value": "Draw Diagram",
                                   },
                                   {
-                                    "display": "Flashcards",
-                                    "value": "Flashcards",
+                                    "display": "Make Flashcards",
+                                    "value": "Make Flashcards",
                                   },
                                   {
                                     "display": "Outline",
@@ -1179,13 +1179,20 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                   });
                                 }
                                 m.complete = int.parse(compController.text);
-                                var msg = await DBProvider.db.form_insert(m).then((value){
-                                  if(value == "Success"){
+                                var msg = await DBProvider.db.form_insert(m).then((value) {
+                                  if(value == "ToDo"){
                                     final snackBar = SnackBar(
                                       content: Text('Inserted!'),
                                     );
                                     _scaffoldKey.currentState.showSnackBar(snackBar);
-                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: value,)));
+                                  }
+                                  else if(value == "History"){
+                                    final snackBar = SnackBar(
+                                      content: Text('Inserted!'),
+                                    );
+                                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: value,)));
                                   }
                                   else{
                                     final snackBar = SnackBar(
@@ -1247,13 +1254,20 @@ class _AssignemntFormState extends State<AssignemntForm> {
                                   });
                                 }
                                 m.complete = int.parse(compController.text);
-                                var msg = await DBProvider.db.Update_form(m).then((value){
-                                  if(value == "Success"){
+                                var msg = await DBProvider.db.Update_form(m).then((value) {
+                                  if(value == "ToDo"){
                                     final snackBar = SnackBar(
                                       content: Text('Updated!'),
                                     );
                                     _scaffoldKey.currentState.showSnackBar(snackBar);
-                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: widget.show_todo,)));
+                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: value,)));
+                                  }
+                                  else if(value == "History"){
+                                    final snackBar = SnackBar(
+                                      content: Text('Updated!'),
+                                    );
+                                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Calender(show_todo: value,)));
                                   }
                                   else{
                                     final snackBar = SnackBar(

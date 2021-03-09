@@ -83,3 +83,29 @@ class form_model {
     "complete": complete
   };
 }
+
+route routeFromJson(String str) {
+  final jsonData = json.decode(str);
+  return route.fromMap(jsonData);
+}
+
+String routeToJson(route data) {
+  final dyn = data.toMap();
+  return json.encode(dyn);
+}
+
+class route {
+  int id;
+
+  route({
+    this.id,
+  });
+
+  factory route.fromMap(Map<String, dynamic> json) => new route(
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "id": id,
+  };
+}

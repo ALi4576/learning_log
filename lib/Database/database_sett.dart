@@ -139,7 +139,7 @@ class DBProvider {
     return list;
   }
 
-//delete all
+  //delete all
   Future<String> deleteall() async {
     final db = await database;
     db.delete("Assign_Form");
@@ -217,7 +217,54 @@ class DBProvider {
     String val = color;
       var res = await db.rawInsert('INSERT Into Assign_Form(Course_name,Color_name,Helpers_name,learn_to,prepare_to,practice_to,do_date,due_date,est_min,act_min,review_1,review_2,notes_to,complete) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[data.Course_name,val,data.Helpers_name,
         data.learn_to,data.prepare_to,data.practice_to,data.do_date,data.due_date,data.est_min,data.act_min,data.review_1,data.review_2,data.notes_to,data.complete]);
-      return "Success";
+     var r = await makeroute(res);
+     return r;
+  }
+
+  //route
+  Future<String> makeroute(int id) async {
+    final db = await database;
+    var res = await db.query("Assign_Form",where: "id = ?",whereArgs: [id]);
+    List<form_model> list =  res.isNotEmpty ? res.map((c) => form_model.fromMap(c)).toList() : null;
+    if(list != null){
+      for(int i = 0;i<list.length;i++){
+        var dayu = DateTime.now();
+        var review1date = DateTime.fromMillisecondsSinceEpoch(list[i].review_1);
+        var review2date = DateTime.fromMillisecondsSinceEpoch(list[i].review_2);
+        var dodate = DateTime.fromMillisecondsSinceEpoch(list[i].do_date);
+        var t = DateTime(dayu.year,dayu.month,dayu.day);
+        int tday = t.millisecondsSinceEpoch;
+        int r1 = review1date.millisecondsSinceEpoch;
+        int r2 = review2date.millisecondsSinceEpoch;
+        int dd = dodate.millisecondsSinceEpoch;
+        if((list[i].complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (list[i].complete == 1 && dd > tday && (r1 == 0 && r2 == 0)) || (list[i].complete == 1 && dd == tday && (r1 == 0 && r2 == 0)) ||(list[i].complete == 1 && dd < tday) || (list[i].complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && (r1 < tday && r2 < tday))){
+          form_model fm = new form_model();
+          fm.complete = list[i].complete;
+          fm.do_date = list[i].do_date;
+          fm.review_1 = list[i].review_1;
+          fm.review_2 = list[i].review_2;
+          fm.act_min = list[i].act_min;
+          fm.Course_name = list[i].Course_name;
+          fm.Color_name = list[i].Color_name;
+          fm.id = list[i].id;
+          fm.notes_to = list[i].notes_to;
+          fm.due_date = list[i].due_date;
+          fm.est_min = list[i].est_min;
+          fm.learn_to = list[i].learn_to;
+          fm.prepare_to = list[i].prepare_to;
+          fm.practice_to = list[i].practice_to;
+          fm.Helpers_name = list[i].Helpers_name;
+          fm.sort = list[i].due_date;
+          return "History";
+        }
+        else{
+          return "ToDo";
+        }
+      }
+    }
+    else{
+      return "ToDo";
+    }
   }
 
   //delete
@@ -447,7 +494,8 @@ class DBProvider {
     final db = await database;
     var res = await db.update("Assign_Form", data.toMap(),
         where: "id = ?", whereArgs: [data.id]);
-    return "Success";
+    var r = await makeroute(data.id);
+    return r;
   }
 
 }

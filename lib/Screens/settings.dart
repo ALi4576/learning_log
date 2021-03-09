@@ -3,6 +3,8 @@ import 'package:student_planner/Database/database_sett.dart';
 import 'package:student_planner/Models/settingsModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'appHelp.dart';
+
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();
@@ -217,13 +219,17 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  _launchURL() async {
-    const url = 'http://powerlearners.com/AppHelp/';
+  _launchURL(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => appHelp())
+    );
+    /*const url = 'http://powerlearners.com/AppHelp/';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
-    }
+    }*/
   }
 
   Widget courses(String cl, String name, int num) {
