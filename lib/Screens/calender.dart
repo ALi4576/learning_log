@@ -89,9 +89,6 @@ class _CalenderState extends State<Calender> {
                                  fontSize: 21.0,
                                  fontWeight: FontWeight.w500),),
                            ),
-/*                           Text("Calendar",style: TextStyle(
-                               fontSize: (MediaQuery.of(context).textScaleFactor > 1) ? (20.0 - MediaQuery.of(context).textScaleFactor) : 20.0,
-                               fontWeight: FontWeight.w500),)*/
                          ],
                        )
                       ),
@@ -295,14 +292,7 @@ class _CalenderState extends State<Calender> {
     Color bordercolor = Colors.black;
     var width = 1.0;
 
-    /*if(dd < tday && complete == 0){
-      backcolor = Colors.white;
-      bordercolor = Colors.red;
-      width = 3.0;
-    }*/
-    /*if(dd == tday && complete == 0){
-      backcolor = Colors.white;
-    }*/
+
     if(((r1 > 0 || r2 > 0) && ((r1 == tday && complete == 1) || (r2 == tday && complete == 1)))){
       backcolor = Color.fromRGBO(216, 215, 225, 1.0);
     }
@@ -416,8 +406,6 @@ class _CalenderState extends State<Calender> {
 
   Widget Display_todo_Today(int tday,int r1,int r2,int dd,String date, String dates, int id, String Course_name, String Color_name, String Helpers_name, String learn_to,String prepare_to,String practice_to,int do_date,int due_date,int est_min,int act_min,int review_1,int review_2,String notes_to, int complete,int sort){
     DateTime e = DateTime.fromMillisecondsSinceEpoch(due_date);
-   // print(tday);
-   // print(dd);
     var duesdates = e.month.toString() +
         "/" + e.day.toString() + "/" +
         e.year.toString();

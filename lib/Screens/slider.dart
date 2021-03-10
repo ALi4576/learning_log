@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_planner/Screens/appHelp.dart';
 import 'package:student_planner/Screens/calender.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -238,11 +239,8 @@ class _splash_sliderState extends State<splash_slider> {
     prefs.setString('Value', check.toString());
   }
   _launchURL() async {
-    const url = 'http://powerlearners.com/AppHelp/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => appHelp())
+    );}
 }

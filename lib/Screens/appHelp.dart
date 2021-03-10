@@ -19,17 +19,29 @@ class _appHelpState extends State<appHelp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Visibility(
-        visible: visible,
-        child: FloatingActionButton(
-          child: Icon(Icons.keyboard_arrow_up),
-            onPressed: (){
-              _scrollController.animateTo(
-                  _scrollController.position.minScrollExtent,
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.ease);
-            }
-        ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+              child: Icon(Icons.arrow_back),
+              onPressed: (){
+                Navigator.of(context).pop();
+              }
+          ),
+          SizedBox(height: 15.0),
+          Visibility(
+            visible: visible,
+            child: FloatingActionButton(
+              child: Icon(Icons.keyboard_arrow_up),
+                onPressed: (){
+                  _scrollController.animateTo(
+                      _scrollController.position.minScrollExtent,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease);
+                }
+            ),
+          ),
+        ],
       ),
       body: NotificationListener<ScrollEndNotification>(
         onNotification: (scrollEnd) {

@@ -224,12 +224,6 @@ class _SettingsState extends State<Settings> {
       context,
       MaterialPageRoute(builder: (context) => appHelp())
     );
-    /*const url = 'http://powerlearners.com/AppHelp/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }*/
   }
 
   Widget courses(String cl, String name, int num) {

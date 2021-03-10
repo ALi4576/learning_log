@@ -237,7 +237,7 @@ class DBProvider {
         int r1 = review1date.millisecondsSinceEpoch;
         int r2 = review2date.millisecondsSinceEpoch;
         int dd = dodate.millisecondsSinceEpoch;
-        if((list[i].complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (list[i].complete == 1 && dd > tday && (r1 == 0 && r2 == 0)) || (list[i].complete == 1 && dd == tday && (r1 == 0 && r2 == 0)) ||(list[i].complete == 1 && dd < tday) || (list[i].complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && (r1 < tday && r2 < tday))){
+        if((list[i].complete == 1 && dd >= tday && (r1 < tday && r2 < tday)) || (list[i].complete == 1 && dd > tday && (r1 == 197011 && r2 == 197011)) || (list[i].complete == 1 && dd == tday && (r1 == 197011  && r2 == 197011 )) || (r1 < tday && r2 < tday && dd < tday) && ((list[i].complete == 1 && dd < tday) || (list[i].complete == 1 && dd < tday && r1 == 0 && r2 ==0) || (list[i].complete == 1 && (r1 < tday && r2 < tday)))){
           form_model fm = new form_model();
           fm.complete = list[i].complete;
           fm.do_date = list[i].do_date;
