@@ -1,4 +1,4 @@
-# student_planner
+# Power Learners
 
 A new Flutter application.
 
